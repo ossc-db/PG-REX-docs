@@ -9,7 +9,7 @@ PostgreSQL
 
 ### PostgreSQLのインストール
 
-『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは14のみとなります。
+『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは15のみとなります。
 
 本作業はrootユーザで行います。
 
@@ -20,11 +20,11 @@ PG-REXのインストールに必須のRPMパッケージを以下に示しま�
 :::
 
   ------------------------------------------------------------------------
-  [postgresql14\-libs\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql14\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql14\-server\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql14\-contrib\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql14\-docs\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql15\-libs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql15\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql15\-server\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql15\-contrib\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql15\-docs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}\
   [※ PL/PerlやPL/Tclなどの各種言語インターフェイスが必要な場合は、それぞれに対応するパッケージをインストールしてください。]{custom-style="Verbatim Char"}
@@ -42,7 +42,7 @@ PostgreSQLをRPMパッケージからインストールします。
 :::
 
   ------------------------------------------------------------------------
-  [# rpm \-ivh postgresql14\-libs\-14.9\-1PGDG.rhel8.x86\_64.rpm postgresql14\-14.9\-1PGDG.rhel8.x86\_64.rpm postgresql14\-server\-14.9\-1PGDG.rhel8.x86\_64.rpm postgresql14\-contrib\-14.9\-1PGDG.rhel8.x86\_64.rpm postgresql14\-docs\-14.9\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [# rpm \-ivh postgresql15\-libs\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-server\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-contrib\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-docs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -52,7 +52,7 @@ PostgreSQLをRPMパッケージからインストールします。
 　
 :::
 
-PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-14」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
+PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-15」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
 
 /var/lib/pgsqlのパーミッションは700に変更され、/var/lib/pgsql配下の全ファイルのオーナ、グループがpostgres、postgresに変更されます。
 
@@ -134,7 +134,7 @@ pgrex01とpgrex02で同じ設定値を使用してください。
 :::
 
   ------------------------------------------------------------------------
-  [export PATH=/usr/pgsql\-14/bin:$PATH]{custom-style="red-bold"}\
+  [export PATH=/usr/pgsql\-15/bin:$PATH]{custom-style="red-bold"}\
   [export PGDATA=/dbfp/pgdata/data]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------

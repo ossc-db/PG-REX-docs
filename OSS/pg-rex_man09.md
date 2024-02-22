@@ -1,12 +1,12 @@
 [^2]: PostgreSQL関連のツールの対応状況によって日本語が表示されないこともあります。
 
-[^3]: 参照先：[<https://www.postgresql.jp/document/14/html/functions-admin.html>](https://www.postgresql.jp/document/14/html/functions-admin.html)
+[^3]: 参照先：[<https://www.postgresql.jp/document/15/html/functions-admin.html>](https://www.postgresql.jp/document/15/html/functions-admin.html)
 
-[^4]: 参照先：[<https://www.postgresql.jp/document/14/html/functions-admin.html>](https://www.postgresql.jp/document/14/html/functions-admin.html)
+[^4]: 参照先：[<https://www.postgresql.jp/document/15/html/functions-admin.html>](https://www.postgresql.jp/document/15/html/functions-admin.html)
 
-[^5]: 参照先：[<https://www.postgresql.jp/document/14/html/warm-standby.html#STANDBY-PLANNING>](https://www.postgresql.jp/document/14/html/warm-standby.html#STANDBY-PLANNING)
+[^5]: 参照先：[<https://www.postgresql.jp/document/15/html/warm-standby.html#STANDBY-PLANNING>](https://www.postgresql.jp/document/15/html/warm-standby.html#STANDBY-PLANNING)
 
-[^7]: 参照先：[<https://www.postgresql.jp/document/14/html/hot-standby.html#HOT-STANDBY-CONFLICT>](https://www.postgresql.jp/document/14/html/hot-standby.html#HOT-STANDBY-CONFLICT)
+[^7]: 参照先：[<https://www.postgresql.jp/document/15/html/hot-standby.html#HOT-STANDBY-CONFLICT>](https://www.postgresql.jp/document/15/html/hot-standby.html#HOT-STANDBY-CONFLICT)
 
 [^15]: リストアコマンドはpm\_pcsgen環境定義書に設定します。設定方法は『[@sec:PostgreSQLの設定](#sec:PostgreSQLの設定) [PostgreSQLの設定](#sec:PostgreSQLの設定)』を参照してください。
 
@@ -14,21 +14,21 @@
 
 [^17]: アーカイブコマンドの設定は『[@sec:postgresql.confの編集](#sec:postgresql.confの編集) [postgresql.confの編集](#sec:postgresql.confの編集)』を参照してください。
 
-[^20]: 参照先: [<https://www.postgresql.jp/document/14/html/hot-standby.html#HOT-STANDBY-ADMIN>](https://www.postgresql.jp/document/14/html/hot-standby.html#HOT-STANDBY-ADMIN)
+[^20]: 参照先: [<https://www.postgresql.jp/document/15/html/hot-standby.html#HOT-STANDBY-ADMIN>](https://www.postgresql.jp/document/15/html/hot-standby.html#HOT-STANDBY-ADMIN)
 
-[^21]: 参照先：[<https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
+[^21]: 参照先：[<https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
 
 [^22]: バックアップ履歴ファイルは、拡張子が.backupのファイルを指します。  
-[<https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
+[<https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
 
 [^23]: タイムライン履歴ファイルは、拡張子が.historyのファイルを指します。  
-[<https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-TIMELINES>](https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-TIMELINES)
+[<https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-TIMELINES>](https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-TIMELINES)
 
 [^32]: バックアップ履歴ファイルは、拡張子が.backupのファイルを指します。  
-[<https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
+[<https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP>](https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-BASE-BACKUP)
 
 [^33]: タイムライン履歴ファイルは、拡張子が.historyのファイルを指します。  
-[<https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-TIMELINES>](https://www.postgresql.jp/document/14/html/continuous-archiving.html#BACKUP-TIMELINES)
+[<https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-TIMELINES>](https://www.postgresql.jp/document/15/html/continuous-archiving.html#BACKUP-TIMELINES)
 
 [^37]: PostgreSQLのサーバログファイルの場所は設定により異なります。詳細は『PostgreSQLドキュメント』を参照してください。
 
