@@ -20,7 +20,7 @@ PG-REX運用補助ツールのインストール必須のRPMパッケージを�
 :::
 
   ------------------------------------------------------------------------
-  [pg\-rex_operation_tools_script\-12.0\-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
+  [pg\-rex_operation_tools_script\-13.0\-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
   [IO_Tty\-1.11\-1.el8.x86_64.rpm]{custom-style="Verbatim Char"}\
   [Net_OpenSSH\-0.62\-1.el8.x86_64.rpm]{custom-style="Verbatim Char"}\
   \
@@ -39,7 +39,7 @@ PG-REX運用補助ツールをRPMパッケージからインストールしま�
 :::
 
   ------------------------------------------------------------------------
-  [# yum\ install\ pg\-rex_operation_tools_script\-12\.0\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
+  [# yum\ install\ pg\-rex_operation_tools_script\-13\.0\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -51,7 +51,7 @@ PG-REX運用補助ツールをRPMパッケージからインストールしま�
 
 ### pg-rex\_tools.confの編集
 
-pgrex01とpgrex02で/etc/pg-rex\_tools.confの設定を行います。運用補助ツールを使用するために必要な設定、および注意すべき設定は以下のとおりです。
+pgrex01とpgrex02で/etc/pg-rex\_tools.confの設定を行います。PG-REX運用補助ツールを使用するために必要な設定、および注意すべき設定は以下のとおりです。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -71,11 +71,11 @@ pgrex01とpgrex02で/etc/pg-rex\_tools.confの設定を行います。運用補�
 
 -   [IPADDR\_STANDBY]{custom-style="bold"}
 
-    Standby側接続用の仮想IPを使用する環境の場合はenable、それ以外の場合はdisableを設定する。
+    Standby側接続用の仮想IPアドレスを使用する環境の場合はenable、それ以外の場合はdisableを設定する。
 
 -   [HACLUSTER\_NAME]{custom-style="bold"}
 
-    Pacemakerで管理するHAクラスタ名を指定します。HAクラスタ名には英数字とアンダースコア、およびハイフンのみ使用可です。ただし先頭にはハイフンは使用できません。これ以外のPacemakerで許されている文字をHAクラスタ名に使用したい場合は、運用補助ツールを使用せず、「7章. コマンド直接実行の運用」の手順で構築してください。
+    Pacemakerで管理するHAクラスタ名を指定します。HAクラスタ名には英数字とアンダースコア、およびハイフンのみ使用可です。ただし先頭にはハイフンは使用できません。これ以外のPacemakerで許されている文字をHAクラスタ名に使用したい場合は、PG-REX運用補助ツールを使用せず、『[@sec:コマンド直接実行の運用](#sec:コマンド直接実行の運用) [コマンド直接実行の運用](#sec:コマンド直接実行の運用)』の手順で構築してください。
 
 ::: {custom-style="First Paragraph"}
 　

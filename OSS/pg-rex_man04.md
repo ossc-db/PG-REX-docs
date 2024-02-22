@@ -1,25 +1,25 @@
-起動と停止
+起動と停止 {#sec:起動と停止}
 ==========
 
 本章では、PG-REX運用補助ツールを用いてPrimaryとStandbyの起動・停止方法について説明します。
 
 本章の作業はrootユーザで行います。
 
-コマンドを直接実行してPrimaryとStandbyの起動・停止をする場合は、『コマンド直接実行の運用』を参照してください。
+コマンドを直接実行してPrimaryとStandbyの起動・停止をする場合は、『[@sec:コマンド直接実行の運用](#sec:コマンド直接実行の運用) [コマンド直接実行の運用](#コマンド直接実行の運用)』を参照してください。
 
-PG-REXの起動
+PG-REXの起動 {#sec:PG-REXの起動}
 ----------
 
 PG-REXの起動は、一方のノードでPrimaryを起動させ、起動完了後、もう一方のノードでStandbyを起動させます。どちらのノードをPrimary、Standbyとして稼働させるかは、ユーザが決定します。
 
--   Primaryの起動手順については、『Primaryの起動』を参照してください。
--   Standbyの起動手順については、『Standbyの起動』を参照してください。
+-   Primaryの起動手順については、『[@sec:Primaryの起動](#sec:Primaryの起動) [Primaryの起動](#sec:Primaryの起動)』を参照してください。
+-   Standbyの起動手順については、『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
 :::
 
-Primaryの起動
+Primaryの起動 {#sec:Primaryの起動}
 ------------
 
 本節では、Primaryの起動手順を説明します。
@@ -107,12 +107,14 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
 
 Primary初回起動時、もしくは既存のPacemakerの設定をクリアして新しいxmlファイルを反映させる場合は、xmlファイルを指定して、Primaryを起動します。
 
+この手順でPrimaryを起動した場合、pcsコマンド等で直接設定を変更した項目は初期化されます。 必要に応じて再設定してください。
+
 ::: {custom-style="First Paragraph"}
 　
 :::
 
   ------------------------------------------------------------------------
-  [# pg\-rex_primary_start PG\-REX12_pm_pcsgen_env.xml]{custom-style="Verbatim Char"}\
+  [# pg\-rex_primary_start pm_pcsgen_env.xml]{custom-style="Verbatim Char"}\
   [root@192.168.2.2\'s password:]{custom-style="Verbatim Char"}\
   [パスワードが入力されました]{custom-style="Verbatim Char"}\
   [1. Pacemaker および Corosync が停止していることを確認]{custom-style="Verbatim Char"}\
@@ -204,7 +206,7 @@ Primaryを起動します。
 　
 :::
 
-Standbyの起動
+Standbyの起動 {#sec:Standbyの起動}
 -----------
 
 本節では、Standbyの起動手順を説明します。以降の手順では、pgrex02をStandbyとして起動します。
@@ -228,7 +230,7 @@ Standbyの起動
 　
 :::
 
-(2) pgrex02でStandbyを起動します。同期する必要の無い不要なアーカイブログが多い場合は、Standbyの起動の前にアーカイブログの削除を行なってください。アーカイブログの削除は『PostgreSQLアーカイブログの削除』を参照してください。
+(2) pgrex02でStandbyを起動します。同期する必要の無い不要なアーカイブログが多い場合は、Standbyの起動の前にアーカイブログの削除を行なってください。アーカイブログの削除は『[@sec:PostgreSQLアーカイブログの削除](#sec:PostgreSQLアーカイブログの削除) [PostgreSQLアーカイブログの削除](#sec:PostgreSQLアーカイブログの削除)』を参照してください。
 
     ::: {custom-style="First Paragraph"}
     　
@@ -303,15 +305,15 @@ Standbyの起動
 　
 :::
 
-PG-REXの停止
+PG-REXの停止 {#sec:PG-REXの停止}
 ----------
 
 PG-REXを停止するには、Standbyを停止させ、Standbyの停止完了後にPrimaryを停止させます。
 
 Primaryから停止した場合、フェイルオーバが発生しますので、ご注意ください。
 
--   Primaryの停止手順については、『Primaryの停止』を参照してください。
--   Standbyの停止手順については、『Standbyの停止』を参照してください。
+-   Primaryの停止手順については、『[@sec:Primaryの停止](#sec:Primaryの停止) [Primaryの停止](#sec:Primaryの停止)』を参照してください。
+-   Standbyの停止手順については、『[@sec:Standbyの停止](#sec:Standbyの停止) [Standbyの停止](#sec:Standbyの停止)』を参照してください。
 
 この手順でPG-REXを停止させた場合、次にPG-REXを起動するときには、Primaryからのベースバックアップの取得は必要ありません。
 
@@ -319,7 +321,7 @@ Primaryから停止した場合、フェイルオーバが発生しますので�
 　
 :::
 
-Standbyの停止
+Standbyの停止 {#sec:Standbyの停止}
 -----------
 
 本節では、Standbyの停止手順を説明します。
@@ -356,7 +358,7 @@ Standbyの停止
 　
 :::
 
-Primaryの停止
+Primaryの停止 {#sec:Primaryの停止}
 ------------
 
 本節では、Primaryの停止手順を説明します。Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生することに注意してください。
@@ -407,7 +409,7 @@ Standby稼働中の場合、以下の問い合わせが出力されます。フ�
 　
 :::
 
-PostgreSQL停止中のノードの停止
+PostgreSQL停止中のノードの停止 {#sec:PostgreSQL停止中のノードの停止}
 --------------------------
 
 本節では、PostgreSQL停止中(Stopped)のノードのPacemakerの停止手順を説明します。主に、運用中に故障が発生した後、復旧するための手順の一つとして行われます。

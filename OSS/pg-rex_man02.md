@@ -4,38 +4,15 @@
 PG-REXの概要
 ------------
 
-PG-REXは、PostgreSQL12の同期レプリケーションにPacemakerを組み合わせた高可用ソリューションです。PG-REXは以下の特徴を持ち、システムに対して高い信頼性と可用性を提供します。
+PG-REXは、PostgreSQL13の同期レプリケーションにPacemakerを組み合わせた高可用ソリューションです。PG-REXは以下の特徴を持ち、システムに対して高い信頼性と可用性を提供します。
 
 -   同期レプリケーション
 
-    PG-REXは、PostgreSQL12の同期レプリケーションを使用します。トランザクションは、PrimaryからStandbyに転送が完了するまで成功しません(クライアントに結果を返しません)。PG-REXは、トランザクションのコミットが確定した時点でPrimaryとStandbyの両ノードでトランザクションが完了したことを保証します。つまり、一方が故障してフェイルオーバ等が発生したとしても、コミット済のトランザクションが失われることはありません。PG-REXをシステムに適用することで、単一故障に対してデータが失われないことを保証することができます。
+    PG-REXは、PostgreSQL13の同期レプリケーションを使用します。トランザクションは、PrimaryからStandbyに転送が完了するまで成功しません(クライアントに結果を返しません)。PG-REXは、トランザクションのコミットが確定した時点でPrimaryとStandbyの両ノードでトランザクションが完了したことを保証します。つまり、一方が故障してフェイルオーバ等が発生したとしても、コミット済のトランザクションが失われることはありません。PG-REXをシステムに適用することで、単一故障に対してデータが失われないことを保証することができます。
 
 -   自動フェイルオーバ
 
     PG-REXでは、Pacemakerに同期レプリケーションのPrimaryとStandbyを管理させ、自動フェイルオーバを提供します。Primaryの故障を検知すると、Pacemakerは自動的にStandbyをPrimaryに昇格させ、クライアントがデータベースサービスを継続的に利用できることを保証します。また、Standbyの故障を検知した場合でも、Pacemakerは自動的にPrimaryを単独で稼働させ続け、故障によりデータベースサービスが停止するのを防ぎます。PG-REXをシステムに適用することで、単一故障に対してデータベースサービスのダウンタイムを極小化することができ、高い可用性を保証することができます。
-
-::: {custom-style="page-break"}
-　
-:::
-
-システム構成
-------------
-
-本書の内容は以下の環境で確認しました。実行例は、RedHat Enterprise Linux 8.1の環境でのものです。
-
-- ハードウェア
-  : - HP　DL360 G10 (NIC ： 8ポート)
-- OS
-  : - Red Hat Enterprise Linux 8.1、8.2および8.3
-- Add-On
-  : - Red Hat Enterprise Linux High Availability Add-On 8.1、8.2および8.3
-- DBMS
-  : - PostgreSQL 12.5
-- クラスタリング
-  : - Pacemaker 2.0.2-3[^49]、2.0.3-5[^50]および2.0.4-6[^51]
-- その他ツール
-  : - 運用補助ツール 12.0
-  : - pm_extra_tools 1.1および1.2
 
 ::: {custom-style="page-break"}
 　
@@ -50,7 +27,7 @@ PG-REXは、PostgreSQL12の同期レプリケーションにPacemakerを組み�
 
 PG-REXは、PacemakerとPostgreSQLの制約を引き継ぎます。それらの制約は、『Pacemaker関連サイト』、『PostgreSQLドキュメント』を参照してください。
 
-PG-REXそのものの制約を以下に示します。ただし、パラメータに関する制約は『環境構築』の章の『postgresql.confの編集』を参照してください。なお、PG-REXでは二重故障時の継続動作を保証しません。
+PG-REXそのものの制約を以下に示します。ただし、パラメータに関する制約は『[@sec:postgresql.confの編集](#sec:postgresql.confの編集) [postgresql.confの編集](#sec:postgresql.confの編集)』を参照してください。なお、PG-REXでは二重故障時の継続動作を保証しません。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -95,7 +72,7 @@ PG-REXそのものの制約を以下に示します。ただし、パラメー�
            - 独自に開発したライブラリの登録:両ノードにライブラリを配置した上で、登録する必要がある。
         i. PostgreSQLのバックアップをStandbyで取得する際に、バックアップ中にフェイルオーバが発生した場合、バックアップが正常に取得できない。
         i.  レプリケーション設定はPG-REXが自動的に設定するため、手動で設定を行った場合の動作は保証しない。
-            PG-REXが自動的に設定するレプリケーション設定の詳細は『postgresql.confの編集』を参照のこと。
+            PG-REXが自動的に設定するレプリケーション設定の詳細は『[@sec:postgresql.confの編集](#sec:postgresql.confの編集) [postgresql.confの編集](#sec:postgresql.confの編集)』を参照のこと。
 
 ::: {custom-style="page-break"}
 　

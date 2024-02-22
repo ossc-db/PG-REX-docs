@@ -54,7 +54,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
   ------------------------------------------------------------------------
   [pm_extra_tools-1.3-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
   \
-  [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
+  [※ ダウンロードサイトにて、使用するRHELのバージョンに適合するパッケージを選んでください。]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -355,7 +355,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
 ::: {custom-style="page-break"}
-
+　
 :::
 
 ### ACPI Soft-Off機能の無効化

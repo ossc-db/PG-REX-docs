@@ -189,7 +189,7 @@ pgrex01の電源ボタンを押下し、ノードを起動します。
 　
 :::
 
-pgrex01のPacemakerを起動します。起動する手順は『Standbyの起動』を参照してください。
+pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ※ pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01をStandbyとして起動します。
 
@@ -427,7 +427,7 @@ pgrex02の電源ボタンを押下し、ノードを起動します。
 　
 :::
 
-pgrex02のPacemakerを起動します。起動する手順は『Standbyの起動』を参照してください。
+pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　

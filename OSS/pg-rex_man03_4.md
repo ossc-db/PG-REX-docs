@@ -9,7 +9,7 @@ PostgreSQL
 
 ### PostgreSQLのインストール
 
-『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは12のみとなります。
+『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは13のみとなります。
 
 本作業はrootユーザで行います。
 
@@ -20,11 +20,11 @@ PG-REXのインストールに必須のRPMパッケージを以下に示しま�
 :::
 
   ------------------------------------------------------------------------
-  [postgresql12\-libs\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql12\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql12\-server\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql12\-contrib\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql12\-docs\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql13\-libs\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql13\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql13\-server\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql13\-contrib\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql13\-docs\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}\
   [※ PL/PerlやPL/Tclなどの各種言語インターフェイスが必要な場合は、それぞれに対応するパッケージをインストールしてください。]{custom-style="Verbatim Char"}
@@ -42,7 +42,7 @@ PostgreSQLをRPMパッケージからインストールします。
 :::
 
   ------------------------------------------------------------------------
-  [# rpm \-ivh postgresql12\-libs\-12.2\-1PGDG.rhel8.x86\_64.rpm postgresql12\-12.2\-1PGDG.rhel8.x86\_64.rpm postgresql12\-server\-12.2\-1PGDG.rhel8.x86\_64.rpm postgresql12\-contrib\-12.2\-1PGDG.rhel8.x86\_64.rpm postgresql12\-docs\-12.2\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [# rpm \-ivh postgresql13\-libs\-13.0\-1PGDG.rhel8.x86\_64.rpm postgresql13\-13.0\-1PGDG.rhel8.x86\_64.rpm postgresql13\-server\-13.0\-1PGDG.rhel8.x86\_64.rpm postgresql13\-contrib\-13.0\-1PGDG.rhel8.x86\_64.rpm postgresql13\-docs\-13.0\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -52,7 +52,7 @@ PostgreSQLをRPMパッケージからインストールします。
 　
 :::
 
-PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-12」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
+PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-13」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
 
 /var/lib/pgsqlのパーミッションは700に変更され、/var/lib/pgsql配下の全ファイルのオーナ、グループがpostgres、postgresに変更されます。
 
@@ -134,7 +134,7 @@ pgrex01とpgrex02で同じ設定値を使用してください。
 :::
 
   ------------------------------------------------------------------------
-  [export PATH=/usr/pgsql\-12/bin:$PATH]{custom-style="red-bold"}\
+  [export PATH=/usr/pgsql\-13/bin:$PATH]{custom-style="red-bold"}\
   [export PGDATA=/dbfp/pgdata/data]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
@@ -199,7 +199,7 @@ pgrex01で、postgresユーザにてDBクラスタを初期化します。
 　
 :::
 
-### postgresql.confの編集
+### postgresql.confの編集 {#sec:postgresql.confの編集}
 
 pgrex01でpostgresql.confを編集します。本節は、PG-REXを構成するのに必要な設定、注意すべき設定のみ説明しています。PostgreSQL一般の設定については『PostgreSQLドキュメント』を参照してください。
 
@@ -213,21 +213,21 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 
   ------------------------------------------------------------------------
   [listen_addresses = \'\*\']{custom-style="Verbatim Char"}\
+  [password_encryption = scram-sha-256]{custom-style="Verbatim Char"}\
   [wal_level = replica]{custom-style="Verbatim Char"}\
-  [max_wal_senders = 10]{custom-style="Verbatim Char"}\
-  [wal_keep_segments = 32]{custom-style="Verbatim Char"}\
-  [hot_standby = on]{custom-style="Verbatim Char"}\
-  [max_standby_streaming_delay = \-1]{custom-style="Verbatim Char"}\
-  [max_standby_archive_delay = \-1]{custom-style="Verbatim Char"}\
+  [synchronous_commit = on]{custom-style="Verbatim Char"}\
   [archive_mode = always]{custom-style="Verbatim Char"}\
   [archive_command = \'/bin/cp %p /dbfp/pgarch/arc1/%f\']{custom-style="Verbatim Char"}\
-  [synchronous_commit = on]{custom-style="Verbatim Char"}\
-  [restart_after_crash = off]{custom-style="Verbatim Char"}\
+  [max_wal_senders = 10]{custom-style="Verbatim Char"}\
+  [wal_keep_size = 512MB]{custom-style="Verbatim Char"}\
   [wal_sender_timeout = 20s]{custom-style="Verbatim Char"}\
-  [wal_receiver_timeout = 20s]{custom-style="Verbatim Char"}\
-  [hot_standby_feedback = on]{custom-style="Verbatim Char"}\
   [max_replication_slots = 10]{custom-style="Verbatim Char"}\
-  [password_encryption = scram-sha-256]{custom-style="Verbatim Char"}
+  [hot_standby = on]{custom-style="Verbatim Char"}\
+  [max_standby_archive_delay = \-1]{custom-style="Verbatim Char"}\
+  [max_standby_streaming_delay = \-1]{custom-style="Verbatim Char"}\
+  [hot_standby_feedback = on]{custom-style="Verbatim Char"}\
+  [wal_receiver_timeout = 20s]{custom-style="Verbatim Char"}\
+  [restart_after_crash = off]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -245,31 +245,13 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 　
 :::
 
+- [password_encryption]{custom-style="bold"}
+
+    pg_hba.confのMETHODと合わせる必要がある。
+
 - [wal_level]{custom-style="bold"}
 
     logicalを設定することも可能。
-
-- [max_wal_senders]{custom-style="bold"}
-
-    PG-REXでは、レプリケーション機能を利用するため、1以上を設定する必要がある。ただし、pg\_basebackupによる運用中のバックアップ取得など、Standby以外からの接続に備え、余裕を持たせて設定することを推奨する。
-
-- [wal_keep_segments]{custom-style="bold"}
-
-    以下の点を考慮すること。
-
-    - 設定値が小さい場合、レプリケーション接続が一時的に切断されたときに、Standbyに転送されていないWALファイルがPrimaryから削除される可能性が高まる。WALファイルが削除されると、レプリケーションの再接続が不可能となる。
-
-- [hot_standby]{custom-style="bold"}
-
-    設定はon必須。
-
-- [max_standby_streaming_delay]{custom-style="bold"}
-
-    PG-REXでは、Standbyの監視クエリがキャンセルされるのを回避するために、-1(キャンセルを無効)を設定する。
-
-- [max_standby_archive_delay]{custom-style="bold"}
-
-    PG-REXでは、Standbyの監視クエリがキャンセルされるのを回避するために、-1(キャンセルを無効)を設定する。
 
 - [synchronous_commit]{custom-style="bold"}
 
@@ -287,33 +269,51 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 
     ※ gzipを使用する場合は、後述するリストアコマンド[^15]にもgzipを使用すること。
 
-::: {custom-style="page-break"}
-　
-:::
+- [max_wal_senders]{custom-style="bold"}
 
-- [restart_after_crash]{custom-style="bold"}
+    PG-REXでは、レプリケーション機能を利用するため、1以上を設定する必要がある。ただし、pg\_basebackupによる運用中のバックアップ取得など、Standby以外からの接続に備え、余裕を持たせて設定することを推奨する。
 
-    PG-REX運用中にPostgreSQLが自動的に再起動すると、Pacemakerによる状態管理の整合性が崩れるため、offを設定しなければならない。
+- [wal_keep_size]{custom-style="bold"}
+
+    以下の点を考慮すること。
+
+    - 設定値が小さい場合、レプリケーション接続が一時的に切断されたときに、Standbyに転送されていないWALファイルがPrimaryから削除される可能性が高まる。WALファイルが削除されると、レプリケーションの再接続が不可能となる。
 
 - [wal_sender_timeout]{custom-style="bold"}
 
     Standbyの故障や両ノード間の通信断をPrimaryがすぐに検知できるように、タイムアウトを有効にすることを推奨する。postgresql.confで設定するTCP keepaliveに関する設定[^16] だけでは、検知に時間がかかることがあり、異常時のダウンタイムが長くなることがある。ただし、設定値が小さすぎると誤検知によりStandbyが切り離されることがあるため、設定値は事前検証等をして注意して決めること。
 
-- [wal_receiver_timeout]{custom-style="bold"}
+- [max_replication_slots]{custom-style="bold"}
 
-    wal_sender_timeoutと同程度に揃える必要がある。
+    pg\_basebackupによるバックアップ取得などに備え、余裕を持たせて設定することを推奨する。
+
+::: {custom-style="page-break"}
+　
+:::
+
+- [hot_standby]{custom-style="bold"}
+
+    設定はon必須。
+
+- [max_standby_archive_delay]{custom-style="bold"}
+
+    PG-REXでは、Standbyの監視クエリがキャンセルされるのを回避するために、-1(キャンセルを無効)を設定する。
+
+- [max_standby_streaming_delay]{custom-style="bold"}
+
+    PG-REXでは、Standbyの監視クエリがキャンセルされるのを回避するために、-1(キャンセルを無効)を設定する。
 
 - [hot_standby_feedback]{custom-style="bold"}
 
     設定はon必須。
 
-- [max_replication_slots]{custom-style="bold"}
+- [wal_receiver_timeout]{custom-style="bold"}
 
-    pg\_basebackupによるバックアップ取得などに備え、余裕を持たせて設定することを推奨する。
+    wal_sender_timeoutと同程度に揃える必要がある。
 
-- [password_encryption]{custom-style="bold"}
+- [restart_after_crash]{custom-style="bold"}
 
-    pg_hba.confのMETHODと合わせる必要がある。
+    PG-REX運用中にPostgreSQLが自動的に再起動すると、Pacemakerによる状態管理の整合性が崩れるため、offを設定しなければならない。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -333,7 +333,7 @@ PG-REXでは自動的に必要な設定を行うため、ユーザは以下の�
 　
 :::
 
-### レプリケーションユーザの作成
+### レプリケーションユーザの作成 {#sec:レプリケーションユーザの作成}
 
 pgrex01で、PostgreSQLにレプリケーションのためのデータベースユーザを作成します。
 
@@ -344,7 +344,6 @@ pgrex01で、PostgreSQLにレプリケーションのためのデータベース
 ::: {custom-style="First Paragraph"}
 　
 :::
-
 
 (1) PostgreSQLを一度起動します。
 
@@ -439,7 +438,7 @@ PG-REX構成で使用するパスワードファイルを作成します。
 :::
 
 pgrex01とpgrex02それぞれのpostgresユーザのホームディレクトリに、600の権限でパスワードファイル.pgpassを作成します。
-PG-REXのレプリケーション接続および、運用補助ツールで利用するため、レプリケーション受付用の仮想IPアドレス、および相手のノードのD-LANのIPアドレスについて記述します。
+PG-REXのレプリケーション接続および、PG-REX運用補助ツールで利用するため、レプリケーション受付用の仮想IPアドレス、および相手のノードのD-LANのIPアドレスについて記述します。
 
 ::: {custom-style="First Paragraph"}
 　

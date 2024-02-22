@@ -1,4 +1,4 @@
-故障対応
+故障対応 {#sec:故障対応}
 ========
 
 本章では、HAクラスタに故障が発生した場合の監視者が行う作業について説明します。
@@ -626,7 +626,7 @@ corosync-cfgtool -sコマンドでは、出力が「localhost」、「connected�
 
 【ノードの起動状態の確認】
 
-pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該当する場合、『6.3.5. /var/log/messagesの確認』へ進みます。
+pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該当する場合、『[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#:sec:_var_log_messagesの確認)』へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -672,7 +672,7 @@ pgrex01でpcs status \-\-fullコマンドを実行し、リソース情報、属
 
 該当のログが出力されていた場合、D-LAN故障と特定できます。
 
-D-LAN故障と特定された場合は、『D-LAN故障』の節へ進みます。
+D-LAN故障と特定された場合は、『[@sec:D-LAN故障](#sec:D-LAN故障) [D-LAN故障](#sec:D-LAN故障)』へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -694,15 +694,15 @@ D-LAN故障と特定された場合は、『D-LAN故障』の節へ進みます�
 
 pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数(fail-count)の表示の有無によりハードウェア故障(ネットワーク等)またはリソース故障を判断します。
 
-故障回数表示部に故障回数が表示されている場合、リソース故障と判断して『制御エラー情報表示部の確認』の項へ進みます。
+故障回数表示部に故障回数が表示されている場合、リソース故障と判断して『[@sec:制御エラー情報表示部の確認](#sec:制御エラー情報表示部の確認) [制御エラー情報表示部の確認](#sec:制御エラー情報表示部の確認)』の項へ進みます。
 
-故障回数が表示されていない場合、ハードウェア故障と判断して『属性情報表示部の確認』の項へ進みます。
+故障回数が表示されていない場合、ハードウェア故障と判断して『[@sec:属性情報表示部の確認](#sec:属性情報表示部の確認) [属性情報表示部の確認](#sec:属性情報表示部の確認)』の項へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
 :::
 
-### 属性情報表示部の確認
+### 属性情報表示部の確認 {#sec:属性情報表示部の確認}
 
 属性情報表示部の確認では、pgrex02でpcs statusコマンドを実行し、異常値を示している属性名を調べ、故障を特定します。
 
@@ -765,7 +765,7 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
 
 ### corosync-cfgtool -sによるIC-LAN状態の確認
 
-corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動しているノードでcorosync-cfgtoolコマンドを実行してIC-LAN通信状態を確認し、「/var/log/messagesの確認」の節へ進みます。
+corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動しているノードでcorosync-cfgtoolコマンドを実行してIC-LAN通信状態を確認し、「[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#:sec:_var_log_messagesの確認)」へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -796,7 +796,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
 　
 :::
 
-### 制御エラー情報表示部の確認
+### 制御エラー情報表示部の確認 {#sec:制御エラー情報表示部の確認}
 
 制御エラー情報表示部の確認では、pgrex02でpcs statusコマンドを実行し、リソースに発生した故障を特定します。故障を特定できた場合は、特定された故障の節へ進みます。
 
@@ -951,7 +951,7 @@ ipaddr-replicationの故障(monitor)の場合、リソースを再起動する�
 　
 :::
 
-### /var/log/messagesの確認
+### /var/log/messagesの確認 {#sec:_var_log_messagesの確認}
 
 両方のノードでPacemakerが稼働している場合は両ノードのログファイル(/var/log/messages)から、Pacemakerが停止しているノードがある場合はPacemakerが停止しているノードのログファイルから、以下に示す2つのエラーメッセージを検索し、3種の故障を特定します。故障特定後は、特定された故障の節へ進みます。
 

@@ -1,7 +1,7 @@
 #
 
 PANDOC = pandoc
-PANDOC_OPT =
+PANDOC_OPT = -F pandoc-crossref -M "crossrefYaml=config.yml"
 HEADER_OPT = -f markdown+pandoc_title_block+yaml_metadata_block
 PANDOC_DOCX_OPT = --data-dir=. --reference-doc=$(STYLEDOC) -p
 PANDOC_HTML_OPT = 
@@ -26,7 +26,7 @@ $(TASK) : $(SOURCE3)
 	$(PANDOC) $(TASK_OPT) -t html $< -o $@
 
 $(MAN_DOCX) : $(SOURCES)
-	$(PANDOC) $(PANDOC_DOCX_OPT) --toc -t docx $(SOURCES) -o $@
+	$(PANDOC) $(PANDOC_DOCX_OPT) $(PANDOC_OPT) --toc -t docx $(SOURCES) -o $@
 
 $(MAN_DOCX_HEADER) : $(SOURCE2)
 	$(PANDOC) $(PANDOC_DOCX_OPT) $(HEADER_OPT) -t docx $< -o $@

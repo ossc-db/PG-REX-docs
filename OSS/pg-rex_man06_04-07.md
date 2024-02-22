@@ -61,7 +61,7 @@ pgsql-data-statusがLATESTとなっている場合、そのノードのデータ
 　
 :::
 
-保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex02のPacemakerを停止します。停止する手順は『PostgreSQL停止中のノードの停止』を参照してください。
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex02のPacemakerを停止します。停止する手順は『[@sec:PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止) [PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -73,7 +73,7 @@ pgsql-data-statusがLATESTとなっている場合、そのノードのデータ
 　
 :::
 
-保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『PostgreSQL停止中のノードの停止』を参照してください。
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『[@sec:PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止) [PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止)』を参照してください。
 
 ::: {custom-style="page-break"}
 　
@@ -115,7 +115,7 @@ pgsql-data-statusがLATESTとなっている場合、そのノードのデータ
 　
 :::
 
-pgrex01のPacemakerを起動します。起動する手順は『Primaryの起動』を参照してください。
+pgrex01のPacemakerを起動します。起動する手順は『[@sec:Primaryの起動](#sec:Primaryの起動) [Primaryの起動](#sec:Primaryの起動)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -169,7 +169,7 @@ pgrex01のPacemakerを起動します。起動する手順は『Primaryの起動
 　
 :::
 
-pgrex02のPacemakerを起動します。起動する手順は『Standbyの起動』を参照してください。
+pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -303,7 +303,7 @@ S-LAN故障を検知し、pgrex01でPostgreSQLリソース(pgsql)が停止した
 　
 :::
 
-保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『PostgreSQL停止中のノードの停止』を参照してください。
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『[@sec:PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止) [PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -379,7 +379,7 @@ pgrex01のPacemakerを起動します。
 
 pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01をStandbyとして起動します。
 
-起動する手順は『Standbyの起動』を参照してください。
+起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="page-break"}
 　
@@ -426,7 +426,7 @@ pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01�
 　
 :::
 
-D-LAN故障
+D-LAN故障 {#sec:D-LAN故障}
 ---------
 
 この節では、D-LAN故障時の対処について説明します。
@@ -509,7 +509,7 @@ D-LAN故障を検知し、pgrex02を切り離した状態となっています�
 　
 :::
 
-pgrex02のPacemakerを停止します。停止する手順は『Standbyの停止』を参照してください。
+pgrex02のPacemakerを停止します。停止する手順は『[@sec:Standbyの停止](#sec:Standbyの停止) [Standbyの停止](#sec:Standbyの停止)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -580,7 +580,7 @@ pgrex02のPacemakerを停止します。停止する手順は『Standbyの停止
 　
 :::
 
-pgrex02のPacemakerを起動します。起動する手順は『Standbyの起動』を参照してください。
+pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="page-break"}
 　
@@ -710,7 +710,7 @@ pgrex02のPacemakerを起動します。起動する手順は『Standbyの起動
 　
 :::
 
-pgrex01のPacemakerを停止します。停止する手順は『PostgreSQL停止中のノードの停止』を参照してください。
+pgrex01のPacemakerを停止します。停止する手順は『[@sec:PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止) [PostgreSQL停止中のノードの停止](#sec:PostgreSQL停止中のノードの停止)』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -785,7 +785,7 @@ pgrex01のPacemakerを起動します。
 
 pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01をStandbyとして起動します。
 
-起動する手順は『Standbyの起動』を参照してください。
+起動する手順は『[@sec:Standbyの起動](#sec:Standbyの起動) [Standbyの起動](#sec:Standbyの起動)』を参照してください。
 
 ::: {custom-style="page-break"}
 　

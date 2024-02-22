@@ -9,7 +9,7 @@
 
 ### pm\_pcsgenの概要
 
-pm\_pcsgenは『pm\_pcsgen環境定義書』からxmlファイルを生成するツールです。生成されたxmlファイルを運用補助ツールあるいはpcsコマンドを使用してPacemakerに読みませることで、ファイルの内容が反映されます。
+pm\_pcsgenは『pm\_pcsgen環境定義書』からxmlファイルを生成するツールです。生成されたxmlファイルをPG-REX運用補助ツールあるいはpcsコマンドを使用してPacemakerに読みませることで、ファイルの内容が反映されます。
 
 PG-REXでのxmlファイル生成までの手順は以下のとおりです。
 
@@ -46,17 +46,17 @@ PG-REXでのxmlファイル生成までの手順は以下のとおりです。
 　
 :::
 
-### リソース(Primary側仮想IP)の設定
+### リソース(Primary側仮想IPアドレス)の設定
 
-『pm\_pcsgen環境定義書』の表7-1にPostgreSQLのPrimary側接続用の仮想IPを設定します。
+『pm\_pcsgen環境定義書』の表7-1にPostgreSQLのPrimary側接続用の仮想IPアドレスを設定します。
 
-『pm\_pcsgen環境定義書』の表7-1にレプリケーション受付用の仮想IPを設定します。
+『pm\_pcsgen環境定義書』の表7-1にレプリケーション受付用の仮想IPアドレスを設定します。
 
 ::: {custom-style="First Paragraph"}
 　
 :::
 
-### PG-REXにおけるPostgreSQL制御の設定
+### PG-REXにおけるPostgreSQL制御の設定 {#sec:PG-REXにおけるPostgreSQL制御の設定}
 
 『pm\_pcsgen環境定義書』の表7-1にPostgreSQLの制御に必要な設定をします。PG-REXを構成するのに必要な設定、注意すべき設定は以下のとおりです。
 
@@ -86,8 +86,8 @@ PG-REXにおけるPostgreSQL制御の設定
                                                コマンド設定例を以下に示す。\
                                                \'/bin/gzip -cd /dbfp/pgarch/arc1/%f.gz > %p\'
 
-  repuser              repuser                 『レプリケーションユーザの作成』で作成した\
-                                               レプリケーションユーザを設定する。
+  repuser              repuser                 『[@sec:レプリケーションユーザの作成](#sec:レプリケーションユーザの作成) [レプリケーションユーザの作成](#sec:レプリケーションユーザの作成)』で\
+                                               作成したレプリケーションユーザを設定する。
 
   primary_conninfo_opt keepalives_idle=60\     TCPキープアライブ用の制御パラメータを\
                        keepalives_interval=5\  設定する。PG-REXでは左記の設定値を\
@@ -122,7 +122,7 @@ PG-REXにおけるPostgreSQL制御の設定
 　
 :::
 
-### リソース（ネットワーク監視）の設定
+### リソース(ネットワーク監視)の設定
 
 『pm\_pcsgen環境定義書』の表7-1にネットワーク監視を設定します。なお、PG-REXではS-LANを監視します。監視するネットワークのIPアドレスとしてS-LANのデフォルトゲートウェイ等を設定してください。
 
@@ -130,7 +130,7 @@ PG-REXにおけるPostgreSQL制御の設定
 　
 :::
 
-### リソース（STONITH）の設定
+### リソース(STONITH)の設定
 
 『pm\_pcsgen環境定義書』の表8-1、表9-1にSTONITHを設定します。
 
@@ -138,9 +138,9 @@ PG-REXにおけるPostgreSQL制御の設定
 　
 :::
 
-### リソース（Standby側仮想IP）の設定
+### リソース(Standby側仮想IPアドレス)の設定
 
-Standbyへのデータベース接続を利用する場合は、『pm\_pcsgen環境定義書』の表7-1にStandby側接続用の仮想IPを設定します。Standbyへのデータベース接続を利用しない場合は、『pm\_pcsgen環境定義書』の表4-1、表7-1、表9-2からipaddr-standbyの設定値をコメントアウトします。
+Standbyへのデータベース接続を利用する場合は、『pm\_pcsgen環境定義書』の表7-1にStandby側接続用の仮想IPアドレスを設定します。Standbyへのデータベース接続を利用しない場合は、『pm\_pcsgen環境定義書』の表4-1、表7-1、表9-2からipaddr-standbyの設定値をコメントアウトします。
 
 ::: {custom-style="page-break"}
 　
@@ -148,7 +148,7 @@ Standbyへのデータベース接続を利用する場合は、『pm\_pcsgen環
 
 ### xmlファイルの作成
 
-以下の操作を行い、xmlファイルを作成します。なお、作成したxmlファイルはPrimary起動時にPacemakerに反映されます。
+以下の操作を行い、xmlファイルを作成します。なお、作成したxmlファイルをPrimary起動時に指定することでPacemakerに反映されます。
 
 本作業はrootユーザで行います。
 
@@ -157,15 +157,15 @@ Standbyへのデータベース接続を利用する場合は、『pm\_pcsgen環
 :::
 
 (1) Microsoft®
-    Excelを使って『pm\_pcsgen環境定義書』の修正したシートをCSV形式で保存します。
+    Excelを使って『pm\_pcsgen環境定義書』のシートを修正してCSV形式で保存します。
 
-    本書ではファイル名は「PG-REX12\_pm\_pcsgen\_env.csv」とします。
+    本マニュアルではファイル名は「pm\_pcsgen\_env.csv」とします。
 
     ::: {custom-style="First Paragraph"}
     　
     :::
 
-(2) 保存したcsvファイル（PG-REX12\_pm\_pcsgen\_env.csv）を、pgrex01に転送します。
+(2) 保存したcsvファイル（pm\_pcsgen\_env.csv）を、pgrex01に転送します。
 
     ファイル転送の際に文字コード変換を行わないよう注意してください。
 
@@ -175,14 +175,14 @@ Standbyへのデータベース接続を利用する場合は、『pm\_pcsgen環
 
 (3) pgrex01上で、pm\_pcsgenコマンドを使用し、転送したcsvファイルをxmlファイルに変換します。
 
-    本書では、変換後のファイル名を「PG-REX12\_pm\_pcsgen\_env.xml」とします[^46]。
+    本マニュアルでは、変換後のファイル名を「pm\_pcsgen\_env.xml」とします[^46]。
 
     ::: {custom-style="First Paragraph"}
     　
     :::
 
   ------------------------------------------------------------------------
-  [# pm_pcsgen PG\-REX12_pm_pcsgen_env.csv]{custom-style="Verbatim Char"}
+  [# pm_pcsgen pm_pcsgen_env.csv]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
