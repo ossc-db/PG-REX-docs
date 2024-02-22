@@ -45,8 +45,8 @@
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex02\ (2)\]]{custom-style="Verbatim Char"}\
-  [\ \*\ OFFLINE:\ \[\ pgrex01\ (1)\]]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex02]{custom-style="red-bold"}\
@@ -130,7 +130,8 @@
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ ]{custom-style="Verbatim Char"}[pgrex01\ (1)]{custom-style="red-bold"}[\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ ]{custom-style="Verbatim Char"}[Slave\ pgrex01]{custom-style="red-bold"}\

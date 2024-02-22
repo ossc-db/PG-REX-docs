@@ -332,12 +332,13 @@ Pacemakerの監視を再開するには以下のコマンドを実行します�
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex02\ (2)\]]{custom-style="red-bold"}\
-  [\ \*\ OFFLINE:\ \[\ pgrex01\ (1)\]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
+  [\ \*\ Node pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Stopped]{custom-style="Verbatim Char"}\
   [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
   [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\

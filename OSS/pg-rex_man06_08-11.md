@@ -1,7 +1,8 @@
 リソース故障(demoteおよびstop)
 -------------------------
 
-この節では、リソース故障(demoteおよびstop)時の対処について説明します。
+この節では、リソース故障(demoteおよびstop)時の対処について説明します。  
+ディスク故障の場合も同様のHAクラスタ状態となりますので、この節の手順で対処します。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -80,8 +81,8 @@ pgrex01のノード状態がOFFLINEとなっていない場合は、【STEP3】�
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex02\ (2)\]]{custom-style="Verbatim Char"}\
-  [\ \*\ OFFLINE:\ \[\ pgrex01\ (1)\]]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex02]{custom-style="red-bold"}\
@@ -218,7 +219,8 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ ]{custom-style="Verbatim Char"}[pgrex01\ (1)]{custom-style="red-bold"}[\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ ]{custom-style="Verbatim Char"}[Slave\ pgrex01]{custom-style="red-bold"}\
@@ -228,10 +230,13 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ ]{custom-style="Verbatim Char"}[Started\ pgrex01]{custom-style="red-bold"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	Started\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
+  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -302,15 +307,15 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
-  [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
+  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):\	\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -354,8 +359,8 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex02\ (2)\]]{custom-style="Verbatim Char"}\
-  [\ \*\ OFFLINE:\ \[\ pgrex01\ (1)\]]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -427,7 +432,8 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ ]{custom-style="Verbatim Char"}[pgrex01\ (1)]{custom-style="red-bold"}[\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ ]{custom-style="Verbatim Char"}[Slave\ pgrex01]{custom-style="red-bold"}\
@@ -437,10 +443,13 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ ]{custom-style="Verbatim Char"}[Started\ pgrex01]{custom-style="red-bold"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	Started\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
+  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -499,7 +508,8 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex01]{custom-style="red-bold"}\
@@ -569,7 +579,8 @@ pgrex01のipaddr-replicationリソースのフェイルカウントをクリア�
   [# pcs resource cleanup ipaddr\-replication node=pgrex01]{custom-style="Verbatim Char"}\
   [Cleaned up ipaddr\-primary on pgrex01]{custom-style="Verbatim Char"}\
   [Cleaned up ipaddr\-replication on pgrex01]{custom-style="Verbatim Char"}\
-  [Waiting for 1 reply from the controller. OK]{custom-style="Verbatim Char"}
+  [Waiting for 1 reply from the controller. OK]{custom-style="Verbatim Char"}\
+  [... got reply (done)]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -596,7 +607,8 @@ pgrex01のipaddr-replicationリソースのフェイルカウントをクリア�
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
@@ -663,7 +675,8 @@ pgrex01のipaddr-replicationリソースのフェイルカウントをクリア�
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex01]{custom-style="red-bold"}\
@@ -728,7 +741,8 @@ pgrex02のipaddr-standbyリソースのフェイルカウントをクリアし�
   ------------------------------------------------------------------------
   [# pcs resource cleanup ipaddr\-standby node=pgrex02]{custom-style="Verbatim Char"}\
   [Cleaned up ipaddr\-standby on pgrex02]{custom-style="Verbatim Char"}\
-  [Waiting for 1 reply from the controller. OK]{custom-style="Verbatim Char"}
+  [Waiting for 1 reply from the controller. OK]{custom-style="Verbatim Char"}\
+  [... got reply (done)]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -755,7 +769,8 @@ pgrex02のipaddr-standbyリソースのフェイルカウントをクリアし�
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\

@@ -17,11 +17,11 @@ PG-REXをアンインストールするためには両ノードで作業をし�
     :::
 
   ------------------------------------------------------------------------
-  [# rpm \-e postgresql13\-contrib\-13.0\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql13\-server\-13.0\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql13\-docs\-13.0\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql13\-13.0\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql13\-libs\-13.0\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql14\-contrib\-14.9\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql14\-server\-14.9\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql14\-docs\-14.9\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql14\-14.9\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql14\-libs\-14.9\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -219,7 +219,7 @@ ACPI Soft-Off機能が有効化されていることを確認します。
     :::
 
   ------------------------------------------------------------------------
-  [# yum\ remove\ pg\-rex_operation_tools_script\-13\.0\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
+  [# yum\ remove\ pg\-rex_operation_tools_script\-14\.1\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

@@ -23,7 +23,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-   インストールしたOSのバージョンについて、/etc/redhat-releaseの内容を確認します。以下の結果表示の斜体で記載しているバージョンを確認してください。(RHEL 8.4の場合の例)
+   インストールしたOSのバージョンについて、/etc/redhat-releaseの内容を確認します。以下の結果表示の斜体で記載しているバージョンを確認してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -31,7 +31,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
   ------------------------------------------------------------------------
   [# cat /etc/redhat-release]{custom-style="Verbatim Char"}\
-  [Red Hat Enterprise Linux Server release [8.4]{custom-style="italic"} (Ootpa)]{custom-style="Verbatim Char"}
+  [Red Hat Enterprise Linux release [8.8]{custom-style="italic"} (Ootpa)]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
   ------------------------------------------------------------------------
-  [pm_extra_tools-1.3-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
+  [pm_extra_tools-1.5-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
   \
   [※ ダウンロードサイトにて、使用するRHELのバージョンに適合するパッケージを選んでください。]{custom-style="Verbatim Char"}
 
@@ -89,7 +89,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
   ------------------------------------------------------------------------
   [# mkdir /mnt/HighAvailability]{custom-style="Verbatim Char"}\
-  [# mount -o ro /var/tmp/rhel\-8\.4\-x86_64-dvd.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
+  [# mount -o ro /var/tmp/rhel\-8\.8\-x86_64-dvd.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -189,7 +189,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
   ------------------------------------------------------------------------
-  [# yum install pm_extra_tools\-1\.3\-1.el8.noarch.rpm \-y]{custom-style="Verbatim Char"}\
+  [# yum install pm_extra_tools\-1\.5\-1.el8.noarch.rpm \-y]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

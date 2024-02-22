@@ -49,7 +49,7 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
 　
 :::
 
-なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running? Error: cluster is not available on this node\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
+なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running?  error: Could not connect to launcher: Connection refused crm_mon: Error: cluster is not available on this node\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -65,10 +65,10 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   \
   [Full\ list\ of\ resources:]{custom-style="Verbatim Char"}\
-  \
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Slave\ pgrex02]{custom-style="Verbatim Char"}\
@@ -79,6 +79,9 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
   \
@@ -97,6 +100,8 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   \
   [Migration\ Summary:]{custom-style="Verbatim Char"}\
   \
+  [Tickets:]{custom-style="Verbatim Char"}\
+  \
   [PCSD\ Status:]{custom-style="Verbatim Char"}\
   [\ \ pgrex01:\ Online]{custom-style="Verbatim Char"}\
   [\ \ pgrex02:\ Online]{custom-style="Verbatim Char"}\
@@ -108,8 +113,7 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
 
   ------------------------------------------------------------------------
 
-
-::: {custom-style="page-break"}
+::: {custom-style="First Paragraph"}
 　
 :::
 
@@ -121,18 +125,17 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
 
   ------------------------------------------------------------------------
   [# corosync\-cfgtool \-s]{custom-style="Verbatim Char"}\
-  [Printing link status.]{custom-style="Verbatim Char"}\
-  [Local node ID 1]{custom-style="Verbatim Char"}\
-  [LINK ID 0]{custom-style="Verbatim Char"}\
-  [addr = 192.168.1.1]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1: localhost]{custom-style="Verbatim Char"}\
-  \	[nodeid  2: connected]{custom-style="Verbatim Char"}\
-  [LINK ID 1]{custom-style="Verbatim Char"}\
-  [addr = 192.168.3.1]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1: localhost]{custom-style="Verbatim Char"}\
-  \	[nodeid  2: connected]{custom-style="Verbatim Char"}
+  [Local node ID 1, transport knet]{custom-style="Verbatim Char"}\
+  [LINK ID 0 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.1.1]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	localhost]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	2:\	connected]{custom-style="Verbatim Char"}\
+  [LINK ID 1 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.3.1]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	localhost]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	2:\	 connected]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -151,7 +154,8 @@ pcs statusコマンド実行時の各表示部について説明します。
 【ノード情報表示部】
 
   ------------------------------------------------------------------------
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\ pgrex02\ (2)\ \]]{custom-style="Verbatim Char"}
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -173,7 +177,6 @@ pcs statusコマンド実行時の各表示部について説明します。
 
   ------------------------------------------------------------------------
   [Full\ list\ of\ resources:]{custom-style="Verbatim Char"}\
-  \
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Slave\ pgrex02]{custom-style="Verbatim Char"}\
@@ -184,6 +187,9 @@ pcs statusコマンド実行時の各表示部について説明します。
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
   [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}
 
@@ -246,10 +252,10 @@ IPaddr2リソースおよびSTONITHリソースの稼働状況表示一覧
 　
 :::
 
-■ ping-clone(PINGリソース)
+■ ping-clone(PINGリソース), storage-mon-clone(STORAGE-MONリソース)
 
 ::: {custom-style="Table Caption"}
-PINGリソースの稼働状況表示一覧
+PINGリソースおよびSTORAGE-MONリソースの稼働状況表示一覧
 :::
 
   --------------------------------------------------------------
@@ -282,7 +288,7 @@ PINGリソースの稼働状況表示一覧
   [\ \*\ Node\ pgrex02\ (2):]{custom-style="Verbatim Char"}\
   [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING\|SYNC]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS\|SYNC]{custom-style="Verbatim Char"}\
+  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -444,24 +450,23 @@ corosync-cfgtool -sコマンド実行時の表示部について説明します�
 
   ------------------------------------------------------------------------
   [# corosync\-cfgtool \-s]{custom-style="Verbatim Char"}\
-  [Printing link status.]{custom-style="Verbatim Char"}\
-  [Local node ID 1]{custom-style="Verbatim Char"}\
-  [LINK ID 0]{custom-style="Verbatim Char"}\
-  [addr = 192.168.1.1]{custom-style="underline"}\
-  [(1)]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1: localhost]{custom-style="underline"}\
-  \	\	[(2)]{custom-style="Verbatim Char"}\
-  \	[nodeid  2: connected]{custom-style="underline"}\
-  \	\	[(3)]{custom-style="Verbatim Char"}\
-  [LINK ID 1]{custom-style="Verbatim Char"}\
-  [addr = 192.168.3.1]{custom-style="underline"}\
-  [(4)]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1: localhost]{custom-style="underline"}\
-  \	\	[(2)]{custom-style="Verbatim Char"}\
-  \	[nodeid  2: connected]{custom-style="underline"}\
-  \	\	[(3)]{custom-style="Verbatim Char"}\
+  [Local node ID 1, transport knet]{custom-style="Verbatim Char"}\
+  [LINK ID 0 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.1.1]{custom-style="underline"}\
+  \	\	[(1)]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	localhost]{custom-style="underline"}\
+  \	\	\	[(2)]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	2:\	connected]{custom-style="underline"}\
+  \	\	\	[(3)]{custom-style="Verbatim Char"}\
+  [LINK ID 1 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.3.1]{custom-style="underline"}\
+  \	\	[(4)]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	localhost]{custom-style="underline"}\
+  \	\	\	[(2)]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	2:\	connected]{custom-style="underline"}\
+  \	\	\	[(3)]{custom-style="Verbatim Char"}\
   [(1) IC-LAN(eno1)のIPアドレス]{custom-style="Verbatim Char"}\
   [(2) ノードID[^47]が1のノードとのIC-LANの通信状態]{custom-style="Verbatim Char"}\
   [(3) ノードID[^47]が2のノードとのIC-LANの通信状態]{custom-style="Verbatim Char"}\
@@ -535,6 +540,14 @@ STONITHリソース(fence1-ipmilan、fence2-ipmilan)が、それぞれのノー�
 【『リソース情報表示部』の『PINGリソース』】
 
 ネットワーク経路監視用PINGリソース(ping-clone)が、それぞれのノードで稼働していることを確認する。
+
+::: {custom-style="First Paragraph"}
+　
+:::
+
+【『リソース情報表示部』の『STORAGE-MONリソース』】
+
+ディスク監視用STORAGE-MONリソース(storage-mon-clone)が、それぞれのノードで稼働していることを確認する。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -633,8 +646,8 @@ pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該
 :::
 
   -----------------------------------------------------------------
-  [\ \*\ Online:\ \[\ pgrex02\ (2)\]]{custom-style="Verbatim Char"}\
-  [\ \*\ OFFLINE:\ \[\ pgrex01\ (1)\]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   \
   [※ pgrex01がOFFLINEになっている]{custom-style="Verbatim Char"}
 
@@ -721,9 +734,9 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
   ------------------------- --------------- --------------- ----------------------------
   ping-status               0               1               S-LAN故障(pgrex01)
 
-  同上                      1               0               S-LAN故障(pgrex02)
+  ping-status               1               0               S-LAN故障(pgrex02)
 
-  同上                      0               0               ルータ故障(pgrex01, pgrex02)
+  ping-status               0               0               ルータ故障(pgrex01, pgrex02)
 
   pgsql-data-status         LATEST          DISCONNECT      D-LAN故障
 
@@ -779,16 +792,16 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
 
   ------------------------------------------------------------------------
   [： (略)]{custom-style="Verbatim Char"}\
-  [LINK ID 0]{custom-style="Verbatim Char"}\
-  [addr = 192.168.1.1]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1:\ ]{custom-style="Verbatim Char"}[disconnected]{custom-style="red-bold"}\
-  \	[nodeid  2:\ ]{custom-style="Verbatim Char"}[localhost]{custom-style="Verbatim Char"}\
-  [LINK ID 1]{custom-style="Verbatim Char"}\
-  [addr = 192.168.3.1]{custom-style="Verbatim Char"}\
-  [status:]{custom-style="Verbatim Char"}\
-  \	[nodeid  1:\ ]{custom-style="Verbatim Char"}[disconnected]{custom-style="red-bold"}\
-  \	[nodeid  2:\ ]{custom-style="Verbatim Char"}[localhost]{custom-style="Verbatim Char"}\
+  [LINK ID 0 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.1.1]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	]{custom-style="Verbatim Char"}[disconnected]{custom-style="red-bold"}\
+  \	\	[nodeid:\	2:\	]{custom-style="Verbatim Char"}[localhost]{custom-style="Verbatim Char"}\
+  [LINK ID 1 udp]{custom-style="Verbatim Char"}\
+  \	[addr = 192.168.3.1]{custom-style="Verbatim Char"}\
+  \	[status:]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	]{custom-style="Verbatim Char"}[disconnected]{custom-style="red-bold"}\
+  \	\	[nodeid:\	2:\	]{custom-style="Verbatim Char"}[localhost]{custom-style="Verbatim Char"}\
 
   ------------------------------------------------------------------------
 

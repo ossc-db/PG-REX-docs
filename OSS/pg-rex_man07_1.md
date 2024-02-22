@@ -64,8 +64,9 @@ PrimaryおよびStandbyの起動手順については、以降の各項を参照
 
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
-  [Error:\ error\ running\ crm_mon,\ is\ pacemaker\ running?]{custom-style="red-bold"}\
-  [\ Error:\ cluster\ is\ not\ available\ on\ this\ node]{custom-style="red-bold"}
+  [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
+  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
+  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
   
   ------------------------------------------------------------------------
 
@@ -206,7 +207,7 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
   [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\]]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -309,7 +310,7 @@ Onlineになるには数十秒の時間を要する場合があります。
   [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)\]]{custom-style="red-bold"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex01]{custom-style="red-bold"}\
@@ -321,7 +322,10 @@ Onlineになるには数十秒の時間を要する場合があります。
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pg\-rex01]{custom-style="red-bold"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex01]{custom-style="red-bold"}\
+  [：（略）]{custom-style="Verbatim Char"}\
+  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   \
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
@@ -361,8 +365,9 @@ Onlineになるには数十秒の時間を要する場合があります。
 
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
-  [Error:\ error\ running\ crm_mon,\ is\ pacemaker\ running?]{custom-style="red-bold"}\
-  [\ Error:\ cluster\ is\ not\ available\ on\ this\ node]{custom-style="red-bold"}
+  [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
+  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
+  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
@@ -492,7 +497,8 @@ Onlineになるには数十秒の時間を要する場合があります。
   [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Online:\ \[\ pgrex01\ (1)]{custom-style="Verbatim Char"}[\ pgrex02\ (2)]{custom-style="red-bold"}[\ \]]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
@@ -504,7 +510,11 @@ Onlineになるには数十秒の時間を要する場合があります。
   [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
   [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\ [Started]{custom-style="Verbatim Char"}[\ pg\-rex02]{custom-style="red-bold"}\
+  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex02]{custom-style="red-bold"}\
+  [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="red-bold"}\
+  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
@@ -538,18 +548,17 @@ Onlineになるには数十秒の時間を要する場合があります。
 
   ------------------------------------------------------------------------
   [# corosync\-cfgtool \-s]{custom-style="Verbatim Char"}\
-  [Printing link status.]{custom-style="Verbatim Char"}\
-  [Local node ID 1]{custom-style="Verbatim Char"}\
-  [LINK ID 0]{custom-style="Verbatim Char"}\
+  [Local node ID 1, transport knet]{custom-style="Verbatim Char"}\
+  [LINK ID 0 udp]{custom-style="Verbatim Char"}\
   \	[addr    = 192.168.1.10]{custom-style="Verbatim Char"}\
   \	[status:]{custom-style="Verbatim Char"}\
-  \	\	[node 0: ]{custom-style="Verbatim Char"}[localhost]{custom-style="red-bold"}\
-  \	\	[node 1: ]{custom-style="Verbatim Char"}[connected]{custom-style="red-bold"}\
-  [LINK ID 1]{custom-style="Verbatim Char"}\
+  \	\	[nodeid:\	1:\	]{custom-style="Verbatim Char"}[localhost]{custom-style="red-bold"}\
+  \	\	[nodeid:\	2:\	]{custom-style="Verbatim Char"}[connected]{custom-style="red-bold"}\
+  [LINK ID 1 udp]{custom-style="Verbatim Char"}\
   \	[addr    = 192.168.3.10]{custom-style="Verbatim Char"}\
   \	[status:]{custom-style="Verbatim Char"}\
-  \	\	[node 0: ]{custom-style="Verbatim Char"}[localhost]{custom-style="red-bold"}\
-  \	\	[node 1: ]{custom-style="Verbatim Char"}[connected]{custom-style="red-bold"}
+  \	\	[nodeid:\	1:\	]{custom-style="Verbatim Char"}[localhost]{custom-style="red-bold"}\
+  \	\	[nodeid:\	2:\	]{custom-style="Verbatim Char"}[connected]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
@@ -606,8 +615,9 @@ PrimaryおよびStandbyの停止手順については、以降の項を参照し
 
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
-  [Error:\ error\ running\ crm_mon,\ is\ pacemaker\ running?]{custom-style="red-bold"}\
-  [\ Error:\ cluster\ is\ not\ available\ on\ this\ node]{custom-style="red-bold"}
+  [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
+  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
+  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
@@ -666,8 +676,9 @@ Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生
 
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
-  [Error:\ error\ running\ crm_mon,\ is\ pacemaker\ running?]{custom-style="red-bold"}\
-  [\ Error:\ cluster\ is\ not\ available\ on\ this\ node]{custom-style="red-bold"}
+  [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
+  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
+  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
