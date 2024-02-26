@@ -15,18 +15,15 @@ pgrex01とpgrex02へPG-REX運用補助ツールをインストールします。
 
 PG-REX運用補助ツールのインストール必須のRPMパッケージを以下に示します。
 
+バージョンは適宜読み替えてください。
+
 ::: {custom-style="First Paragraph"}
 　
 :::
 
-  ------------------------------------------------------------------------
-  [pg\-rex_operation_tools_script\-15.1\-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
-  [IO_Tty\-1.11\-1.el8.x86_64.rpm]{custom-style="Verbatim Char"}\
-  [Net_OpenSSH\-0.62\-1.el8.x86_64.rpm]{custom-style="Verbatim Char"}\
-  \
-  [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
-
-  ------------------------------------------------------------------------
+1. [pg\-rex_operation_tools_script\-16.0\-1.el9.noarch.rpm]{custom-style="Verbatim Char"}
+2. [Net_OpenSSH\-0.62\-1.el9.x86_64.rpm]{custom-style="Verbatim Char"}
+3. [perl\-IO\-Tty\-1.16\-4.el9.x86_64.rpm]{custom-style="Verbatim Char"} [^50]
 
 ::: {custom-style="First Paragraph"}
 　
@@ -39,9 +36,7 @@ PG-REX運用補助ツールをRPMパッケージからインストールしま�
 :::
 
   ------------------------------------------------------------------------
-  [# yum\ install\ pg\-rex_operation_tools_script\-15\.1\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
-  \
-  [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
+  [# dnf\ install\ pg\-rex_operation_tools_script\-16\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\-4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
 
   ------------------------------------------------------------------------
 

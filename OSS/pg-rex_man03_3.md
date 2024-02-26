@@ -31,7 +31,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
   ------------------------------------------------------------------------
   [# cat /etc/redhat-release]{custom-style="Verbatim Char"}\
-  [Red Hat Enterprise Linux release [8.8]{custom-style="italic"} (Ootpa)]{custom-style="Verbatim Char"}
+  [Red Hat Enterprise Linux release [9.2]{custom-style="italic"} (Plow)]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
   ------------------------------------------------------------------------
-  [pm_extra_tools-1.5-1.el8.noarch.rpm]{custom-style="Verbatim Char"}\
+  [pm_extra_tools-1.5-1.el9.noarch.rpm]{custom-style="Verbatim Char"}\
   \
   [※ ダウンロードサイトにて、使用するRHELのバージョンに適合するパッケージを選んでください。]{custom-style="Verbatim Char"}
 
@@ -89,7 +89,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
   ------------------------------------------------------------------------
   [# mkdir /mnt/HighAvailability]{custom-style="Verbatim Char"}\
-  [# mount -o ro /var/tmp/rhel\-8\.8\-x86_64-dvd.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
+  [# mount -o ro /var/tmp/rhel\-highavailability\-9\.2\-x86_64-dvd.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -99,7 +99,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-(3) /media配下、及び/mnt/HighAvailability配下をyumコマンドで参照されるリポジトリに追加する 設定を行います。
+(3) /media配下、及び/mnt/HighAvailability配下をdnfコマンドで参照されるリポジトリに追加する 設定を行います。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -152,14 +152,14 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-(4) yumのキャッシュをクリアします。
+(4) dnfのキャッシュをクリアします。
 
 ::: {custom-style="First Paragraph"}
 　
 :::
 
   ------------------------------------------------------------------------
-  [# yum clean all]{custom-style="Verbatim Char"}
+  [# dnf clean all]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -174,7 +174,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
   ------------------------------------------------------------------------
-  [# yum install pcs pacemaker fence\-agents\-all \-y]{custom-style="Verbatim Char"}
+  [# dnf install pcs pacemaker fence\-agents\-all \-y]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -189,7 +189,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 :::
 
   ------------------------------------------------------------------------
-  [# yum install pm_extra_tools\-1\.5\-1.el8.noarch.rpm \-y]{custom-style="Verbatim Char"}\
+  [# dnf install pm_extra_tools\-1\.5\-1.el9.noarch.rpm \-y]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -201,7 +201,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
 ### インストール完了後作業
 
-(1) 追加したyumコマンドの/media配下、及び/mnt/HighAvailability配下への参照を無効化します。
+(1) 追加したdnfコマンドの/media配下、及び/mnt/HighAvailability配下への参照を無効化します。
 
 ::: {custom-style="First Paragraph"}
 　

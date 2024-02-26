@@ -4,7 +4,7 @@
 本マニュアルの目的
 ----------
 
-本マニュアルは、PostgreSQL-REX15(以降、PG-REXと呼ぶ)の技術情報を説明します。本マニュアルの目的は、読者が、PG-REXの動作環境を構築し、PG-REXを操作できるようになることです。
+本マニュアルは、PostgreSQL-REX16(以降、PG-REXと呼ぶ)の技術情報を説明します。本マニュアルの目的は、読者が、PG-REXの動作環境を構築し、PG-REXを操作できるようになることです。
 
 対象読者
 --------
@@ -28,9 +28,9 @@ Pacemaker関連サイト
 　
 :::
 
-PostgreSQL 15付属ドキュメント
+PostgreSQL 16付属ドキュメント
 
--   [https://www.postgresql.jp/document/15](https://www.postgresql.jp/document/15)
+-   [https://www.postgresql.jp/document/16](https://www.postgresql.jp/document/16)
 
     ⇒本マニュアルでは、『PostgreSQLドキュメント』と呼びます
 
@@ -76,9 +76,9 @@ PostgreSQL 15付属ドキュメント
   ----------------------------------------------------------------------------------
   OS                                                     バージョン
   ------------------------------------------------------ -------------------
-  Red Hat Enterprise Linux[^49]                          8.8
+  Red Hat Enterprise Linux[^48]                          9.2
   
-  Red Hat Enterprise Linux High Availability Add-On[^50] 8.8
+  Red Hat Enterprise Linux High Availability Add-On[^49] 9.2
 
   ----------------------------------------------------------------------------------
 
@@ -92,16 +92,19 @@ PostgreSQL 15付属ドキュメント
   ----------------------------------------------------------------------------------
   ミドルウェア                                           バージョン
   ------------------------------------------------------ -------------------
-  PostgreSQL                                             15
+  PostgreSQL                                             16
 
-  Pacemaker                                              2.1.5-8[^54]
+  Pacemaker                                              2.1.5-9[^53]
 
-  pcs                                                    0.10.15-4[^54]
+  pcs                                                    0.11.4-7[^53]
 
   pm_extra_tools                                         1.5
 
-  PG-REX運用補助ツール                                   15.1
+  PG-REX運用補助ツール                                   16.0
 
+  Net_OpenSSH                                            0.62-1
+
+  perl-IO-Tty                                            1.16-4
   ----------------------------------------------------------------------------------
 
 ::: {custom-style="page-break"}
@@ -114,7 +117,7 @@ PostgreSQL 15付属ドキュメント
 本マニュアルの前提条件を以下に示します。
 
 * 本マニュアルの実行例は、以下を前提とします。
-  - Red Hat Enterprise Linux 8.8上での実行です。コンソールの表示はOSのバージョンによって異なることがあります。
+  - Red Hat Enterprise Linux 9.2 上での実行です。コンソールの表示は OS のバージョンによって異なることがあります。
   - LANGの設定はLANG=ja_JP.UTF-8です。設定によっては、出力メッセージなどが掲載した例と異なることがあります。例えば、PostgreSQL関連のツールのメッセージはLANG=ja_JP.UTF-8では日本語です[^2] が、LANG=Cの場合は英語です。
 * PG-REXを構成するサーバをノードと呼びます。また、PG-REXを構成する2つのノードの名前（uname -nの結果）をpgrex01、pgrex02とします。
 

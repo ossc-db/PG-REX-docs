@@ -126,20 +126,34 @@ Primary初回起動時、もしくは既存のPacemakerの設定をクリアし�
   [既に HAクラスタ があります]{custom-style="Verbatim Char"}\
   [再作成しても宜しいでしょうか？\ (y/N)\ ]{custom-style="Verbatim Char"}[y]{custom-style="red-bold"}\
   [4. HAクラスタ の破棄]{custom-style="Verbatim Char"}\
+  [Warning: Unable to load CIB to get guest and remote nodes from it, those nodes will not be deconfigured.]{custom-style="Verbatim Char"}\
+  [：(略)]{custom-style="Verbatim Char"}\
+  [pgrex01: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [5. HAクラスタ の作成]{custom-style="Verbatim Char"}\
+  [Destroying cluster on hosts: \'pgrex01\', \'pgrex02\'...]{custom-style="Verbatim Char"}\
+  [：(略)]{custom-style="Verbatim Char"}\
+  [Cluster has been successfully set up.]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [6. Pacemaker 起動]{custom-style="Verbatim Char"}\
+  [Starting Cluster...]{custom-style="Verbatim Char"}\
+  [Waiting for node(s) to start...]{custom-style="Verbatim Char"}\
+  [Started]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [7. リソース定義 xml ファイルの反映]{custom-style="Verbatim Char"}\
+  [CIB updated]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
+  [Warning: If node(s) \'pgrex02\' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
+  [Warning: If node \'pgrex02\' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
+  [Quorum unblocked]{custom-style="Verbatim Char"}\
+  [Waiting for nodes canceled]{custom-style="Verbatim Char"}\
   [8. Primary の起動確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [ノード(pgrex01)が Primary として起動しました]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
-::: {custom-style="page-break"}
+::: {custom-style="First Paragraph"}
 　
 :::
 
@@ -164,14 +178,21 @@ Primaryを起動します。
   [4. 起動禁止フラグの存在を確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [5. Pacemaker 起動]{custom-style="Verbatim Char"}\
+  [Starting Cluster...]{custom-style="Verbatim Char"}\
+  [Waiting for node(s) to start...]{custom-style="Verbatim Char"}\
+  [Started]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
+  [Warning: If node(s) \'pgrex02\' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
+  [Warning: If node \'pgrex02\' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
+  [Quorum unblocked]{custom-style="Verbatim Char"}\
+  [Waiting for nodes canceled]{custom-style="Verbatim Char"}\
   [6. Primary の起動確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [ノード(pgrex01)が Primary として起動しました]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
-::: {custom-style="First Paragraph"}
+::: {custom-style="page-break"}
 　
 :::
 
@@ -193,6 +214,9 @@ Primaryを起動します。
 :::
 
 (5) pgrex02のSTONITH履歴をクリアします。
+
+    Primary起動時は、片方のノードのみの起動となるため、正常に起動した場合でも、pcs statusコマンドを実行すると、Fencing Historyに情報が表示されます。
+    そのため、その履歴をクリアします。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -291,6 +315,7 @@ Standbyの起動 {#sec:Standbyの起動}
   [000000020000000000000003]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [8. Standby の起動 (アーカイブリカバリ対象 WAL セグメント数: 1)]{custom-style="Verbatim Char"}\
+  [Starting Cluster...]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [9. Standby の起動確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
@@ -343,6 +368,8 @@ Standbyの停止 {#sec:Standbyの停止}
   [# pg\-rex_stop]{custom-style="Verbatim Char"}\
   [Standby を停止します]{custom-style="Verbatim Char"}\
   [1. Pacemaker 停止]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (corosync)...]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [2. Pacemaker 停止確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
@@ -380,6 +407,8 @@ Primaryの停止 {#sec:Primaryの停止}
   [# pg\-rex_stop]{custom-style="Verbatim Char"}\
   [Primary を停止します]{custom-style="Verbatim Char"}\
   [1. Pacemaker 停止]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (corosync)...]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [2. Pacemaker 停止確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
@@ -437,6 +466,8 @@ PostgreSQL停止中のノードの停止 {#sec:PostgreSQL停止中のノード�
   [PostgreSQL の状態を確認できませんでした]{custom-style="Verbatim Char"}\
   [Pacemaker を停止します]{custom-style="Verbatim Char"}\
   [1. Pacemaker 停止]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (corosync)...]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [2. Pacemaker 停止確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\

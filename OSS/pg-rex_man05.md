@@ -62,7 +62,7 @@ PostgreSQLのバックアップを取得する手順は、『PostgreSQLドキュ
 
 【アーカイブログの削除】
 
-バックアップの取得にpg-basebackup を用いformat として plain (デフォルト設定)を指定した場合[^53]に限り 、アーカイブログの削除にpg-rex_archivefile_deleteが使用できます。それ以外の場合は『[@sec:アーカイブログの削除_cmd](#sec:アーカイブログの削除_cmd) [アーカイブログの削除](#sec:アーカイブログの削除_cmd)』にある説明を参照して、不要なアーカイブログを削除します。
+バックアップの取得にpg-basebackup を用いformat として plain (デフォルト設定)を指定した場合[^52]に限り 、アーカイブログの削除にpg-rex_archivefile_deleteが使用できます。それ以外の場合は『[@sec:アーカイブログの削除_cmd](#sec:アーカイブログの削除_cmd) [アーカイブログの削除](#sec:アーカイブログの削除_cmd)』にある説明を参照して、不要なアーカイブログを削除します。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -132,11 +132,13 @@ PostgreSQLのアーカイブログ(および付随するバックアップ履歴
   [削除対象のリストに \"0000004F0000000100000035.00000020.backup\"を追加します]{custom-style="Verbatim Char"}\
   [削除対象のリストに \"0000004D0000000100000034\" を追加します]{custom-style="Verbatim Char"}\
   [:(略)]{custom-style="Verbatim Char"}\
-  [移動先ディレクトリ \"/dbfp/pgarch/arc1/20211119_150226\"を作成しました]{custom-style="Verbatim Char"}\
+  [移動先ディレクトリ \"/dbfp/pgarch/arc1/yyyymmdd_HHMMSS\"を作成しました]{custom-style="Verbatim Char"}\
   [\-\- 移動 \-\- 0000004F0000000100000035.00000020.backup]{custom-style="Verbatim Char"}\
   [:(略)]{custom-style="Verbatim Char"}\
   [アーカイブログの移動に成功しました]{custom-style="red-bold"}\
-  [移動モード実行のため、移動したファイルは\"/dbfp/pgarch/arc1/20211119_150226\" に格納されています]{custom-style="red-bold"}
+  [移動モード実行のため、移動したファイルは\"/dbfp/pgarch/arc1/yyyymmdd_HHMMSS\" に格納されています]{custom-style="red-bold"}\
+  \
+  [※\ ディレクトリ名は適宜読み替えてください。]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -145,7 +147,7 @@ PostgreSQLのアーカイブログ(および付随するバックアップ履歴
 :::
 
 この実行例ではコマンドに -mオプションを指定しているため、作業の終了後には
-/dbfp/pgarch/arc1/20211119\_150226
+/dbfp/pgarch/arc1/yyyymmdd\_HHMMSS
 ディレクトリに不要となったファイルが格納されています。これを削除するか別のディスク等に移動させるなどすることで作業は完了します。
 
 -m オプションの代わりに
@@ -243,6 +245,8 @@ PG-REX運用補助ツールを使用したノード切り替えは、PG-REXのPr
   [\*\*\*\* pgrex02 が Primary として起動しました \*\*\*\*]{custom-style="Verbatim Char"}\
   \
   [7. pgrex01 の Pacemaker を停止]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
+  [Stopping Cluster (corosync)...]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [8. pgrex01 で Standby を起動]{custom-style="Verbatim Char"}\
   [00000011000000000000000C]{custom-style="Verbatim Char"}\
@@ -315,8 +319,8 @@ Pacemakerの監視を再開するには以下のコマンドを実行します�
 
     起動中のノードでデータベースサービスが継続していることを、pcs statusコマンドを実行して確認します。
 
-    -   ノード情報表示部で、起動中のノードの状態が\"Online\"になっていること。
-    -   リソース情報表示で、PG-REXリソース(pgsql-clone)に、\"Master pgrex02\"のように起動中のノードが表示されていること。
+    -   ノード情報表示部で、起動中のノードの状態が\"online\"になっていること。
+    -   リソース情報表示で、PG-REXリソース(pgsql-clone)に、\"Promoted pgrex02\"のように起動中のノードが表示されていること。
     -   リソース情報表示で、全てのIPaddr2リソース(ipaddr-primary、ipaddr-standby、ipaddr-replication)が、起動中のノードで稼働していること。
 
     以下に、pgrex01停止後、pgrex02で確認した場合の例を示します。
@@ -328,22 +332,21 @@ Pacemakerの監視を再開するには以下のコマンドを実行します�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日付表示]{custom-style="italic"}\
+  [\ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  \
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex02]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Stopped]{custom-style="Verbatim Char"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
-  [：（略）]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Stopped]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ipaddr\-replication\ (ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ ipaddr\-standby\ (ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
+  [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 

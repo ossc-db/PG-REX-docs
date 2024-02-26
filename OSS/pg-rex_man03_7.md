@@ -17,11 +17,11 @@ PG-REXをアンインストールするためには両ノードで作業をし�
     :::
 
   ------------------------------------------------------------------------
-  [# rpm \-e postgresql15\-contrib\-15.4\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql15\-server\-15.4\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql15\-docs\-15.4\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql15\-15.4\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql15\-libs\-15.4\-1PGDG.rhel8.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql16\-server\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql16\-docs\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql16\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql16\-libs\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -102,7 +102,7 @@ Pacemaker関連パッケージをアンインストールします。（2つの�
 :::
 
   ------------------------------------------------------------------------
-  [# yum erase pcs pacemaker fence\-agents\-all \-y]{custom-style="Verbatim Char"}
+  [# dnf erase pcs pacemaker fence\-agents\-all \-y]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -148,7 +148,7 @@ pm_extra_toolsをアンインストールします。（2つのノードで実�
 :::
 
   ------------------------------------------------------------------------
-  [# yum erase pm_extra_tools \-y]{custom-style="Verbatim Char"}
+  [# dnf erase pm_extra_tools \-y]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -219,7 +219,7 @@ ACPI Soft-Off機能が有効化されていることを確認します。
     :::
 
   ------------------------------------------------------------------------
-  [# yum\ remove\ pg\-rex_operation_tools_script\-15\.1\-1\.el8\.noarch\.rpm\ IO_Tty\-1\.11\-1\.el8\.x86_64\.rpm\ Net_OpenSSH\-0\.62\-1\.el8\.x86_64\.rpm]{custom-style="Verbatim Char"}\
+  [# dnf\ remove\ pg\-rex_operation_tools_script\-16\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\.4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

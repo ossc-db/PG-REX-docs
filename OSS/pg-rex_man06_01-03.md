@@ -49,7 +49,7 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
 　
 :::
 
-なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running?  error: Could not connect to launcher: Connection refused crm_mon: Error: cluster is not available on this node\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
+なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running?  error: Could not connect to launcher: Connection refused crm_mon: Connection to cluster failed: Connection refused\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -58,45 +58,45 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Cluster\ name:\ ]{custom-style="Verbatim Char"}[HAクラスタ名]{custom-style="italic"}\
+  [Status of pacemakerd: \'Pacemaker is running\' (last updated ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[)]{custom-style="Verbatim Char"}\
   [Cluster Summary:]{custom-style="Verbatim Char"}\
-  [\ \*\ Stack:\ corosync]{custom-style="Verbatim Char"}\
-  [\ \*\ Current\ DC:\ pgrex01\ (1)\ ]{custom-style="Verbatim Char"}[バージョン]{custom-style="italic"}[\ \-\ partition\ with\ quorum]{custom-style="Verbatim Char"}\
-  [\ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日付表示]{custom-style="italic"}\
+  [\ \ \*\ Stack:\ corosync]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Current\ DC:\ pgrex01\ (1)\ ]{custom-style="Verbatim Char"}[バージョン]{custom-style="italic"}[\ \-\ partition\ with\ quorum]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   \
-  [Full\ list\ of\ resources:]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Slave\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [Full\ List\ of\ Resources:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Unpromoted\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ (ocf:pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ (ocf:pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):\	Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):\	Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ fence1\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ fence2\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
   \
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node:\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node:\ pgrex02\ (2):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
   \
   [Migration\ Summary:]{custom-style="Verbatim Char"}\
   \
@@ -135,7 +135,7 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   \	[addr = 192.168.3.1]{custom-style="Verbatim Char"}\
   \	[status:]{custom-style="Verbatim Char"}\
   \	\	[nodeid:\	1:\	localhost]{custom-style="Verbatim Char"}\
-  \	\	[nodeid:\	2:\	 connected]{custom-style="Verbatim Char"}
+  \	\	[nodeid:\	2:\	connected]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -154,8 +154,8 @@ pcs statusコマンド実行時の各表示部について説明します。
 【ノード情報表示部】
 
   ------------------------------------------------------------------------
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -176,22 +176,22 @@ pcs statusコマンド実行時の各表示部について説明します。
 【リソース情報表示部】
 
   ------------------------------------------------------------------------
-  [Full\ list\ of\ resources:]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Slave\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	\ [\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	 Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}
+  [Full\ List\ of\ Resources:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Unpromoted\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ (ocf:pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ (ocf:pacemaker:ping):\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):\	Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):\	Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ fence1\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ fence2\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
 
   ------------------------------------------------------------------------
 
@@ -220,10 +220,10 @@ PG-REXリソースの稼働状況表示一覧
   --------------------------------------------------------------
   pcs status実行結果の表示      稼働状況の説明
   ----------------------------- --------------------------------
-  Master pgrex01\               両ノードでリソースが稼働中
-  Slave pgrex02
+  Promoted pgrex01\             両ノードでリソースが稼働中
+  Unpromoted pgrex02
 
-  Master pgrex01\               片方のノード(pgrex01)でリソースが稼働中
+  Promoted pgrex01\             片方のノード(pgrex01)でリソースが稼働中
   Stopped
 
   Stopped\                      両ノードでリソースが停止中
@@ -279,17 +279,17 @@ PINGリソースおよびSTORAGE-MONリソースの稼働状況表示一覧
 
   ------------------------------------------------------------------------
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING\|SYNC]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}
+  [\ \ \*\ Node:\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node:\ pgrex02\ (2):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING\|SYNC]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -361,9 +361,9 @@ pgrex01の各監視先の属性の正常値の例を以下に示します。
 
   ------------------------------------------------------------------------
   [Migration Summary:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex01:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ]{custom-style="Verbatim Char"}[pgsql]{custom-style="underline"}[:\ ]{custom-style="Verbatim Char"}[migration\-threshold=1]{custom-style="underline"}\ [fail\-count=1]{custom-style="underline"}[\ last\-failure=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
-  [\ \ \ \ (1)\ \ \ \ \ \ \ \ \ \ \ (2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (3)]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node pgrex01:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ]{custom-style="Verbatim Char"}[pgsql]{custom-style="underline"}[:\ ]{custom-style="Verbatim Char"}[migration\-threshold=1]{custom-style="underline"}\ [fail\-count=1]{custom-style="underline"}[\ last\-failure=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
+  [\ \ \ \ \ \ (1)\ \ \ \ \ \ \ \ \ \ \ (2)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (3)]{custom-style="Verbatim Char"}\
   \
   [(1) 故障リソースID (2) 故障許容回数 (3) 故障回数]{custom-style="Verbatim Char"}
 
@@ -396,9 +396,9 @@ pgrex01の各監視先の属性の正常値の例を以下に示します。
 
   ------------------------------------------------------------------------
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ ]{custom-style="Verbatim Char"}[pgsql\_monitor]{custom-style="underline"}[\_9000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="underline"} [\'not running\']{custom-style="underline"} [(7)]{custom-style="underline"}[: call=79, status=complete,]{custom-style="Verbatim Char"}\
-  [\ \ \ (1)\ \ \ \ (2)\ \ \ \ \ \ \ \ \ \ \ \ \ (3)\ \ \ \ \ \ \ \ (4)\ \ \ \ \ (5)]{custom-style="Verbatim Char"}\
-  [exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=0ms, exec=0ms]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ]{custom-style="Verbatim Char"}[pgsql\_monitor]{custom-style="underline"}[\_9000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="underline"} [\'not running\']{custom-style="underline"} [(7)]{custom-style="underline"}[: call=79,]{custom-style="Verbatim Char"}\
+  [\ \ \ \ (1)\ \ \ \ (2)\ \ \ \ \ \ \ \ \ \ \ \ \ (3)\ \ \ \ \ \ \ \ (4)\ \ \ \ \ (5)]{custom-style="Verbatim Char"}\
+  [status=\'complete\',\ exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=0ms, exec=0ms]{custom-style="Verbatim Char"}\
   \
   [(1) 故障リソースID  (2) 検知オペレーション  (3) 故障発生ノード名]{custom-style="Verbatim Char"}\
   [(4) エラー内容  (5) リターンコード]{custom-style="Verbatim Char"}
@@ -417,10 +417,10 @@ pgrex01の各監視先の属性の正常値の例を以下に示します。
 
   ------------------------------------------------------------------------
   [Fencing History:]{custom-style="Verbatim Char"}\
-  [\ \*\ reboot of\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="underline"}[\ successful: delegate=]{custom-style="Verbatim Char"}[pgrex01]{custom-style="underline"}[,]{custom-style="Verbatim Char"}\
-  [\ \ \ \ \ \ \ \ \ \ \ \ \ \ (1)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (2)]{custom-style="Verbatim Char"}\
+  [\ \ \*\ reboot of\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="underline"}[\ successful: delegate=]{custom-style="Verbatim Char"}[pgrex01]{custom-style="underline"}[,]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (2)]{custom-style="Verbatim Char"}\
   [client=pacemaker-controld.21654, origin=pgrex01,]{custom-style="Verbatim Char"}\
-  [ completed=']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
+  [ completed=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
   \
   [(1) STONITH対象ノード  (2) STONITH実行ノード]{custom-style="Verbatim Char"}
 
@@ -646,8 +646,8 @@ pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該
 :::
 
   -----------------------------------------------------------------
-  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   \
   [※ pgrex01がOFFLINEになっている]{custom-style="Verbatim Char"}
 
@@ -667,11 +667,11 @@ pgrex01でpcs status \-\-fullコマンドを実行し、リソース情報、属
 
   ------------------------------------------------------------------------
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex02:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[: \-INFINITY]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ ]{custom-style="Verbatim Char"}[DISCONNECT]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ ]{custom-style="Verbatim Char"}[HS:alone]{custom-style="red-bold"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[: 1]{custom-style="Verbatim Char"}
+  [\ \ \*\ Node: pgrex02:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[: \-INFINITY]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ ]{custom-style="Verbatim Char"}[DISCONNECT]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ ]{custom-style="Verbatim Char"}[HS:alone]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[: 1]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -692,8 +692,8 @@ D-LAN故障と特定された場合は、『[@sec:D-LAN故障](#sec:D-LAN故障)
 :::
 
   ------------------------------------------------------------------------
-  [# grep \'terminating walsender\' /var/log/pg_log/postgresql-2020-04-17.log]{custom-style="Verbatim Char"}\
-  [2020\-04\-17\ 13:13:41\ JST\ 13673\ 5ea65b91\.3569\-2\ 0\ (repuser,\ \[unknown\],\ 192\.168\.2\.2(50338),\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[)\ LOG:\ \ ]{custom-style="Verbatim Char"}[terminating walsender process due to replication timeout]{custom-style="red-bold"}\
+  [# grep \'terminating walsender\' /var/log/pg_log/postgresql-]{custom-style="Verbatim Char"}[yyyy-mm-dd]{custom-style="italic"}[.log]{custom-style="Verbatim Char"}\
+  [日時表示]{custom-style="italic"}[\ 13673\ 5ea65b91\.3569\-2\ 0\ (repuser,\ \[unknown\],\ 192\.168\.2\.2(50338),\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[)\ LOG:\ \ 00000:\ ]{custom-style="Verbatim Char"}[terminating walsender process due to replication timeout]{custom-style="red-bold"}\
   \
   [※\ PostgreSQLのサーバログファイルのファイル名は適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -757,17 +757,17 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
   ------------------------------------------------------------------------
   [： (略)]{custom-style="Verbatim Char"}\
   [Node Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex01:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	\	[: \-INFINITY]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	\	[: DISCONNECT]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	\	[: STOP]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="red-bold"}\	\	\	\	\	[: 0]{custom-style="red-bold"}\	[: Connectivity is lost]{custom-style="red-bold"}\
-  [\ \*\ Node pgrex02:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	\	[: 1000]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	\	[: LATEST]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	\	[: 00000139210029D8]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	\	[: PRI]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="red-bold"}\	\	\	\	\	[: 1]{custom-style="red-bold"}\
+  [\ \ \*\ Node:\ pgrex01:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[: \-INFINITY]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[: DISCONNECT]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[: STOP]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="red-bold"}\	\	\	\	[: 0]{custom-style="red-bold"}\	[: Connectivity is lost]{custom-style="red-bold"}\
+  [\ \ \*\ Node: pgrex02:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[: 1000]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[: LATEST]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[: 00000139210029D8]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[: PRI]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="red-bold"}\	\	\	\	[: 1]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -829,7 +829,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ pgsql_monitor]{custom-style="red-bold"}[\_9000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'not running\' (7): call=79, status=complete, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ pgsql_monitor]{custom-style="red-bold"}[\_9000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'not running\' (7): call=79, status=\'complete\', exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -849,7 +849,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ pgsql_demote_0]{custom-style="red-bold"}[\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=88, status=Timed Out, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ pgsql_demote_0]{custom-style="red-bold"}[\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'error\' (1): call=88, status=\'Timed Out\', exitreason=\'Resource agent did not complete within 60s\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -869,7 +869,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ pgsql_stop_0]{custom-style="red-bold"}[\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=87, status=Timed Out, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ pgsql_stop_0]{custom-style="red-bold"}[\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'error\' (1): call=87, status=\'Timed Out\', exitreason=\'Resource agent did not complete within 60s\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -889,7 +889,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-primary_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=22, status=complete, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ ipaddr\-primary_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'not running\' (1): call=22, status=\'complete\', exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -909,7 +909,7 @@ corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動し�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}[\ \'unknown error\' (1): call=16, status=complete, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ ipaddr\-standby_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}[\ \'unknown error\' (1): call=16, status=\'complete\', exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -933,12 +933,12 @@ ipaddr-replicationの故障(monitor)の場合、リソースを再起動する�
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [:（略）]{custom-style="Verbatim Char"}\
   [Migration Summary:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex01:]{custom-style="red-bold"}\
-  [\ \ \*\ ipaddr\-replication]{custom-style="red-bold"}[: migration\-threshold=0\ ]{custom-style="Verbatim Char"}[fail\-count=1]{custom-style="red-bold"}[\ last\-failure=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
-  [\ \*\ Node pgrex02:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node pgrex01:]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ipaddr\-replication]{custom-style="red-bold"}[: migration\-threshold=0\ ]{custom-style="Verbatim Char"}[fail\-count=1]{custom-style="red-bold"}[\ last\-failure=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\']{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node pgrex02:]{custom-style="Verbatim Char"}\
   \
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr-replication_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=77, status=complete, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ ipaddr-replication_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=77, status=\'complete\', exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -955,8 +955,8 @@ ipaddr-replicationの故障(monitor)の場合、リソースを再起動する�
   ------------------------------------------------------------------------
   [：（略）]{custom-style="Verbatim Char"}\
   [Failed Resource Actions:]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-primary_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=22, status=complete, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}\
-  [\ \*\ pgsql_stop]{custom-style="red-bold"}[\_0 on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'unknown error\' (1): call=87, status=Timed Out, exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
+  [\ \ \*\ ipaddr\-primary_monitor]{custom-style="red-bold"}[\_10000\ on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'not running\' (1): call=22, status=\'complete\', exitreason=\'\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}\
+  [\ \ \*\ pgsql_stop]{custom-style="red-bold"}[\_0 on\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}[\ \'error\' (1): call=87, status=\'Timed Out\', exitreason=\'Resource agent did not complete within 60s\', last\-rc\-change=\']{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\', queued=XXms, exec=XXms]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -982,7 +982,7 @@ ipaddr-replicationの故障(monitor)の場合、リソースを再起動する�
 
   ------------------------------------------------------------------------
   [#\ grep\ \-e\ \'\.\*pacemaker\-controld\.\*notice:\.\*Result\ of\ stop\ operation\ for\.\*:\ error\.\*\'\ \-e\ \'\.\*pacemaker\-controld\.\*error:\.\*Result\ of\ stop\ operation\ for\.\*:\ Timed\ Out\.\*\'\ /var/log/messages]{custom-style="Verbatim Char"}\
-  [Jan\ 20\ 15:22:47\ pgrex01\ <daemon\.err>\ pacemaker\-controld\[11207\]:\ ]{custom-style="Verbatim Char"}[error:\ Result\ of\ stop\ operation\ for\ pgsql]{custom-style="red-bold"}[\ on\ pgrex01:\ Timed\ Out]{custom-style="Verbatim Char"}
+  [日時表示]{custom-style="italic"}[\ pgrex01\ <daemon\.err>\ pacemaker\-controld\[11207\]:\ ]{custom-style="Verbatim Char"}[error:\ Result\ of\ stop\ operation\ for\ pgsql]{custom-style="red-bold"}[\ on\ pgrex01:\ Timed\ Out]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -1000,7 +1000,7 @@ ipaddr-replicationの故障(monitor)の場合、リソースを再起動する�
 
   ------------------------------------------------------------------------
   [#\ grep\ \'\.\*pacemaker\-controld\.\*notice:\.\*is\ now\ lost\.\*\'\ /var/log/messages]{custom-style="Verbatim Char"}\
-  [\　Jan\ \ 9\ 14:24:58\ pgrex01\ <daemon\.notice>\ pacemaker\-controld\[20520\]:\ notice:\ Node\ pgrex02\ state\ ]{custom-style="Verbatim Char"}[is\ now\ lost]{custom-style="red-bold"}
+  [\ \ 日時表示]{custom-style="italic"}[\ pgrex01\ <daemon\.notice>\ pacemaker\-controld\[20520\]:\ notice:\ Node\ pgrex02\ state\ ]{custom-style="Verbatim Char"}[is\ now\ lost]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 

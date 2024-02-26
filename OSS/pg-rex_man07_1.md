@@ -66,7 +66,7 @@ PrimaryおよびStandbyの起動手順については、以降の各項を参照
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
   [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
-  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
+  [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
   
   ------------------------------------------------------------------------
 
@@ -145,6 +145,9 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
 
   ------------------------------------------------------------------------
   [# pcs cluster destroy \-\-all]{custom-style="Verbatim Char"}\
+  [Warning: It is recommended to run 'pcs cluster stop' before destroying the cluster.]{custom-style="Verbatim Char"}\
+  [WARNING: This would kill all cluster processes and then PERMANENTLY remove cluster state and configuration]{custom-style="Verbatim Char"}\
+  [Type 'yes' or 'y' to proceed, anything else to cancel: ]{custom-style="Verbatim Char"}[y]{custom-style="red-bold"}\
   [Warning: Unable to load CIB to get guest and remote nodes from it, those nodes will not be deconfigured.]{custom-style="Verbatim Char"}\
   [pgrex01: Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
   [pgrex02: Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
@@ -152,20 +155,20 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
   [pgrex02: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
   \
   [# pcs cluster setup pgrex_cluster pgrex01 addr=192.168.1.1 addr=192.168.3.1 pgrex02 addr=192.168.1.2 addr=192.168.3.2]{custom-style="Verbatim Char"}\
-  [Destroying cluster on hosts: 'pgrex01', 'pgrex02'...]{custom-style="Verbatim Char"}\
+  [Destroying cluster on hosts: \'pgrex01\', \'pgrex02\'...]{custom-style="Verbatim Char"}\
   [pgrex02: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
   [pgrex01: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
-  [Requesting remove 'pcsd settings' from 'pgrex01', 'pgrex02']{custom-style="Verbatim Char"}\
-  [pgrex01: successful removal of the file 'pcsd settings']{custom-style="Verbatim Char"}\
-  [pgrex02: successful removal of the file 'pcsd settings']{custom-style="Verbatim Char"}\
-  [Sending 'corosync authkey', 'pacemaker authkey' to 'pgrex01', 'pgrex02']{custom-style="Verbatim Char"}\
-  [pgrex02: successful distribution of the file 'corosync authkey']{custom-style="Verbatim Char"}\
-  [pgrex02: successful distribution of the file 'pacemaker authkey']{custom-style="Verbatim Char"}\
-  [pgrex01: successful distribution of the file 'corosync authkey']{custom-style="Verbatim Char"}\
-  [pgrex01: successful distribution of the file 'pacemaker authkey']{custom-style="Verbatim Char"}\
-  [Sending 'corosync.conf' to 'pgrex01', 'pgrex02']{custom-style="Verbatim Char"}\
-  [pgrex01: successful distribution of the file 'corosync.conf']{custom-style="Verbatim Char"}\
-  [pgrex02: successful distribution of the file 'corosync.conf']{custom-style="Verbatim Char"}\
+  [Requesting remove \'pcsd settings\' from \'pgrex01\', \'pgrex02\']{custom-style="Verbatim Char"}\
+  [pgrex01: successful removal of the file \'pcsd settings\']{custom-style="Verbatim Char"}\
+  [pgrex02: successful removal of the file \'pcsd settings\']{custom-style="Verbatim Char"}\
+  [Sending \'corosync authkey\', \'pacemaker authkey\' to \'pgrex01\', \'pgrex02\']{custom-style="Verbatim Char"}\
+  [pgrex02: successful distribution of the file \'corosync authkey\']{custom-style="Verbatim Char"}\
+  [pgrex02: successful distribution of the file \'pacemaker authkey\']{custom-style="Verbatim Char"}\
+  [pgrex01: successful distribution of the file \'corosync authkey\']{custom-style="Verbatim Char"}\
+  [pgrex01: successful distribution of the file \'pacemaker authkey\']{custom-style="Verbatim Char"}\
+  [Sending \'corosync.conf\' to \'pgrex01\', \'pgrex02\']{custom-style="Verbatim Char"}\
+  [pgrex01: successful distribution of the file \'corosync.conf\']{custom-style="Verbatim Char"}\
+  [pgrex02: successful distribution of the file \'corosync.conf\']{custom-style="Verbatim Char"}\
   [Cluster has been successfully set up.]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -203,11 +206,11 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -231,7 +234,8 @@ Onlineになるには数十秒の時間を要する場合があります。
 :::
 
   ------------------------------------------------------------------------
-  [WARNINGS: No stonith devices and stonith-enabled is not false]{custom-style="Verbatim Char"}
+  [WARNINGS:]{custom-style="Verbatim Char"}\
+  [No stonith devices and stonith-enabled is not false]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -270,6 +274,8 @@ Onlineになるには数十秒の時間を要する場合があります。
 
   ------------------------------------------------------------------------
   [# pcs quorum unblock \-\-force]{custom-style="Verbatim Char"}\
+  [Warning: If node(s) 'pgrex02' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
+  [Warning: If node 'pgrex02' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur]{custom-style="Verbatim Char"}\
   [Node: pgrex02 confirmed fenced]{custom-style="Verbatim Char"}\
   [Quorum unblocked]{custom-style="Verbatim Char"}\
   [Waiting for nodes canceled]{custom-style="Verbatim Char"}
@@ -281,6 +287,9 @@ Onlineになるには数十秒の時間を要する場合があります。
 :::
     
 (10) pgrex02のSTONITH履歴をクリアします。
+
+     Primary起動時は、片方のノードのみの起動となるため、正常に起動した場合でも、pcs statusコマンドを実行すると、Fencing Historyに情報が表示されます。
+     そのため、その履歴をクリアします。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -306,35 +315,36 @@ Onlineになるには数十秒の時間を要する場合があります。
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex01]{custom-style="red-bold"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Stopped]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf:pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ fence2\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex01]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   \
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):]{custom-style="red-bold"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="red-bold"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
+  [\ \ \*\ Node:\ pgrex01\ (1):]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
   \
   [：（略）]{custom-style="Verbatim Char"}
 
@@ -367,7 +377,7 @@ Onlineになるには数十秒の時間を要する場合があります。
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
   [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
-  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
+  [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
@@ -433,7 +443,7 @@ Onlineになるには数十秒の時間を要する場合があります。
 
   ------------------------------------------------------------------------
   [$ rsync \-av \-\-size\-only 192.168.2.3:/dbfp/pgarch/arc1/ /dbfp/pgarch/arc1/]{custom-style="Verbatim Char"}\
-  [postgres@192.168.2.3's password:]{custom-style="Verbatim Char"}\
+  [postgres@192.168.2.3\'s password:]{custom-style="Verbatim Char"}\
   [receiving incremental file list]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [sent 1,434 bytes  received 889,422,925 bytes  61,339,610.97 bytes/sec]{custom-style="Verbatim Char"}\
@@ -493,42 +503,42 @@ Onlineになるには数十秒の時間を要する場合があります。
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ Master\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Slave\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf::pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):\	Started\ pgrex01]{custom-style="Verbatim Char"}\
-  [\ \ \*\ storage-mon\	(ocf::heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ fence1\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ fence2\-ipmilan\ \ \ (stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Unpromoted\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started]{custom-style="Verbatim Char"}[\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf:pacemaker:ping):\ \ Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping]{custom-style="Verbatim Char"}\	[\ \ (ocf:pacemaker:ping):]{custom-style="Verbatim Char"}[\ \ Started\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ storage-mon-clone\ [storage-mon]:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):\	Started\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ storage-mon\	(ocf:heartbeat:storage-mon):]{custom-style="Verbatim Char"}[\	Started\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ fence1\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ fence2\-ipmilan\	(stonith:fence_ipmilan):]{custom-style="Verbatim Char"}\	\	[Started\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):]{custom-style="red-bold"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="red-bold"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
+  [\ \ \*\ Node:\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node:\ pgrex02\ (2):]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
   \
   [：（略）]{custom-style="Verbatim Char"}
 
@@ -617,7 +627,7 @@ PrimaryおよびStandbyの停止手順については、以降の項を参照し
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
   [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
-  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
+  [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 
@@ -678,7 +688,7 @@ Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
   [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
-  [\ \ crm_mon: Error: cluster is not available on this node]{custom-style="red-bold"}
+  [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
 

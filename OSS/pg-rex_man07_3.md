@@ -40,20 +40,21 @@
   ------------------------------------------------------------------------
   [\[pgrex02\] # pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\ Master\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Stopped]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ ]{custom-style="Verbatim Char"}[pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -72,7 +73,7 @@
 
   ------------------------------------------------------------------------
   [\[pgrex01\] # su \- postgres]{custom-style="Verbatim Char"}\
-  [最終ログイン: 2020/06/12 (金) 11:38:05 JST日時 pts/0]{custom-style="Verbatim Char"}\
+  [最終ログイン: ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ pts/0]{custom-style="Verbatim Char"}\
   [\[pgrex01\] \$ rm \-rf \$PGDATA]{custom-style="Verbatim Char"}\
   [\[pgrex01\] \$ rm \-rf /dbfp/pgwal/pg_wal]{custom-style="Verbatim Char"}\
   [\[pgrex01\] \$ pg_basebackup \-h 192.168.2.3 \-U repuser \-D \$PGDATA \-X none \-P]{custom-style="Verbatim Char"}\
@@ -83,7 +84,7 @@
   [\ \ \-Uにはレプリケーションユーザを指定]{custom-style="Verbatim Char"}\
   \
   [\[pgrex01\] \$ rsync \-av \-\-size\-only 192.168.2.3:/dbfp/pgarch/arc1/ /dbfp/pgarch/arc1/]{custom-style="Verbatim Char"}\
-  [postgres@192.168.2.3's password:]{custom-style="Verbatim Char"}\
+  [postgres@192.168.2.3\'s password:]{custom-style="Verbatim Char"}\
   [receiving incremental file list]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [sent 1,434 bytes  received 889,422,925 bytes  61,339,610.97 bytes/sec]{custom-style="Verbatim Char"}\
@@ -125,35 +126,35 @@
   ------------------------------------------------------------------------
   [\[pgrex01\] # pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
-  [\ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ ]{custom-style="Verbatim Char"}[Slave\ pgrex01]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf::linuxhajp:pgsql):\ ]{custom-style="Verbatim Char"}[Master\ pgrex02]{custom-style="red-bold"}\
-  [\ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-primary\ \ \ \ \ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ipaddr\-replication\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[\ \ Started\ pgrex02]{custom-style="Verbatim Char"}\
-  [\ \*\ ipaddr\-standby\ (ocf::heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	\	[\ \ Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
-  [\ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Unpromoted\ pgrex01]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Promoted\ pgrex02]{custom-style="red-bold"}\
+  [\ \ \*\ Resource\ Group:\ primary\-group:]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-primary\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ipaddr\-replication\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ ipaddr\-standby\	\	(ocf:heartbeat:IPaddr2):]{custom-style="Verbatim Char"}\	[Started\ ]{custom-style="Verbatim Char"}[pgrex01]{custom-style="red-bold"}\
+  [\ \ \*\ Clone\ Set:\ ping\-clone\ \[ping\]:]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node\ Attributes:]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
-  [\ \*\ Node\ pgrex02\ (2):]{custom-style="red-bold"}\
-  [\ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="red-bold"}\
-  [\ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="red-bold"}\
-  [\ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
+  [\ \ \*\ Node:\ pgrex01\ (1):]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1000]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ LATEST]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-master\-baseline]{custom-style="Verbatim Char"}\	\	[:\ 0000000005000060]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ PRI]{custom-style="Verbatim Char"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node:\ pgrex02\ (2):]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ master\-pgsql]{custom-style="Verbatim Char"}\	\	\	\	[:\ 100]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-data\-status]{custom-style="Verbatim Char"}\	\	\	[:\ STREAMING|SYNC]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ pgsql\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ HS:sync]{custom-style="red-bold"}\
+  [\ \ \ \ \*\ ping\-status]{custom-style="Verbatim Char"}\	\	\	\	[:\ 1]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------

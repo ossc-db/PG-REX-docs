@@ -43,8 +43,8 @@ PostgreSQLのアーカイブログ、バックアップ履歴ファイル[^32]�
   [START WAL LOCATION:]{custom-style="red-bold"}[\ 6A/4E0013D8 (file\ ]{custom-style="Verbatim Char"}[000000730000006A0000004E]{custom-style="red-bold"}[)]{custom-style="Verbatim Char"}\
   [CHECKPOINT LOCATION: 6A/4E002740]{custom-style="Verbatim Char"}\
   [BACKUP METHOD: streamed]{custom-style="Verbatim Char"}\
-  [BACKUP FROM: master]{custom-style="Verbatim Char"}\
-  [START TIME: 2018\-12\-10 14:26:19 JST]{custom-style="Verbatim Char"}\
+  [BACKUP FROM: primary]{custom-style="Verbatim Char"}\
+  [START TIME:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
   [LABEL: pg_basebackup base backup]{custom-style="Verbatim Char"}\
   [START TIMELINE: 73]{custom-style="Verbatim Char"}
 

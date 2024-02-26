@@ -9,7 +9,7 @@ PostgreSQL
 
 ### PostgreSQLのインストール
 
-『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは15のみとなります。
+『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは16のみとなります。
 
 本作業はrootユーザで行います。
 
@@ -20,11 +20,11 @@ PG-REXのインストールに必須のRPMパッケージを以下に示しま�
 :::
 
   ------------------------------------------------------------------------
-  [postgresql15\-libs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql15\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql15\-server\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql15\-contrib\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql15\-docs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}\
   [※ PL/PerlやPL/Tclなどの各種言語インターフェイスが必要な場合は、それぞれに対応するパッケージをインストールしてください。]{custom-style="Verbatim Char"}
@@ -42,7 +42,7 @@ PostgreSQLをRPMパッケージからインストールします。
 :::
 
   ------------------------------------------------------------------------
-  [# rpm \-ivh postgresql15\-libs\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-server\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-contrib\-15.4\-1PGDG.rhel8.x86\_64.rpm postgresql15\-docs\-15.4\-1PGDG.rhel8.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [# rpm \-ivh postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -52,7 +52,7 @@ PostgreSQLをRPMパッケージからインストールします。
 　
 :::
 
-PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-15」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
+PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-16」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
 
 /var/lib/pgsqlのパーミッションは700に変更され、/var/lib/pgsql配下の全ファイルのオーナ、グループがpostgres、postgresに変更されます。
 
@@ -134,7 +134,7 @@ pgrex01とpgrex02で同じ設定値を使用してください。
 :::
 
   ------------------------------------------------------------------------
-  [export PATH=/usr/pgsql\-15/bin:$PATH]{custom-style="red-bold"}\
+  [export PATH=/usr/pgsql\-16/bin:$PATH]{custom-style="red-bold"}\
   [export PGDATA=/dbfp/pgdata/data]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
@@ -214,6 +214,7 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 
   ------------------------------------------------------------------------
   [listen_addresses = \'\*\']{custom-style="Verbatim Char"}\
+  [superuser_reserved_connections = 10]{custom-style="Verbatim Char"}\
   [password_encryption = scram-sha-256]{custom-style="Verbatim Char"}\
   [wal_level = replica]{custom-style="Verbatim Char"}\
   [synchronous_commit = on]{custom-style="Verbatim Char"}\
@@ -245,6 +246,10 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 ::: {custom-style="First Paragraph"}
 　
 :::
+
+- [superuser_reserved_connections]{custom-style="bold"}
+
+    緊急用に余裕を持った値を設定しておく。10を推奨する。
 
 - [password_encryption]{custom-style="bold"}
 
