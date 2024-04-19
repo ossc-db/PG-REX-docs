@@ -89,7 +89,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 
   ------------------------------------------------------------------------
   [# mkdir /mnt/HighAvailability]{custom-style="Verbatim Char"}\
-  [# mount -o ro /var/tmp/rhel\-8\.8\-x86_64-dvd.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
+  [# mount -o ro /var/tmp/rhel\-highavailability\-8\.8\-x86_64\-dvd\.iso /mnt/HighAvailability]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

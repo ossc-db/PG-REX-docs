@@ -43,7 +43,7 @@
 [^43]: [https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/assembly_configuring-fencing-configuring-and-managing-high-availability-clusters#proc_configuring-acpi-for-fence-devices-configuring-fencing](https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/assembly_configuring-fencing-configuring-and-managing-high-availability-clusters#proc_configuring-acpi-for-fence-devices-configuring-fencing)
 
 [^44]: logind.confを修正する手順は、デフォルトターゲットがmultiuser.targetの場合にのみ有効です。graphical.target等の他のデフォルトターゲットの場合は、Red Hat社の次のドキュメントを参照し てください。
-[https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/s2-acpi-disable-logind-ca](https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/s2-acpi-disable-logind-ca)
+[https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/proc_configuring-acpi-for-fence-devices-configuring-fencing](https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html/configuring_and_managing_high_availability_clusters/proc_configuring-acpi-for-fence-devices-configuring-fencing)
 
 [^46]: リソース定義xmlファイル生成時にリソース定義用スクリプトファイル(pm_pcsgen_env.sh)も生成されますが、本マニュアルでは利用しません。
 
@@ -56,5 +56,7 @@
 [^53]: 本マニュアルの『[@sec:PostgreSQLのバックアップ](#sec:PostgreSQLのバックアップ) [PostgreSQLのバックアップ](#sec:PostgreSQLのバックアップ)』にある操作例を参照
 
 [^54]: RHEL HA Add-On 8.8に同梱されたものです。
+
+[^55]: RHEL HA Add-On 8.9に同梱されたものです。
 
 [^56]: 『[@sec:対象とするソフトウェアとバージョン](#sec:対象とするソフトウェアとバージョン) [対象とするソフトウェアとバージョン](#sec:対象とするソフトウェアとバージョン)』を確認して、対象バージョンのドキュメントを参照してください。
