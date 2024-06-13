@@ -1,7 +1,11 @@
-PostgreSQL
+PostgreSQL {#sec:PostgreSQL}
 ----------
 
 本節では、PostgreSQLのインストールおよび基本設定について説明します。
+
+この節を単独で実施する場合は、その準備として『[@sec:インストール_pm](#sec:インストール_pm) [インストール](#sec:インストール_pm)』の(1)を参照して、RHELのインストールDVDをマウントしてリポジトリに登録してください。
+
+PostgreSQLのインストール完了後は、『[@sec:インストール完了後作業_pm](#sec:インストール完了後作業_pm) [インストール完了後作業](#sec:インストール完了後作業_pm)』を参照して、準備前の状態に戻してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -42,7 +46,7 @@ PostgreSQLをRPMパッケージからインストールします。
 :::
 
   ------------------------------------------------------------------------
-  [# rpm \-ivh postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [# dnf install postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

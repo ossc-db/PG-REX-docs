@@ -62,7 +62,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-### インストール
+### インストール {#sec:インストール_pm}
 
 『Pacemaker関連サイト』を参考にpgrex01とpgrex02へPacemakerをインストールします。
 
@@ -199,9 +199,10 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-### インストール完了後作業
+### インストール完了後作業 {#sec:インストール完了後作業_pm}
 
-(1) 追加したdnfコマンドの/media配下、及び/mnt/HighAvailability配下への参照を無効化します。
+(1) この後、PostgreSQLおよび運用補助ツールのインストールを実行しない場合、dnfコマンドの参照先として追加した/media配下、及び/mnt/HighAvailability配下への参照を無効化します。  
+※ 引き続きPostgreSQLおよび運用補助ツールのインストールを実行する場合は、それらを実施した後に、この節での操作を実施します。
 
 ::: {custom-style="First Paragraph"}
 　
