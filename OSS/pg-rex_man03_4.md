@@ -13,7 +13,7 @@ PostgreSQLのインストール完了後は、『[@sec:インストール完了�
 
 ### PostgreSQLのインストール
 
-『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは16のみとなります。
+『PostgreSQLドキュメント』を参考にpgrex01とpgrex02へPostgreSQLをインストールします。PG-REXで使用できるPostgreSQLのバージョンは17のみとなります。
 
 本作業はrootユーザで行います。
 
@@ -24,11 +24,11 @@ PG-REXのインストールに必須のRPMパッケージを以下に示しま�
 :::
 
   ------------------------------------------------------------------------
-  [postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
-  [postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql17\-libs\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql17\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql17\-server\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql17\-contrib\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [postgresql17\-docs\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}\
   [※ PL/PerlやPL/Tclなどの各種言語インターフェイスが必要な場合は、それぞれに対応するパッケージをインストールしてください。]{custom-style="Verbatim Char"}
@@ -46,7 +46,7 @@ PostgreSQLをRPMパッケージからインストールします。
 :::
 
   ------------------------------------------------------------------------
-  [# dnf install postgresql16\-libs\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-server\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86\_64.rpm postgresql16\-docs\-16.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
+  [# dnf install postgresql17\-libs\-17.2\-1PGDG.rhel9.x86\_64.rpm postgresql17\-17.2\-1PGDG.rhel9.x86\_64.rpm postgresql17\-server\-17.2\-1PGDG.rhel9.x86\_64.rpm postgresql17\-contrib\-17.2\-1PGDG.rhel9.x86\_64.rpm postgresql17\-docs\-17.2\-1PGDG.rhel9.x86\_64.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -56,7 +56,7 @@ PostgreSQLをRPMパッケージからインストールします。
 　
 :::
 
-PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-16」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
+PostgreSQLのRPMパッケージをインストールすると「/usr/pgsql-17」にインストールされ、「postgres」というOSのユーザと、「postgres」というグループが作成されます。ただし、作成されたユーザにはパスワードの設定はされていません。また、同名のユーザまたはグループが存在する場合は、新規作成されません。
 
 /var/lib/pgsqlのパーミッションは700に変更され、/var/lib/pgsql配下の全ファイルのオーナ、グループがpostgres、postgresに変更されます。
 
@@ -138,7 +138,7 @@ pgrex01とpgrex02で同じ設定値を使用してください。
 :::
 
   ------------------------------------------------------------------------
-  [export PATH=/usr/pgsql\-16/bin:$PATH]{custom-style="red-bold"}\
+  [export PATH=/usr/pgsql\-17/bin:$PATH]{custom-style="red-bold"}\
   [export PGDATA=/dbfp/pgdata/data]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
@@ -206,11 +206,15 @@ pgrex01で、postgresユーザにてDBクラスタを初期化します。
 
 ### postgresql.confの編集 {#sec:postgresql.confの編集}
 
-pgrex01でpostgresql.confを編集します。本節は、PG-REXを構成するのに必要な設定、注意すべき設定のみ説明しています。PostgreSQL一般の設定については『PostgreSQLドキュメント』を参照してください。
-
-PG-REXを構成するのに必要な設定、注意すべき設定を以下に示します。各パラメータの詳細な説明については、『PostgreSQLドキュメント』を参照してください。
+pgrex01でpostgresql.confを編集します。PG-REXの動作に影響するPostgreSQLのパラメータの設定は本節で説明します。その他のパラメータの役割と設定については『PostgreSQLドキュメント』を参照してください。
 
 本作業はpostgresユーザで行います。
+
+::: {custom-style="First Paragraph"}
+　
+:::
+
+以下にパラメータの設定例を示します。個々の設定については後述の説明を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -250,6 +254,10 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 ::: {custom-style="First Paragraph"}
 　
 :::
+
+- [listen_addresses]{custom-style="bold"}
+
+    PG-REXでは、StandbyからレプリケーションのためのIP接続を受け付けるため、そのアドレスを含むように設定する。
 
 - [superuser_reserved_connections]{custom-style="bold"}
 
@@ -296,10 +304,6 @@ PG-REXを構成するのに必要な設定、注意すべき設定を以下に�
 - [max_replication_slots]{custom-style="bold"}
 
     pg\_basebackupによるバックアップ取得などに備え、余裕を持たせて設定することを推奨する。
-
-::: {custom-style="page-break"}
-　
-:::
 
 - [hot_standby]{custom-style="bold"}
 
@@ -406,7 +410,7 @@ pgrex01で、PostgreSQLにレプリケーションのためのデータベース
 
 ### pg\_hba.confの編集
 
-pg\_hba.confに、PG-REXを構成するのに必要な編集を行います。
+pgrex01のpg\_hba.confを編集して、PG-REXを構成するのに必要な設定を行います。
 
 本作業はpostgresユーザで行います。
 
@@ -414,13 +418,15 @@ pg\_hba.confに、PG-REXを構成するのに必要な編集を行います。
 　
 :::
 
-pgrex01のpg\_hba.confを編集します。pgrex02でも同じファイルを使用するため、両ノードのD-LANアドレスからレプリケーション接続を許可する設定を記述します。
+レプリケーション接続の設定については、pgrex02でも同じファイルを使用するため、両ノードのD-LANアドレスから接続を許可するように記述します。
+
+レプリケーション接続以外の設定については『PostgreSQLドキュメント』を参照してください。
 
 ::: {custom-style="First Paragraph"}
 　
 :::
 
-以下に、このマニュアルで想定している構成を前提とした記述例を示します。各フィールドの詳細な説明については『PostgreSQLドキュメント』を参照してください。
+以下に、このマニュアルで想定している構成での記述例を示します。
 
 ::: {custom-style="First Paragraph"}
 　

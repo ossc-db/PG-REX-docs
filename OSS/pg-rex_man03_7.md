@@ -17,11 +17,11 @@ PG-REXをアンインストールするためには両ノードで作業をし�
     :::
 
   ------------------------------------------------------------------------
-  [# rpm \-e postgresql16\-contrib\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql16\-server\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql16\-docs\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql16\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
-  [# rpm \-e postgresql16\-libs\-16.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql17\-contrib\-17.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql17\-server\-17.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql17\-docs\-17.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql17\-17.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
+  [# rpm \-e postgresql17\-libs\-17.2\-1PGDG.rhel9.x86_64]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 
@@ -219,7 +219,7 @@ ACPI Soft-Off機能が有効化されていることを確認します。
     :::
 
   ------------------------------------------------------------------------
-  [# dnf\ remove\ pg\-rex_operation_tools_script\-16\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\.4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
+  [# dnf\ remove\ pg\-rex_operation_tools_script\-17\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\.4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
   \
   [※ バージョンは適宜読み替えてください。]{custom-style="Verbatim Char"}
 

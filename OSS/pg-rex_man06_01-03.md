@@ -49,7 +49,7 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
 　
 :::
 
-なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running?  error: Could not connect to launcher: Connection refused crm_mon: Connection to cluster failed: Connection refused\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
+なお、pcs status \-\-fullコマンドを実行し、[\"Error: error running crm_mon, is pacemaker running?  crm_mon: Connection to cluster failed: Connection refused\"]{custom-style="Verbatim Char"}と表示された場合、pcs status \-\-fullコマンドを実行したノードのPacemakerは停止しています。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -58,15 +58,14 @@ HAクラスタに発生した故障を特定するために、pcs status \-\-ful
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Cluster\ name:\ ]{custom-style="Verbatim Char"}[HAクラスタ名]{custom-style="italic"}\
-  [Status of pacemakerd: \'Pacemaker is running\' (last updated ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[)]{custom-style="Verbatim Char"}\
   [Cluster Summary:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Stack:\ corosync]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Current\ DC:\ pgrex01\ (1)\ ]{custom-style="Verbatim Char"}[バージョン]{custom-style="italic"}[\ \-\ partition\ with\ quorum]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Stack:\ corosync\ (Pacemaker\ is\ running)]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Current\ DC:\ pgrex01\ (1)\ (]{custom-style="Verbatim Char"}[バージョン]{custom-style="italic"}[)\ \-\ partition\ with\ quorum]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   \
   [Full\ List\ of\ Resources:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
@@ -154,8 +153,8 @@ pcs statusコマンド実行時の各表示部について説明します。
 【ノード情報表示部】
 
   ------------------------------------------------------------------------
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
 
@@ -301,40 +300,36 @@ PINGリソースおよびSTORAGE-MONリソースの稼働状況表示一覧
 
 pgrex01の各監視先の属性の正常値の例を以下に示します。
 
-::: {custom-style="page-break"}
-　
-:::
-
 ::: {custom-style="Table Caption"}
 監視先の属性の正常値
 :::
 
-  -----------------------------------------------------------------------------------
-  属性                      正常値                  説明
-  ------------------------- ----------------------  ---------------------------------
-  master-pgsql              1000(pgrex01),\         PG-REXリソースの属性で、\
-                            100(pgrex02)            PacemakerがPrimaryおよびStandby\
-                                                    のリソースの状態を管理する
+  --------------------------------------------------------------------------------------------
+  属性                    正常値                         説明
+  ----------------------- -----------------------------  -------------------------------------
+  master-pgsql            1000(pgrex01),\                PG-REXリソースの属性で、\
+                          100(pgrex02)                   PacemakerがPrimaryおよびStandby\
+                                                         のリソースの状態を管理する
 
-  pgsql-data-status         LATEST(pgrex01),\       PG-REXリソースの属性で、\
-                            STREAMING|SYNC(pgrex02) PostgreSQLのデータの状態を示す
+  pgsql-data-status       LATEST(pgrex01),\              PG-REXリソースの属性で、\
+                          STREAMING|SYNC(pgrex02)        PostgreSQLのデータの状態を示す
 
-  pgsql-master-baseline     LSN(pgrex01),\          PG-REXリソースの属性で、\
-                            表示なし(pgrex02)       PostgreSQLがpromote(Primaryに\
-                                                    なる)直前のLSNの値を示す
+  pgsql-master-baseline   LSN(pgrex01),\                 PG-REXリソースの属性で、\
+                          表示なし(pgrex02)              PostgreSQLがpromote(Primaryに\
+                                                         なる)直前のLSNの値を示す
 
-  pgsql-status              PRI(pgrex01),\          PG-REXリソースの属性で、\
-                            HS:sync(pgrex02)        PostgreSQLの現在の遷移状態を\
-                                                    示す
+  pgsql-status            PRI(pgrex01),\                 PG-REXリソースの属性で、\
+                          HS:sync(pgrex02)               PostgreSQLの現在の遷移状態を\
+                                                         示す
 
-  pgsql-xlog-loc            正常時は属性そのもの\   PG-REXリソースの属性で、\
-                            が表示されない          起動時にPrimaryが存在しない場合\
-                                                    に、Primaryになれるかどうかを\
-                                                    決定するために設定される
+  pgsql-xlog-loc          正常時は属性そのもの\          PG-REXリソースの属性で、\
+                          が表示されない                 起動時にPrimaryが存在しない場合\
+                                                         に、Primaryになれるかどうかを\
+                                                         決定するために設定される
 
-  ping-status               1                       ネットワーク経路の状況を示す
+  ping-status             1                              ネットワーク経路の状況を示す
 
-  -----------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------------------
 
 ::: {custom-style="page-break"}
 　
@@ -647,7 +642,7 @@ pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該
 
   -----------------------------------------------------------------
   [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   \
   [※ pgrex01がOFFLINEになっている]{custom-style="Verbatim Char"}
 
@@ -744,7 +739,7 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
 
   --------------------------------------------------------------------------------------
 
-::: {custom-style="page-break"}
+::: {custom-style="First Paragraph"}
 　
 :::
 
@@ -772,7 +767,7 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
 
   ------------------------------------------------------------------------
 
-::: {custom-style="First Paragraph"}
+::: {custom-style="page-break"}
 　
 :::
 

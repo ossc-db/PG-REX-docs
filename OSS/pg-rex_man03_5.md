@@ -25,7 +25,7 @@ PG-REX運用補助ツールのインストール必須のRPMパッケージを�
 　
 :::
 
-1. [pg\-rex_operation_tools_script\-16.0\-1.el9.noarch.rpm]{custom-style="Verbatim Char"}
+1. [pg\-rex_operation_tools_script\-17.0\-1.el9.noarch.rpm]{custom-style="Verbatim Char"}
 2. [Net_OpenSSH\-0.62\-1.el9.x86_64.rpm]{custom-style="Verbatim Char"}
 3. [perl\-IO\-Tty\-1.16\-4.el9.x86_64.rpm]{custom-style="Verbatim Char"} [^50]
 
@@ -40,7 +40,7 @@ PG-REX運用補助ツールをRPMパッケージからインストールしま�
 :::
 
   ------------------------------------------------------------------------
-  [# dnf\ install\ pg\-rex_operation_tools_script\-16\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\-4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
+  [# dnf\ install\ pg\-rex_operation_tools_script\-17\.0\-1\.el9\.noarch\.rpm\ Net_OpenSSH\-0\.62\-1\.el9\.x86_64\.rpm\ perl\-IO\-Tty\-1\.16\-4\.el9\.x86_64\.rpm]{custom-style="Verbatim Char"}\
 
   ------------------------------------------------------------------------
 

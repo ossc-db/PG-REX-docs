@@ -77,12 +77,12 @@ pgrex01のノード状態がOFFLINEとなっていない場合は、【STEP3】�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:]{custom-style="Verbatim Char"} [日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\
@@ -213,12 +213,12 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Unpromoted\ pgrex01]{custom-style="red-bold"}\
@@ -320,11 +320,11 @@ pgrex02のノード状態がOFFLINEとなっていない場合は、【STEP3】�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex02\ (2):\ OFFLINE]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
@@ -458,12 +458,12 @@ pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\

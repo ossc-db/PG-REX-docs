@@ -303,8 +303,8 @@ Standbyの起動 {#sec:Standbyの起動}
   [5. IC\-LAN が接続されていることを確認]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [6. Primary からベースバックアップ取得]{custom-style="Verbatim Char"}\
-  [22631/22631 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   [NOTICE:  all required WAL segments have been archived]{custom-style="Verbatim Char"}\
+  [22631/22631 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   [\.\.\.\[OK\]]{custom-style="red-bold"}\
   [7. Primary のアーカイブディレクトリと同期]{custom-style="Verbatim Char"}\
   [000000010000000000000002.partial]{custom-style="Verbatim Char"}\

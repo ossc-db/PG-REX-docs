@@ -136,11 +136,11 @@ pgrex01のPacemakerを起動します。起動する手順は『[@sec:Primaryの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [\ \ \*\ Node\ pgrex02\ (2):\ OFFLINE]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
@@ -193,12 +193,12 @@ pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
@@ -280,12 +280,12 @@ S-LAN故障を検知し、pgrex01でPostgreSQLリソース(pgsql)が停止した
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\
@@ -333,12 +333,12 @@ S-LAN故障を検知し、pgrex01でPostgreSQLリソース(pgsql)が停止した
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -409,12 +409,12 @@ pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Unpromoted\ pgrex01]{custom-style="red-bold"}\
@@ -495,12 +495,12 @@ D-LAN故障を検知し、pgrex02を切り離した状態となっています�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Promoted\ pgrex01]{custom-style="red-bold"}\
@@ -544,11 +544,11 @@ pgrex02のPacemakerを停止します。停止する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \ 
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex02\ (2):\ OFFLINE]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
 
@@ -615,12 +615,12 @@ pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
@@ -702,12 +702,12 @@ pgrex02のPacemakerを起動します。起動する手順は『[@sec:Standbyの
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Promoted\ pgrex02]{custom-style="red-bold"}\
@@ -751,12 +751,12 @@ pgrex01のPacemakerを停止します。停止する手順は『[@sec:PostgreSQL
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
@@ -826,12 +826,12 @@ pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Unpromoted\ pgrex01]{custom-style="red-bold"}\

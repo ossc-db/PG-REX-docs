@@ -65,7 +65,6 @@ PrimaryおよびStandbyの起動手順については、以降の各項を参照
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
-  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
   [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
   
   ------------------------------------------------------------------------
@@ -149,10 +148,10 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
   [WARNING: This would kill all cluster processes and then PERMANENTLY remove cluster state and configuration]{custom-style="Verbatim Char"}\
   [Type 'yes' or 'y' to proceed, anything else to cancel: ]{custom-style="Verbatim Char"}[y]{custom-style="red-bold"}\
   [Warning: Unable to load CIB to get guest and remote nodes from it, those nodes will not be deconfigured.]{custom-style="Verbatim Char"}\
-  [pgrex01: Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
   [pgrex02: Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
-  [pgrex01: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
+  [pgrex01: Stopping Cluster (pacemaker)...]{custom-style="Verbatim Char"}\
   [pgrex02: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
+  [pgrex01: Successfully destroyed cluster]{custom-style="Verbatim Char"}\
   \
   [# pcs cluster setup pgrex_cluster pgrex01 addr=192.168.1.1 addr=192.168.3.1 pgrex02 addr=192.168.1.2 addr=192.168.3.2]{custom-style="Verbatim Char"}\
   [Destroying cluster on hosts: \'pgrex01\', \'pgrex02\'...]{custom-style="Verbatim Char"}\
@@ -206,11 +205,11 @@ PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動す�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}
   
   ------------------------------------------------------------------------
@@ -315,11 +314,11 @@ Onlineになるには数十秒の時間を要する場合があります。
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex01]{custom-style="red-bold"}\
@@ -376,7 +375,6 @@ Onlineになるには数十秒の時間を要する場合があります。
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
-  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
   [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
@@ -419,8 +417,8 @@ Onlineになるには数十秒の時間を要する場合があります。
   [$ rm \-rf \$PGDATA]{custom-style="Verbatim Char"}\
   [$ rm \-rf /dbfp/pgwal/pg_wal]{custom-style="Verbatim Char"}\
   [$ pg_basebackup \-h 192.168.2.3 \-U repuser \-D $PGDATA \-X none \-P]{custom-style="Verbatim Char"}\
-  [70762/70762 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   [NOTICE:  all required WAL segments have been archived]{custom-style="Verbatim Char"}\
+  [70762/70762 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   \
   [※ \-hにはレプリケーション受付用の仮想IPアドレス]{custom-style="Verbatim Char"}\
   [\ \ \-Uにはレプリケーションユーザを指定]{custom-style="Verbatim Char"}
@@ -503,12 +501,12 @@ Onlineになるには数十秒の時間を要する場合があります。
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	Promoted\ pgrex01]{custom-style="Verbatim Char"}\
@@ -626,7 +624,6 @@ PrimaryおよびStandbyの停止手順については、以降の項を参照し
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
-  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
   [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------
@@ -687,7 +684,6 @@ Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [Error: error running crm_mon, is pacemaker running?]{custom-style="red-bold"}\
-  [\ \ error:\ Could\ not\ connect\ to\ launcher:\ Connection refused]{custom-style="red-bold"}\
   [\ \ crm_mon: Connection to cluster failed: Connection refused]{custom-style="red-bold"}
 
   ------------------------------------------------------------------------

@@ -252,6 +252,7 @@ PG-REX運用補助ツールを使用したノード切り替えは、PG-REXのPr
   [00000011000000000000000C]{custom-style="Verbatim Char"}\
   [00000012000000000000000E]{custom-style="Verbatim Char"}\
   [00000013.history]{custom-style="Verbatim Char"}\
+  [Starting Cluster...]{custom-style="Verbatim Char"}\
   \
   [\*\*\*\* pgrex01 が Standby として起動しました \*\*\*\*]{custom-style="Verbatim Char"}\
   \
@@ -272,7 +273,6 @@ PG-REX運用補助ツールを使用したノード切り替えは、PG-REXのPr
 【注意】
 
 Pacemakerの監視を停止中(上記の4～6の間)にコマンドが異常終了した場合は、Pacemakerの監視が停止している可能性があるため、pcs statusコマンドを実行しHAクラスタ状態を確認してください。pcs statusコマンドの実行結果のリソース情報表示部に\"unmanaged\"が表示されている場合はPacemakerの監視が停止しています。Pacemakerの監視が停止している場合は、Pacemakerの監視を再開してください。
-
 Pacemakerの監視を再開するには以下のコマンドを実行します。
 
 ::: {custom-style="First Paragraph"}
@@ -332,12 +332,12 @@ Pacemakerの監視を再開するには以下のコマンドを実行します�
   ------------------------------------------------------------------------
   [# pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
+  [\ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex02]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node pgrex01\ (1):\ OFFLINE]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
+  [\ \ \*\ Node pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\

@@ -40,13 +40,13 @@
   ------------------------------------------------------------------------
   [\[pgrex02\] # pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex02]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
   [\ \ \*\ Node\ pgrex01\ (1):\ OFFLINE]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):]{custom-style="Verbatim Char"}[\	Promoted\ pgrex02]{custom-style="red-bold"}\
@@ -77,8 +77,8 @@
   [\[pgrex01\] \$ rm \-rf \$PGDATA]{custom-style="Verbatim Char"}\
   [\[pgrex01\] \$ rm \-rf /dbfp/pgwal/pg_wal]{custom-style="Verbatim Char"}\
   [\[pgrex01\] \$ pg_basebackup \-h 192.168.2.3 \-U repuser \-D \$PGDATA \-X none \-P]{custom-style="Verbatim Char"}\
-  [70762/70762 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   [NOTICE:  all required WAL segments have been archived]{custom-style="Verbatim Char"}\
+  [70762/70762 kB (100%), 1/1 テーブル空間]{custom-style="Verbatim Char"}\
   \
   [※ \-hにはレプリケーション受付用の仮想IPアドレス、]{custom-style="Verbatim Char"}\
   [\ \ \-Uにはレプリケーションユーザを指定]{custom-style="Verbatim Char"}\
@@ -126,13 +126,13 @@
   ------------------------------------------------------------------------
   [\[pgrex01\] # pcs status \-\-full]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Last updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}\
-  [\ \ \*\ Last change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ updated:\ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ on\ pgrex01]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Last\ change:\ \ ]{custom-style="Verbatim Char"}[日時表示]{custom-style="italic"}[\ by\ hacluster\ via\ crmd\ on\ pgrex01]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   \
   [Node List:]{custom-style="Verbatim Char"}\
-  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.16.2]{custom-style="red-bold"}\
-  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.16.2]{custom-style="Verbatim Char"}\
+  [\ \ \*\ Node\ pgrex01\ (1):\ online,\ feature\ set\ 3.19.0]{custom-style="red-bold"}\
+  [\ \ \*\ Node\ pgrex02\ (2):\ online,\ feature\ set\ 3.19.0]{custom-style="Verbatim Char"}\
   [：（略）]{custom-style="Verbatim Char"}\
   [\ \ \*\ Clone\ Set:\ pgsql\-clone\ \[pgsql\]\ (promotable):]{custom-style="Verbatim Char"}\
   [\ \ \ \ \*\ pgsql]{custom-style="Verbatim Char"}\	[\ (ocf:linuxhajp:pgsql):\	]{custom-style="Verbatim Char"}[Unpromoted\ pgrex01]{custom-style="red-bold"}\
