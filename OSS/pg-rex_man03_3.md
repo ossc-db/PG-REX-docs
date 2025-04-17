@@ -338,7 +338,7 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
 　
 :::
 
-/etc/sysconfig/pacemakerのPCMK_fail_fastのコメントアウトを外し、以下の通り編集します。
+/etc/sysconfig/pacemakerのPCMK_fail_fastとPCMK_panic_actionを以下の通り編集します。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -347,6 +347,8 @@ Pacemakerをインストールする前に、OSの確認、RHELのインスト�
   ------------------------------------------------------------------------
   [： (省略)]{custom-style="Verbatim Char"}\
   [PCMK_fail_fast=yes]{custom-style="red-bold"}\
+  [： (省略)]{custom-style="Verbatim Char"}\
+  [PCMK_panic_action=sync-reboot]{custom-style="red-bold"}\
   [： (省略)]{custom-style="Verbatim Char"}
 
   ------------------------------------------------------------------------
