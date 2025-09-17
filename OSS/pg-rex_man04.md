@@ -201,6 +201,7 @@ Primaryを起動します。
 以下のいずれかのGUCを変更した後にPrimary起動を試みるとPostgreSQLが起動しないことがあります。新しい設定値は、変更前の設定値以上にする必要があるためです。
 
 -   max_connections
+-   max_wal_senders
 -   max_worker_processes
 -   max_prepared_transactions
 -   max_locks_per_transaction
