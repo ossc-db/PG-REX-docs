@@ -58,4 +58,6 @@
 
 [^52]: 本マニュアルの『[@sec:PostgreSQLのバックアップ](#sec:PostgreSQLのバックアップ) [PostgreSQLのバックアップ](#sec:PostgreSQLのバックアップ)』にある操作例を参照
 
+[^55]: [https://github.com/ossc-db/PG-REX-tools/releases](https://github.com/ossc-db/PG-REX-tools/releases)
+
 [^56]: 『[@sec:対象とするソフトウェアとバージョン](#sec:対象とするソフトウェアとバージョン) [対象とするソフトウェアとバージョン](#sec:対象とするソフトウェアとバージョン)』を確認して、対象バージョンのドキュメントを参照してください。

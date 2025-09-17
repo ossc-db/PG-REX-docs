@@ -19,8 +19,8 @@ Pacemaker関連サイト
 
 -   [https://clusterlabs.org/pacemaker/doc](https://clusterlabs.org/pacemaker/doc) (マニュアル[^56])
 -   [https://clusterlabs.org](https://clusterlabs.org) (Linux-HAのメインサイト)
--   [https://linux-ha.osdn.jp/wp](https://linux-ha.osdn.jp/wp) (Linux-HA Japanプロジェクトのサイト)
--   [https://ja.osdn.net/projects/linux-ha](https://ja.osdn.net/projects/linux-ha) (Linux-HA Japanの開発者向のサイト)
+-   [https://linux-ha-japan.github.io](https://linux-ha-japan.github.io) (Linux-HA Japanプロジェクトのサイト)
+-   [https://github.com/linux-ha-japan](https://github.com/linux-ha-japan) (Linux-HA Japanの開発者向のサイト)
 
     ⇒本マニュアルでは、上記をまとめて『Pacemaker関連サイト』と呼びます。
 
@@ -76,11 +76,11 @@ PostgreSQL 16付属ドキュメント
   ----------------------------------------------------------------------------------
   OS                                                     バージョン
   ------------------------------------------------------ ----------------------
-  Red Hat Enterprise Linux[^48]                          9.2, 9.3, 9.4, 9.5
+  Red Hat Enterprise Linux[^48]                          9.2, 9.3, 9.4, 9.5, 9.6
   
   Red Hat Enterprise Linux High Availability Add-On[^49] 9.2, 9.3,\
                                                          9.4 + RHBA-2024:6176,\
-                                                         9.5
+                                                         9.5, 9.6
 
   ----------------------------------------------------------------------------------
 
@@ -94,27 +94,25 @@ PostgreSQL 16付属ドキュメント
 対象とするミドルウェアとバージョン
 :::
   ----------------------------------------------------------------------------------
-  ミドルウェア                                           バージョン
-  ------------------------------------------------------ -------------------
-  PostgreSQL                                             16
+  ミドルウェア                                 バージョン
+  -------------------------------------------- ------------------------------
+  PostgreSQL                                   16
 
-  Pacemaker                                              2.1.5-9(9.2),\
-                                                         2.1.6-9(9.3),\
-                                                         2.1.7-5.2(9.4),\
-                                                         2.1.8-3(9.5)
+  Pacemaker                                    2.1.5-9(9.2), 2.1.6-9(9.3),\
+                                               2.1.7-5.2(9.4), 2.1.8-3(9.5),\
+                                               2.1.9-1.2(9.6)
 
-  pcs                                                    0.11.4-7(9.2),\
-                                                         0.11.6-3(9.3),\
-                                                         0.11.7-2(9.4),\
-                                                         0.11.8-1(9.5)
+  pcs                                          0.11.4-7(9.2), 0.11.6-3(9.3),\
+                                               0.11.7-2(9.4), 0.11.8-1(9.5),\
+                                               0.11.9-2(9.6)
 
-  pm_extra_tools                                         1.5, 1.6
+  pm_extra_tools                               1.5, 1.6
 
-  PG-REX運用補助ツール                                   16.0
+  PG-REX運用補助ツール                         16.0
 
-  Net_OpenSSH                                            0.62-1
+  Net_OpenSSH                                  0.62-1
 
-  perl-IO-Tty                                            1.16-4
+  perl-IO-Tty                                  1.16-4
   ----------------------------------------------------------------------------------
 
 ※ Pacemakerおよびpcsのバージョンの後に括弧で書かれている数値は、同梱されているRHEL HA Add-Onのバージョンを示します。

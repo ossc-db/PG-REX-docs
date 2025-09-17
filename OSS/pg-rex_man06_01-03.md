@@ -165,8 +165,6 @@ pcs statusコマンド実行時の各表示部について説明します。
 
 各ノードの名前やPacemakerの稼働状態が表示されます。稼働状態にはOnline、OFFLINE、UNCLEAN(online)、UNCLEAN(offline)が存在します。
 
-また、Pacemaker稼働時は、HAクラスタを構成しているノードが\"\[\]\"内に表示されます。
-
 ノード名の横に括弧で表示されている数字はノードIDを表します。
 
 ::: {custom-style="First Paragraph"}
@@ -486,10 +484,10 @@ IC-LANの通信状態
 
   -------------------------------------------------
   corosync-cfgtool実行結果の表示    通信状態の説明
-  -------------------------------------------------
-  connected                        接続状態
+  --------------------------------- ---------------
+  connected                         接続状態
 
-  disconnected                     未接続状態
+  disconnected                      未接続状態
   -------------------------------------------------
 
 ::: {custom-style="page-break"}
@@ -639,7 +637,7 @@ corosync-cfgtool -sコマンドでは、出力が「localhost」、「connected�
 
 【ノードの起動状態の確認】
 
-pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該当する場合、『[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#:sec:_var_log_messagesの確認)』へ進みます。
+pgrex02のpcs status \-\-fullの実行結果のノード表示部が以下に該当する場合、『[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#sec:_var_log_messagesの確認)』へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
@@ -778,7 +776,7 @@ pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数
 
 ### corosync-cfgtool -sによるIC-LAN状態の確認
 
-corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動しているノードでcorosync-cfgtoolコマンドを実行してIC-LAN通信状態を確認し、「[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#:sec:_var_log_messagesの確認)」へ進みます。
+corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動しているノードでcorosync-cfgtoolコマンドを実行してIC-LAN通信状態を確認し、「[@sec:_var_log_messagesの確認](#sec:_var_log_messagesの確認) [/var/log/messagesの確認](#sec:_var_log_messagesの確認)」へ進みます。
 
 ::: {custom-style="First Paragraph"}
 　
