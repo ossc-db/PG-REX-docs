@@ -1,0 +1,459 @@
+// Copyright (C) 2026, NTT, Inc.
+
+== コマンド直接実行の運用
+
+本章では、コマンドを直接実行して運用する手順を説明します。PG-REX運用補助ツールを用いて運用する場合は、『 <<_起動と停止,起動と停止>> 』および『 <<_メンテナンス時の対応,メンテナンス時の対応>> 』を参照してください。
+
+=== 起動と停止
+
+本節では、コマンドを直接実行して起動と停止を行う手順を説明します。
+
+==== PG-REXの起動
+
+PG-REXの起動は、一方のノードでPrimaryを起動させ、起動完了後、もう一方のノードでStandbyを起動させます。どちらのノードをPrimary、Standbyとして稼働させるかは、ユーザが決定します。
+
+PrimaryおよびStandbyの起動手順については、以降の各項を参照してください。
+
+==== Primaryの起動
+
+本節では、Primaryの起動手順を説明します。
+
+. どのノードをPrimaryとして起動するか決定します。
++
+PG-REXでは、最新のDBデータを持つノードをPrimaryとして起動しなければなりません。古いDBデータを持つノードをPrimaryとして起動すると、その古い分だけDBデータは失われてしまいます。
++
+以下は、Primaryとして起動するノードを決めるときの考え方の例です。
++
+* DBクラスタが片方のノードのみに存在し、そのDBクラスタを使ってPG-REXを起動する場合(初めてPrimaryを起動する場合を含む)は、DBクラスタが存在するノードをPrimaryとして起動する。
+* DBクラスタが両方のノードに存在する場合は、直前までPrimaryとして稼働していたノードをPrimaryとして起動する。
+* 既存のDBクラスタを使わず(もしくは既存のDBクラスタが壊れている)、以前に取得したベースバックアップからPG-REXを起動する場合は、そのベースバックアップを展開したノードをPrimaryとして起動する。
+
+
++
+以降の手順では、pgrex01をPrimaryとして起動します。
++
+. pgrex01およびpgrex02で、Pacemakerが停止していることを確認します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs status --full
+[red]*Error: error running crm_mon, is pacemaker running?*
+  [red]*crm_mon: Connection to cluster failed: Connection refused*
+....  
++
+. ベースバックアップからPrimaryを起動する場合に限り、pgrex01でPostgreSQL単体のアーカイブリカバリを行います。
++
+アーカイブリカバリの手順については、『PostgreSQLドキュメント』を参照してください。アーカイブリカバリが完了したら、PostgreSQLを停止します。
++
+本作業はpostgresユーザで行います。
++
+[source, subs="quotes"]
+....
+$ pg_ctl start
+[red]*サーバの起動完了を待っています....*
+：(略)
+[red]*完了*
+[red]*サーバ起動完了*
+$ pg_ctl stop
+[red]*サーバ停止処理の完了を待っています....完了*
+[red]*サーバは停止しました*
+....
++
+[CAUTION]
+====
+PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動することを推奨しません。これは、アーカイブリカバリにより起動に時間がかかり、Pacemakerによって起動失敗とみなされてしまう可能性があるからです。そのため、Primaryでアーカイブリカバリを行う場合は、Pacemaker経由ではなく、まずはPostgreSQL単体で起動させるようにしてください。アーカイブリカバリの完了後、PostgreSQLを停止させた上で、Primaryの起動の手順を行います。これにより、Primary起動時のアーカイブリカバリは必要なくなるため、Primaryの起動に時間がかかることはありません。
+
+また、PG-REXでリカバリを行う場合は、必ず最新の状態となります。
+
+アーカイブリカバリを行う際にユーザが追加した設定は、アーカイブリカバリ終了後にすべて削除してください。
+====
++
+. pgrex01で起動禁止フラグのファイルが存在する場合は削除します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# rm /var/lib/pgsql/tmp/PGSQL.lock
+....
++
+. 初回起動時、もしくは新しいリソース定義xmlファイルを反映させる場合、HAクラスタを作成します。すでにHAクラスタが存在する場合は、既存のHAクラスタを削除します。
++
+HAクラスタの作成には、HAクラスタ名、それぞれのノードのホスト名とインターコネクトLANのIPアドレス2つのセットを2組指定します。
++
+本作業はrootユーザで行います。
++
+[source, subs="quotes"]
+....
+# pcs cluster destroy --all
+Warning: It is recommended to run 'pcs cluster stop' before destroying the cluster.
+WARNING: This would kill all cluster processes and then PERMANENTLY remove cluster state and configuration
+Type 'yes' or 'y' to proceed, anything else to cancel: [red]*y*
+Warning: Unable to load CIB to get guest and remote nodes from it, those nodes will not be deconfigured.
+pgrex02: Stopping Cluster (pacemaker)...
+pgrex01: Stopping Cluster (pacemaker)...
+pgrex02: Successfully destroyed cluster
+pgrex01: Successfully destroyed cluster
+
+# pcs cluster setup pgrex_cluster pgrex01 addr=192.168.1.1 addr=192.168.3.1 pgrex02 addr=192.168.1.2 addr=192.168.3.2
+Destroying cluster on hosts: 'pgrex01', 'pgrex02'...
+pgrex02: Successfully destroyed cluster
+pgrex01: Successfully destroyed cluster
+Requesting remove 'pcsd settings' from 'pgrex01', 'pgrex02'
+pgrex01: successful removal of the file 'pcsd settings'
+pgrex02: successful removal of the file 'pcsd settings'
+Sending 'corosync authkey', 'pacemaker authkey' to 'pgrex01', 'pgrex02
+pgrex01: successful distribution of the file 'corosync authkey'
+pgrex01: successful distribution of the file 'pacemaker authkey'
+pgrex02: successful distribution of the file 'corosync authkey'
+pgrex02: successful distribution of the file 'pacemaker authkey'
+Sending 'corosync.conf' to 'pgrex01', 'pgrex02'
+pgrex01: successful distribution of the file 'corosync.conf'
+pgrex02: successful distribution of the file 'corosync.conf'
+Cluster has been successfully set up.
+....  
++
+. pgrex01でPrimaryを起動します。
++
+本作業はrootユーザで行います。
++
+[source, subs="quotes"]
+....
+# pcs cluster start
+Starting Cluster...
+....
++
+. pgrex01のPacemakerが起動したことを確認します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+  * Last change:  _日時表示_ by hacluster via crmd on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+：（略）
+....  
++
+Onlineになるには数十秒の時間を要する場合があります。
++
+[CAUTION]
+====
+以下のWARNINGS表示はSTONITH設定が行われていないことによるものですので、現段階では問題ありません。
+
+[source, subs="normal"]
+....
+WARNINGS:
+No stonith devices and stonith-enabled is not false
+....
+====
++
+. 初回起動時、もしくは新しいリソース定義xmlファイルを反映させる場合、リソース定義xmlファイルを反映させます。
++
+pgrex01でリソース定義xmlファイルを反映させるコマンドを実行します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs cluster cib-push pm_pcsgen_env.xml --config
+CIB updated
+....  
++
+. quorumの解除をします。
++
+quorumを解除するコマンドを実行します。 +
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs quorum unblock --yes
+Warning: If node(s) 'pgrex02' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur
+Warning: If node 'pgrex02' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur
+Node: pgrex02 confirmed fenced
+Quorum unblocked
+Waiting for nodes canceled
+....
++    
+. pgrex02のSTONITH履歴をクリアします。
++
+Primary起動時は、片方のノードのみの起動となるため、正常に起動した場合でも、pcs statusコマンドを実行すると、Fencing Historyに情報が表示されます。 +
+そのため、その履歴をクリアします。
++
+[source, subs="normal"]
+....
+# stonith_admin -c -H pgrex02
+....
++
+. pgrex01でpcs status --full コマンドを実行し、PrimaryのPacemakerが正常に起動したことを確認します。
++
+本作業はrootユーザで行います。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+  * Last change:  _日時表示_ by hacluster via crmd on pgrex01
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): online, feature set 3.20.1*
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Promoted pgrex01*
+    * pgsql     (ocf:linuxhajp:pgsql):   Stopped
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started [red]*pgrex01*
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started [red]*pgrex01*
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         Started [red]*pgrex01*
+：（略）
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex01*
+：（略）
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex01*
+：（略）
+  * fence2-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex01*
+：（略）
+
+Node Attributes:
+  * [red]*Node: pgrex01 (1):*
+    * master-pgsql                      : [red]*1000*
+    * pgsql-data-status                 : [red]*LATEST*
+    * pgsql-master-baseline             : 0000000005000060
+    * pgsql-status                      : [red]*PRI*
+    * ping-status                       : [red]*1*
+
+：（略）
+....
+
+
+==== Standbyの起動
+
+本節では、Standbyの起動手順を説明します。以降の手順では、pgrex02をStandbyとして起動します。
+
+. pgrex01でPrimaryが稼働中であること、およびpgrex02でPacemakerが停止していることを確認します。
++
+pgrex02でPacemakerが稼働中の場合はPacemakerを停止します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs status --full
+[red]*Error: error running crm_mon, is pacemaker running?*
+  [red]*crm_mon: Connection to cluster failed: Connection refused*
+....
++
+. 以下のいずれかの場合に限り、Primaryから新たにベースバックアップを取得します。
++
+* pgrex02が初回起動時の場合
+* pgrex02にDBクラスタ(または展開されたベースバックアップ)が存在しない場合
+* pgrex02に起動禁止フラグのファイル(/var/lib/pgsql/tmp/PGSQL.lock)が存在する場合 +
+起動禁止フラグのファイルが存在するということは、前回停止時(異常終了も含む)にpgrex02がPrimaryとして稼働していたことを意味します。このようなノードをStandbyとして起動する場合(例えば、異常終了した旧Primaryのノードを、フェイルオーバ後に再組み込みする場合)は、Primaryからベースバックアップを取得する必要があります。一方、例えば、Standbyとして稼働していたノードを、停止後に再び起動する場合は、起動禁止フラグのファイルが存在せず、ベースバックアップの取得は不要となります。
+* pgrex02に存在するDBクラスタが非常に古い場合 +
+Standbyを長期間停止していたなどで、pgrex02のDBクラスタがpgrex01のDBクラスタと比べて非常に古い場合。この場合、pgrex02のDBクラスタをそのまま使用するとリカバリが大量に必要になります。
+* pgrex01で稼働中のPrimaryにレプリケーション接続ができない場合 +
+たとえば、システムIDが異なる、タイムライン履歴が一致しないなどの場合。
++
+* 上記のいずれかに当てはまる場合 +
+Primaryからバックアップを取得しなければならないため、『PostgreSQLドキュメント』を参考に、pgrex01からバックアップを取得し、pgrex02の$PGDATAに展開します。バックアップの方法は、システムの要件に応じて決める必要があります。例えば、pgrex02において、postgresユーザで以下の操作を行い、バックアップを取得します。pg_basebackupコマンドの詳細は、『PostgreSQLドキュメント』を参照してください。 +
+本作業はpostgresユーザで行います。
++
+[source, subs="normal"]
+....
+$ rm -rf $PGDATA
+$ rm -rf /dbfp/pgwal/pg_wal
+$ pg_basebackup -h 192.168.2.3 -U repuser -D $PGDATA -X none -P
+NOTICE:  all required WAL segments have been archived
+70762/70762 kB (100%), 1/1 テーブル空間
+
+※ -hにはレプリケーション受付用の仮想IPアドレス
+   -Uにはレプリケーションユーザを指定
+....
++
+. pgrex01からpgrex02へアーカイブディレクトリを同期します。
++
+本作業はpostgresユーザで行います。
++
+アーカイブディレクトリの同期は必ずPrimaryからStandbyに行ってください。誤ってStandbyからPrimaryに同期すると、DBデータの一部が失われる可能性があります。
++
+[source, subs="normal"]
+....
+$ rsync -av --size-only 192.168.2.3:/dbfp/pgarch/arc1/ /dbfp/pgarch/arc1/
+postgres@192.168.2.3's password:
+receiving incremental file list
+：（略）
+sent 1,434 bytes  received 889,422,925 bytes  61,339,610.97 bytes/sec
+total size is 889,200,754  speedup is 1.00
+
+※ 接続先はレプリケーション受付用の仮想IPアドレス
+....
++
+. pgrex02で起動禁止フラグのファイルが存在する場合は削除します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# rm /var/lib/pgsql/tmp/PGSQL.lock
+....
++
+. pgrex02でStandbyを起動します。
++
+本作業はrootユーザで行います。
++
+[source, subs="quotes"]
+....
+# pcs cluster start
+Starting Cluster...
+....
++
+. pgrex02でpcs status --full コマンドを実行し、StandbyのPacemakerが正常に起動したことを確認します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+  * Last change:  _日時表示_ by hacluster via crmd on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex01
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Unpromoted pgrex02*
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         Started [red]*pgrex02*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):     Started pgrex01
+    * ping      (ocf:pacemaker:ping):     [red]*Started pgrex02*
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex01
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex02*
+  * fence1-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex02*
+  * fence2-ipmilan      (stonith:fence_ipmilan):         Started pgrex01
+：（略）
+
+Node Attributes:
+  * Node: pgrex01 (1):
+    * master-pgsql                      : 1000
+    * pgsql-data-status                 : LATEST
+    * pgsql-master-baseline             : 0000000005000060
+    * pgsql-status                      : PRI
+    * ping-status                       : 1
+  * [red]*Node: pgrex02 (2):*
+    * master-pgsql                      : [red]*100*
+    * pgsql-data-status                 : [red]*STREAMING|SYNC*
+    * pgsql-status                      : [red]*HS:sync*
+    * ping-status                       : [red]*1*
+
+：（略）
+....
++
+. corosync-cfgtoolコマンドで、各インターコネクトLANの状態が「localhost」、「connected」であることを確認します。
++
+本作業はrootユーザで行います。
++
+[source, subs="normal"]
+....
+# corosync-cfgtool -s
+Local node ID 1, transport knet
+LINK ID 0 udp
+        addr    = 192.168.1.10
+        status:
+                nodeid:          1:     [red]*localhost*
+                nodeid:          2:     [red]*connected*
+LINK ID 1 udp
+        addr    = 192.168.3.10
+        status:
+                nodeid:          1:     [red]*localhost*
+                nodeid:          2:     [red]*connected*
+....
+
+==== PG-REXの停止
+
+PG-REXを停止するには、Standbyを停止させ、Standbyの停止完了後にPrimaryを停止させます。 +
+Primaryから停止した場合、フェイルオーバが発生しますので、ご注意ください。 +
+PrimaryおよびStandbyの停止手順については、以降の項を参照してください。 +
+この手順でPG-REXを停止させた場合、次にPG-REXを起動するときには、Primaryからのベースバックアップの取得は必要ありません。
+
+==== Standbyの停止
+
+本節では、Standbyの停止手順を説明します。 +
+本作業は停止対象のノードにて、rootユーザで行います。
+
+. Standbyを停止します。
++
+[source, subs="quotes"]
+....
+# pcs cluster stop
+Stopping Cluster (pacemaker)...
+Stopping Cluster (corosync)...
+....
++
+. StandbyのPacemakerが正常に停止されたことを確認します。
++
+[source, subs="normal"]
+....
+# pcs status --full
+[red]*Error: error running crm_mon, is pacemaker running?*
+  [red]*crm_mon: Connection to cluster failed: Connection refused*
+....
++
+. StandbyのPostgreSQLが正常に停止されたことを確認します。
++
+[source, subs="normal"]
+....
+# ps -ef | grep postgres
+root      3252 17408  0 17:18 pts/0    00:00:00 grep postgres
+
+※ PostgreSQLのプロセスが存在しないことを確認します。
+....
+
+==== Primaryの停止
+
+本節では、Primaryの停止手順を説明します。 +
+Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生することに注意してください。 +
+本作業は停止対象のノードにて、rootユーザで行います。
+
+. Primaryを停止します。
++
+[source, subs="quotes"]
+....
+# pcs cluster stop --force
+Stopping Cluster (pacemaker)...
+Stopping Cluster (corosync)...
+....  
++
+. PrimaryのPacemakerが正常に停止されたことを確認します。
++
+[source, subs="normal"]
+....
+# pcs status --full
+[red]*Error: error running crm_mon, is pacemaker running?*
+  [red]*crm_mon: Connection to cluster failed: Connection refused*
+....
++
+. PrimaryのPostgreSQLが正常に停止されたことを確認します。
++
+[source, subs="normal"]
+....
+# ps -ef | grep postgres
+root     20518 24450  0 17:28 pts/0    00:00:00 grep postgres
+
+※ PostgreSQLのプロセスが存在しないことを確認します。
+....
+

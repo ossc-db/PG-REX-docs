@@ -1,0 +1,37 @@
+// Copyright (C) 2026, NTT, Inc.
+
+:author: NTT OSSセンタ
+:copyright: Copyright (C) 2026 NTT, Inc.
+
+= 環境構築およびHTMLファイルビルド方法
+
+== 環境構築
+
+gemが使える環境を構築後、以下のコマンドを実行し、インストールする。
+
+....
+# gem install asciidoctor
+....
+
+asciidoctorでPDFファイルを作成する場合は以下を実行し、インストールする。
+
+....
+# gem install asciidoctor-pdf
+....
+
+コードをシンタックスハイライト付きでHTML化したい場合は以下を実行し、インストールする。
+
+....
+# gem install coderay
+....
+
+
+== HTMLファイルビルド方法
+
+=== PG-REX_doc/src/index.adoc -> PG-REX_doc/index.html
+
+....
+$ ./adoc2html.sh
+....
+
+

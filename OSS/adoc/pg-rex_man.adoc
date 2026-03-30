@@ -1,0 +1,73 @@
+// 属性情報
+// 作成社関連
+:author: NTT OSSセンタ
+:revnumber: 第 1.0.0版
+:revdate: 2026年3月18日
+:copyright: Copyright (C) 2026, NTT, Inc.
+// 日本語文書の改行位置 (word wrap) などの修正を有効とする
+:scripts: cjk
+// 言語
+:lang: ja
+:icons: font
+// 目次
+:toc: left
+:toclevels: 4
+// 表示文字の設定
+:preface-title: まえがき donothing
+:toc-title: 目次
+:figure-caption: 図
+:table-caption: 表
+:listing-caption: コード
+:example-caption: 例
+:note-caption: 注記
+:tip-caption: ヒント
+:caution-caption: 注意
+:warning-caption: 警告
+:important-caption: 重要
+:version-label: 
+:last-update-label: 最終更新
+:favicon: ./PG_rex.ico
+// 画像埋込
+:data-uri:
+// その他の設定
+:xrefstyle: short
+:doctype: book
+:sectnums:
+:chapter-signifier:
+:section-refsig:
+:xrefstyle: short
+:source-highlighter: coderay
+:nofooter: yes
+
+= PG-REX 18利用マニュアル
+
+[preface]
+== 改版履歴
+
+[options="header",cols="10%,10%,~"]
+|===
+|日付
+|版数
+|変更内容
+
+|2026/03/18
+|1.0.0
+|初版制定
+|===
+
+<<<
+
+[preface]
+== 特許権・商標権について
+
+|===
+|本マニュアルのいかなる記載も、マニュアルに登場するPacemaker等のオープンソースソフトウェアにおいて、第三者の特許権等の知的財産権を侵害しないことを保障するものではありません。 +
+本マニュアルに記載されたオープンソースソフトウェアを利用するか否かの判断は、ユーザの判断と責任で行って下さい。 +
+Pacemakerは、Pacemakerプロジェクト（ https://www.clusterlabs.org/ ）によるオープンソースソフトウェアです。 +
+Corosyncは、Corosyncプロジェクト（ https://corosync.github.io/corosync/ ）によるオープンソースソフトウェアです。 +
+ Linuxは、Linus Torvaldsの登録商標です。Red Hat及びEnterprise Linuxは、米国およびその他の国におけるRed Hat,Inc.の商標または登録商標です。 +
+その他記載された社名・銘柄・製品名等は該当する各社の商標または登録商標です。
+|===
+
+<<<
+

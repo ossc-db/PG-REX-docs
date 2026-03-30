@@ -1,0 +1,222 @@
+// Copyright (C) 2026, NTT, Inc.
+
+=== Pacemaker
+
+本節では、Pacemakerのインストールおよび基本設定について説明します。 +
+本節の作業は、rootユーザで行います。
+
+
+==== 事前作業
+
+Pacemakerをインストールする前に、OSの確認、RHELのインストールDVD、RHEL HA Add-Onの ISOイメージ、及びpm_extra_toolsの準備をします。
+
+【OSの確認】 ::
+インストールしたOSのバージョンについて、/etc/redhat-releaseの内容を確認します。
++
+[source,subs="quotes"]
+....
+# cat /etc/redhat-release
+Red Hat Enterprise Linux release _10.1_ (Coughlan)
+....
+
+【pm_extra_toolsの取得】 ::
+https://github.com/linux-ha-japan/pm_extra_tools[ダウンロードサイト] より、RPMパッケージを入手します。
++
+....
+pm_extra_tools-1.8-1.el10.noarch.rpm
+
+ ※ ダウンロードサイトにて、使用するRHELのバージョンに適合するパッケージを選んでください。
+....
+
+==== インストール
+
+『Pacemaker関連サイト』を参考にpgrex01とpgrex02へPacemakerをインストールします。
+
+. mountコマンドでRHELのインストールDVDを/mediaにマウントします。
++
+....
+# mount -o ro /dev/sr0 /media
+....
++
+NOTE: インストールDVDがメディア挿入時に自動マウントされた場合は、一旦手動でアンマウントし、再度マウントしてください。
+. /mnt/HighAvailabilityを作成し、mountコマンドでRHEL HA Add-OnのISOイメージをマウント します。
++
+....
+# mkdir /mnt/HighAvailability
+# mount -o ro /var/tmp/rhel-highavailability-10.1-x86_64-dvd.iso /mnt/HighAvailability
+ 
+※ バージョンにあわせてファイル名は適宜読み替えてください。
+....
+. /media配下、及び/mnt/HighAvailability配下をdnfコマンドで参照されるリポジトリに追加する 設定を行います。 +
++
+/etc/yum.repos.d配下にrheldvd.repoを新規に作成し、以下の内容を記述します。
++
+....
+[BaseOS]
+name=Red Hat Enterprise Linux $releasever - $basearch - BaseOS
+baseurl=file:///media/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[AppStream]
+name=Red Hat Enterprise Linux $releasever - $basearch - AppStream
+baseurl=file:///media/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+....
++
+/etc/yum.repos.d配下にrhel-ha.repoを新規に作成し、以下の内容を記述します。
++
+....
+[HighAvailability]
+name=Red Hat Enterprise Linux $releasever - $basearch - HighAvailability
+baseurl=file:///mnt/HighAvailability
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+....
+. dnfのキャッシュをクリアします。
++
+....
+# dnf clean all
+....
+. Pacemakerをインストールします。
++
+....
+# dnf install pcs pacemaker fence-agents-all -y
+....
+. pm_extra_toolsをインストールします。
++
+....
+ # dnf install pm_extra_tools-1.8-1.el10.noarch.rpm -y
+
+ ※ バージョンにあわせてファイル名は適宜読み替えてください。
+....
+
+==== インストール完了後作業
+
+この後、PostgreSQLおよび運用補助ツールのインストールを実行しない場合、dnfコマンドの参照先として追加した/media配下、及び/mnt/HighAvailability配下への参照を無効化します。
+
+NOTE: 引き続きPostgreSQLおよび運用補助ツールのインストールを実行する場合は、それらを実施した後に、この節での操作を実施します。
+
+. /etc/yum.repos.d/rheldvd.repoを編集します。
++
+[source,subs="quotes"]
+....
+[BaseOS]
+name=Red Hat Enterprise Linux $releasever - $basearch - BaseOS
+baseurl=file:///media/BaseOS
+[red]*enabled=0*
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[AppStream]
+name=Red Hat Enterprise Linux $releasever - $basearch - AppStream
+baseurl=file:///media/AppStream
+[red]*enabled=0*
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+....
++
+. /etc/yum.repos.d/rhel-ha.repoを編集します。
++
+[source,subs="quotes"]
+....
+[HighAvailability]
+name=Red Hat Enterprise Linux $releasever - $basearch - HighAvailability
+baseurl=file:///mnt/HighAvailability
+[red]*enabled=0*
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+....
+. umountコマンドでRHELのインストールDVD、RHEL HA Add-OnのISOイメージをアンマウン トします。
++
+....
+# umount /media
+# umount /mnt/HighAvailability
+....
+
+==== HAクラスタ構築
+
+本章では、HAクラスタ構築の方法について記述しています。 HAクラスタ構築の際には、Pacemakerのインストールが完了している必要があります。
+
+. pcsdサービスを起動し、自動起動を有効にします。(2つのノードで実行)
++
+....
+# systemctl start pcsd.service
+# systemctl enable pcsd.service
+# systemctl is-enabled pcsd.service
+....
+. haclusterユーザのパスワードを設定します。(2つのノードで実行)
++
+[source,subs="quotes"]
+....
+# passwd hacluster
+ユーザー hacluster のパスワードを変更。
+新しいパスワード:
+新しいパスワードを再入力してください:
+[red]*passwd: パスワードは正しく更新されました*
+....
+. 各ノードのホスト名、管理用LANのIPアドレスを指定し、ノードの認証を行います。(いずれか１つのノードで実行) +
+認証の際はユーザ名にhacluster、パスワードに前項で設定したhaclusterのパスワードを入力してください。
++
+[source,subs="quotes"]
+....
+# pcs host auth pgrex01 addr=172.20.144.41 pgrex02 addr=172.20.144.42
+Username: [red]*hacluster*
+Password:
+[red]*pgrex01: Authorized*
+[red]*pgrex02: Authorized*
+....
+. Pacemaker設定ファイルを変更します。(2つのノードで実行)
++
+/etc/sysconfig/pacemakerのPCMK_fail_fastとPCMK_panic_actionを以下の通り編集します。
++
+[source,subs="quotes"]
+....
+： (省略)
+[red]*PCMK_fail_fast=yes*
+： (省略)
+[red]*PCMK_panic_action=sync-reboot*
+： (省略)
+....
+
+==== ACPI Soft-Off機能の無効化
+
+IPMI STONITH機能ではIPMIにより電源操作を実施しますが、その際にノードを即時に停止させる ためにACPI Soft-Off機能を無効にする必要があります。
+https://docs.redhat.com/ja/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_high_availability_clusters/configuring-fencing[Red Hat社のドキュメント] を参照し、ACPI Soft-Off機能を無効にしてください。 +
+BIOSの設定でACPI Soft-Off機能を無効にできるか確認し、BIOSでACPI Soft-Off機能を無効にでき ない場合は、以下手順に従いlogind.confを編集し無効にします。
+
+NOTE:  logind.confを修正する手順は、デフォルトターゲットがmultiuser.targetの場合にのみ有効です。graphical.target等の他のデフォルトターゲットの場合は、 https://docs.redhat.com/ja/documentation/red_hat_enterprise_linux/10/html/configuring_and_managing_high_availability_clusters/configuring-acpi-for-use-with-integrated-fence-devices[Red Hat社のドキュメント] を参照してください。
+
+. logind.confを用意します。
++
+....
+# cp -p /usr/lib/systemd/logind.conf /etc/systemd/logind.conf
+....
+. /etc/systemd/logind.confを以下の通り編集します。
++
+....
+HandlePowerKey=ignore
+....
+. systemd-logindサービスを再起動し、設定を反映させます。
++
+....
+# systemctl restart systemd-logind.service
+....
+. ACPI Soft-Off機能が無効化されていることを確認します。
++
+[source,subs="quotes"]
+....
+# loginctl show-user
+：(省略)
+SleepOperation=suspend-then-hibernate suspend hibernate
+[red]*HandlePowerKey=ignore*
+HandlePowerKeyLongPress=ignore
+HandleRebootKey=reboot
+：(省略)
+....
+
+<<<

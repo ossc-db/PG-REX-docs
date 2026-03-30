@@ -1,0 +1,105 @@
+// Copyright (C) 2026, NTT, Inc.
+
+=== アンインストール
+
+PG-REXをアンインストールするためには両ノードで作業をします。アンインストールの前にPG-REXが起動している場合は『 <<_pg_rexの停止,PG-REXの停止>> 』の手順に従って停止してください。必要なデータがある場合はバックアップを取得し、バックアップディレクトリから退避してください。 +
+本作業はrootユーザで行います。
+
+. PostgreSQLをアンインストールします。
++
+....
+# rpm -e postgresql18-contrib-18.1-1PGDG.rhel10.x86_64
+# rpm -e postgresql18-server-18.1-1PGDG.rhel10.x86_64
+# rpm -e postgresql18-docs-18.1-1PGDG.rhel10.x86_64
+# rpm -e postgresql18-18.1-1PGDG.rhel10.x86_64
+# rpm -e postgresql18-libs-18.1-1PGDG.rhel10.x86_64
+
+※ バージョンにあわせてファイル名は適宜読み替えてください。
+....
++
+. DBクラスタディレクトリ配下のファイル、作成した環境変数のファイルおよびMD5暗号化パスワード認証の自動化ファイル(.pgpass)を削除します。
++
+....
+# rm -rf /dbfp/pgdata/data/*
+# rm /var/lib/pgsql/.bash_profile
+# rm /var/lib/pgsql/.pgpass
+....
++
+. その他、作成した環境に合わせて以下の作業を行います。
+* DBクラスタディレクトリのアンマウント
+* WALディレクトリ配下のファイルの削除・アンマウント
+* アーカイブディレクトリ配下のファイルの削除・アンマウント
+* 運用中に取得したDBクラスタのバックアップの削除
+. Pacemakerをアンインストールします。
++
+既存のHAクラスタを破棄します。（いずれか1つのノードで実行）
++
+....
+# pcs cluster destroy --all
+....  
++
+ノードの認証を破棄します。（いずれか1つのノードで実行）
++
+....
+# pcs host deauth pgrex01 pgrex02
+....
++
+Pacemaker関連パッケージをアンインストールします。（2つのノードで実行）
++
+....
+# dnf remove pcs pacemaker fence-agents-all -y
+....
++
+Pacemaker関連のファイルを削除します。（2つのノードで実行）
++
+....
+# rm -rf /var/lib/pcsd/ /var/lib/pacemaker /var/lib/corosync /var/log/pacemaker /var/log/cluster /etc/corosync /mnt/HighAvailability /etc/systemd/system/corosync.service /etc/sysconfig/pacemaker.rpmsave /etc/sysconfig/sbd.rpmsave
+....
++
+haclusterユーザおよび、haclientグループを削除します。（2つのノードで実行）
++
+....
+# userdel hacluster
+# groupdel haclient
+....
++
+pm_extra_toolsをアンインストールします。（2つのノードで実行）
++
+....
+# dnf remove pm_extra_tools -y
+....
++
+. BIOSの設定でACPI Soft-Off機能を無効にした場合はBIOSでACPI Soft-Off機能を有効に戻します。 /etc/systemd/logind.confを修正した場合は、以下手順に従いlogind.confを修正し有効に戻します。
++
+ACPI Soft-off機能を有効化するため、/etc/systemd/logind.confを以下の通り修正します。（2つのノードで実行）
++
+....
+HandlePowerKey=poweroff
+....
++
+systemd-logindサービスを再起動し、設定を反映させます。
++
+....
+# systemctl restart systemd-logind.service
+....
++
+ACPI Soft-Off機能が有効化されていることを確認します。
++
+....
+# loginctl show-user
+：(省略)
+HandlePowerKey=poweroff
+：(省略)
+....
++
+. PG-REX運用補助ツールをアンインストールします。
++
+RPMパッケージのアンインストールを行います。
++
+....
+# dnf remove pg-rex_operation_tools_script-18.0-1.el10.noarch.rpm Net_OpenSSH-0.62-1.el10.x86_64.rpm perl-IO-Tty-1.20-7.el10.x86_64.rpm
+
+※ バージョンにあわせてファイル名は適宜読み替えてください。
+....
+
+<<<

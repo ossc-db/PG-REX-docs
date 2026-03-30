@@ -1,0 +1,323 @@
+// Copyright (C) 2026, NTT, Inc.
+
+== 起動と停止
+
+本章では、PG-REX運用補助ツールを用いてPrimaryとStandbyの起動・停止方法について説明します。
+
+本章の作業はrootユーザで行います。
+
+コマンドを直接実行してPrimaryとStandbyの起動・停止をする場合は、『 <<_コマンド直接実行の運用,コマンド直接実行の運用>> 』を参照してください。
+
+
+=== PG-REXの起動
+
+PG-REXの起動は、一方のノードでPrimaryを起動させ、起動完了後、もう一方のノードでStandbyを起動させます。どちらのノードをPrimary、Standbyとして稼働させるかは、ユーザが決定します。
+
+* Primaryの起動手順については、『 <<_primaryの起動,Primaryの起動>> 』を参照してください。
+* Standbyの起動手順については、『 <<_standbyの起動,Standbyの起動>> 』を参照してください。
+
+
+=== Primaryの起動
+
+本節では、Primaryの起動手順を説明します。
+
+. どのノードをPrimaryとして起動するか決定します。 +
+PG-REXでは、最新のDBデータを持つノードをPrimaryとして起動しなければなりません。古いDBデータを持つノードをPrimaryとして起動すると、その古い分だけDBデータは失われてしまいます。
++
+以下は、Primaryとして起動するノードを決めるときの考え方の例です。
++
+** DBクラスタが片方のノードのみに存在し、そのDBクラスタを使ってPG-REXを起動する場合(初めてPrimaryを起動する場合を含む)は、DBクラスタが存在するノードをPrimaryとして起動する。
+** DBクラスタが両ノードに存在する場合は、直前までPrimaryとして稼働していたノードをPrimaryとして起動する。
+** 既存のDBクラスタを使わず(もしくは既存のDBクラスタが壊れている)、以前に取得したベースバックアップからPG-REXを起動する場合は、そのベースバックアップを展開したノードをPrimaryとして起動する。
++
+以降の手順では、pgrex01をPrimaryとして起動します。
++
+. ベースバックアップからPrimaryを起動する場合に限り、pgrex01でPostgreSQL単体のアーカイブリカバリを行います。アーカイブリカバリの手順については、『PostgreSQLドキュメント』を参照してください。アーカイブリカバリが完了したら、PostgreSQLを停止します。
++
+本作業のみpostgresユーザで行う必要があります。
++
+[source,subs="quotes"]
+....
+$ pg_ctl start
+サーバの起動完了を待っています....
+：(略)
+完了
+[red]*サーバ起動完了*
+$ pg_ctl stop
+サーバ停止処理の完了を待っています....完了
+[red]*サーバは停止しました*
+....
++
+[CAUTION]
+====
+PG-REXでは、アーカイブリカバリをさせながらPrimaryを起動することを推奨しません。これは、アーカイブリカバリにより起動に時間がかかり、Pacemakerによって起動失敗とみなされてしまう可能性があるからです。そのため、Primaryでアーカイブリカバリを行う場合は、Pacemaker経由ではなく、まずはPostgreSQL単体で起動させるようにしてください。アーカイブリカバリの完了後、PostgreSQLを停止させた上で、Primaryの起動の手順を行います。これにより、Primary起動時のアーカイブリカバリは必要なくなるため、Primaryの起動に時間がかかることはありません。
+
+また、PG-REXでリカバリを実施する場合は必ず最新の状態までリカバリされます。
+アーカイブリカバリを行う際にユーザが追加した設定は、アーカイブリカバリ終了後にすべて削除してください。
+====
++
+. pgrex01で起動禁止フラグのファイルが存在する場合削除します。
++
+....
+# rm /var/lib/pgsql/tmp/PGSQL.lock
+....
++
+. Primaryを起動します。
+【初回もしくは新しいリソース定義xmlファイルを反映させる場合】 ::
+
+Primary初回起動時、もしくは既存のPacemakerの設定をクリアして新しいリソース定義xmlファイルを反映させる場合は、リソース定義xmlファイルを指定して、Primaryを起動します。
++
+この手順でPrimaryを起動した場合、pcsコマンド等で直接設定を変更した項目は初期化されます。 必要に応じて再設定してください。
++
+[source,subs="quotes"]
+....
+# pg-rex_primary_start pm_pcsgen_env.xml
+root@192.168.2.2's password:
+パスワードが入力されました
+1. Pacemaker および Corosync が停止していることを確認
+[red]*...[OK]*
+2. 稼働中の Primary が存在していないことを確認
+[red]*...[OK]*
+3. 起動禁止フラグの存在を確認
+[red]*...[OK]*
+既に HAクラスタ があります
+再作成しても宜しいでしょうか？ (y/N) [red]*y*
+4. HAクラスタ の破棄
+Warning: Unable to load CIB to get guest and remote nodes from it, those nodes will not be deconfigured.
+：(略)
+pgrex01: Successfully destroyed cluster
+[red]*...[OK]*
+5. HAクラスタ の作成
+Destroying cluster on hosts: 'pgrex01', 'pgrex02'...
+：(略)
+Cluster has been successfully set up.
+[red]*...[OK]*
+6. Pacemaker 起動
+Starting Cluster...
+Waiting for node(s) to start...
+Started
+[red]*...[OK]*
+7. リソース定義 xml ファイルの反映
+CIB updated
+warning: Node pgrex02 is unclean but cannot be fenced
+Configuration invalid (with warnings)
+[red]*...[OK]*
+Warning: If node(s) 'pgrex02' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur
+Warning: If node 'pgrex02' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur
+Quorum unblocked
+Waiting for nodes canceled
+8. Primary の起動確認
+[red]*...[OK]*
+[red]*ノード(pgrex01)が Primary として起動しました*
+....
++
+【2回目以降の場合】 ::
+
+Primaryを起動します。
++
+[source,subs="quotes"]
+....
+# pg-rex_primary_start
+root@192.168.2.2's password:
+パスワードが入力されました
+1. Pacemaker および Corosync が停止していることを確認
+[red]*...[OK]*
+2. 稼働中の Primary が存在していないことを確認
+[red]*...[OK]*
+3. Primary として稼働することが出来るかを確認
+[red]*...[OK]*
+4. 起動禁止フラグの存在を確認
+[red]*...[OK]*
+5. Pacemaker 起動
+Starting Cluster...
+Waiting for node(s) to start...
+Started
+[red]*...[OK]*
+Warning: If node(s) 'pgrex02' are not powered off or they do have access to shared resources, data corruption and/or cluster failure may occur
+Warning: If node 'pgrex02' is not powered off or it does have access to shared resources, data corruption and/or cluster failure may occur
+Quorum unblocked
+Waiting for nodes canceled
+6. Primary の起動確認
+[red]*...[OK]*
+[red]*ノード(pgrex01)が Primary として起動しました*
+....
++
+[CAUTION]
+====
+以下のいずれかのGUCを変更した後にPrimary起動を試みるとPostgreSQLが起動しないことがあります。新しい設定値は、変更前の設定値以上にする必要があるためです。
+
+* max_connections
+* max_wal_senders
+* max_worker_processes
+* max_prepared_transactions
+* max_locks_per_transaction
+
+より詳しい説明については、 https://www.postgresql.jp/document/18/html/hot-standby.html#HOT-STANDBY-ADMIN[PostgreSQLドキュメント] を参照してください。
+
+新しい設定値が変更前の設定値未満の場合、PostgreSQLのみを一度起動・終了する必要があります。postgresユーザでpg_ctl startとpg_ctl stopを実行してください。
+====
++
+. pgrex02のSTONITH履歴をクリアします。
++
+Primary起動時は、片方のノードのみの起動となるため、正常に起動した場合でも、pcs statusコマンドを実行すると、Fencing Historyに情報が表示されます。 +
+そのため、その履歴をクリアします。
++
+....
+# stonith_admin -c -H pgrex02
+....
+
+
+=== Standbyの起動
+
+本節では、Standbyの起動手順を説明します。以降の手順では、pgrex02をStandbyとして起動します。
+
+. pgrex02で起動禁止フラグのファイルが存在する場合削除します。
++
+....
+# rm /var/lib/pgsql/tmp/PGSQL.lock
+....
++
+. pgrex02でStandbyを起動します。同期する必要の無い不要なアーカイブログが多い場合は、Standbyの起動の前にアーカイブログの削除を行なってください。アーカイブログの削除は『 <<_postgresqlアーカイブログの削除,PostgreSQLアーカイブログの削除>> 』を参照してください。
++
+[source,subs="quotes"]
+....
+# pg-rex_standby_start
+root@192.168.2.1's password:
+パスワードが入力されました
+1. Pacemaker および Corosync が停止していることを確認
+[red]*...[OK]*
+2. 稼働中の Primary が存在していることを確認
+[red]*...[OK]*
+3. 起動禁止フラグが存在しないことを確認
+[red]*...[OK]*
+....
++
+. 起動方法を選択します。
++
+以下の手順では、ベースバックアップを取得する場合を示します。
++
+[source,subs="quotes"]
+....
+4. DB クラスタの状態を確認
+4.1 現在のDBクラスタのまま起動が可能か確認
+DB クラスタが存在していません
+[red]*...[NG]*
+4.2 巻き戻しを実行することで起動が可能か確認
+DB クラスタが存在していません
+[red]*...[NG]*
+4.3 ベースバックアップを取得することが可能か確認
+[red]*...[OK]*
+以下の方法で起動が可能です
+b) ベースバックアップを取得してStandbyを起動
+q) Standbyの起動を中止する
+起動方法を選択してください(b/q) [red]*b*
+5. IC-LAN が接続されていることを確認
+[red]*...[OK]*
+6. Primary からベースバックアップ取得
+NOTICE:  all required WAL segments have been archived
+22631/22631 kB (100%), 1/1 テーブル空間
+[red]*...[OK]*
+7. Primary のアーカイブディレクトリと同期
+000000010000000000000002.partial
+00000002.history
+000000020000000000000003.00000028.backup
+000000010000000000000001
+000000020000000000000002
+000000020000000000000003
+[red]*...[OK]*
+8. Standby の起動 (アーカイブリカバリ対象 WAL セグメント数: 1)
+Starting Cluster...
+[red]*...[OK]*
+9. Standby の起動確認
+[red]*...[OK]*
+[red]*ノード(pgrex02)が Standby として起動しました*
+....
+
+=== PG-REXの停止
+
+PG-REXを停止するには、Standbyを停止させ、Standbyの停止完了後にPrimaryを停止させます。
+
+Primaryから停止した場合、フェイルオーバが発生しますので、ご注意ください。
+
+* Primaryの停止手順については、『 <<_primaryの停止,Primaryの停止>> 』を参照してください。
+* Standbyの停止手順については、『 <<_standbyの停止,Standbyの停止>> 』を参照してください。
+
+この手順でPG-REXを停止させた場合、次にPG-REXを起動するときには、Primaryからのベースバックアップの取得は必要ありません。
+
+=== Standbyの停止
+
+本節では、Standbyの停止手順を説明します。 +
+本作業は停止対象のノードで行います。
+
+. Standbyを停止します。
++
+[source,subs="quotes"]
+....
+# pg-rex_stop
+Standby を停止します
+1. Pacemaker 停止
+Stopping Cluster (pacemaker)...
+Stopping Cluster (corosync)...
+[red]*...[OK]*
+2. Pacemaker 停止確認
+[red]*...[OK]*
+[red]*PG-REX の Standby (pgrex02)を停止しました*
+....
+
+
+=== Primaryの停止
+
+本節では、Primaryの停止手順を説明します。Standby稼働中にPrimaryを停止した場合、フェイルオーバが発生することに注意してください。 +
+本作業は停止対象のノードで行います。
+
+. Primaryを停止します。
++
+[source,subs="quotes"]
+....
+# pg-rex_stop
+Primary を停止します
+1. Pacemaker 停止
+Stopping Cluster (pacemaker)...
+Stopping Cluster (corosync)...
+[red]*...[OK]*
+2. Pacemaker 停止確認
+[red]*...[OK]*
+[red]*PG-REX の Primary (pgrex01)を停止しました*
+....
+
+[CAUTION]
+====
+Standby稼働中の場合、以下の問い合わせが出力されます。フェイルオーバしても問題がなければ「y」を入力してください。
+
+....
+Primary を停止します
+Standby がまだ起動しています
+ノード切り替えが目的の場合は pg-rex_switchover コマンドの使用を推奨します
+今停止すると F/O しますが本当に停止しても宜しいですか？ (y/N)
+....
+====
+
+=== PostgreSQL停止中のノードの停止
+
+本節では、PostgreSQL停止中(Stopped)のノードのPacemakerの停止手順を説明します。主に、運用中に故障が発生した後、復旧するための手順の一つとして行われます。
+
+本作業は停止対象のノードで行います。
+
+. PostgreSQL停止中(Stopped)のノードのPacemakerを停止します。
++
+[source,subs="quotes"]
+....
+# pg-rex_stop
+PostgreSQL の状態を確認できませんでした
+Pacemaker を停止します
+1. Pacemaker 停止
+Stopping Cluster (pacemaker)...
+Stopping Cluster (corosync)...
+[red]*...[OK]*
+2. Pacemaker 停止確認
+[red]*...[OK]*
+[red]*ノード(pgrex01)で Pacemaker を停止しました*
+....
+
+
+<<<

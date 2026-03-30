@@ -1,0 +1,455 @@
+// Copyright (C) 2026, NTT, Inc.
+
+=== ルータ故障
+
+この節では、ルータ故障時の対処について説明します。
+
+
+==== 故障時のHAクラスタ状態
+
+S-LANのルータ故障を検知し、両ノードのPostgreSQLリソース(pgsql)、IPaddr2リソース(ipaddr-primary、ipaddr-standby、ipaddr-replication)が停止した状態となっています。
+
+データベースサービスは停止しています。
+
+==== 復旧
+
+pgrex01とpgrex02でPacemakerを停止し、保守者による復旧を依頼します。 +
+保守者による故障復旧後、pgrex01とpgrex02のPacemakerを再起動し、復旧します。 +
+復旧後のHAクラスタ状態は、pgrex02が先に停止した場合はpgrex01(Primary)-pgrex02(Standby)、pgrex01が先に停止した場合はpgrex01(Standby)-pgrex02(Primary)となります。
+
+復旧手順を以下に説明します。
+
+【STEP1：リソース状態確認 [pgrex01]】 ::
++
+pcs statusの結果を確認し、データが進んでいるノードを特定します。 +
+pgsql-data-statusがLATESTとなっている場合、そのノードのデータが進んでいることを示しています。 +
+以降、pgrex01が「データが進んでいるノード」の場合の復旧手順を示します。pgrex02が「データが進んでいるノード」の場合はpgrex01とpgrex02を読み替えて下さい。
+
+【STEP2：Pacemaker停止 [pgrex02]】 ::
++
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex02のPacemakerを停止します。停止する手順は『 <<_postgresql停止中のノードの停止,PostgreSQL停止中のノードの停止>> 』を参照してください。
+
+【STEP3：Pacemaker停止 [pgrex01]】 ::
++
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『 <<_postgresql停止中のノードの停止,PostgreSQL停止中のノードの停止>> 』を参照してください。
+
+【STEP4：保守者へ報告】 ::
++
+以下の内容を報告します。
++
+* 報告時点でのデータベースサービス稼働状況(データベースサービス停止中)
+* 報告時点でのHAクラスタ状態(2つのノードでPacemaker停止中)
+* 故障箇所(ルータ故障が発生)
+
+【STEP5：保守者による故障復旧】 ::
++
+保守者が故障復旧を実施します。
+
+【STEP6：Pacemaker起動 [pgrex01]】 ::
++
+pgrex01のPacemakerを起動します。起動する手順は『 <<_primaryの起動,Primaryの起動>> 』を参照してください。
+
+【STEP7：ノード状態・リソース状態確認 [pgrex01]】 ::
++
+ノード状態とリソース状態が以下のとおりとなっていることを確認します。
++
+[source, subs="normal"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): online, feature set 3.20.1*
+  * Node pgrex02 (2): OFFLINE
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Promoted pgrex01*
+    * pgsql     (ocf:linuxhajp:pgsql):   Stopped
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex01*
+：（略）
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex01*
+：（略）
+  * fence2-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex01*
+：（略）
+....
+
+【STEP8：Pacemaker起動 [pgrex02]】 ::
++
+pgrex02のPacemakerを起動します。起動する手順は『 <<_standbyの起動,Standbyの起動>> 』を参照してください。
+
+【STEP9：ノード状態・リソース状態確認 [pgrex02]】 ::
++
+ノード状態とリソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex01
+    * pgsql     (ocf:linuxhajp:pgsql):   Unpromoted pgrex02
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    Started pgrex01
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex02*
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex01
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex02*
+  * fence1-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex02*
+：（略）
+....
+
+
+=== S-LAN故障
+
+この節では、S-LAN故障時の対処について説明します。
+
+==== 故障時のHAクラスタ状態
+
+S-LAN故障を検知し、pgrex01でPostgreSQLリソース(pgsql)が停止した状態となっています。 +
+その結果フェイルオーバが発生し、pgrex02のPostgreSQLリソースがPrimaryへ昇格し、pgrex01のIPaddr2リソース(ipaddr-primary、ipaddr-replication)がpgrex02へ移動します。
+
+データベースサービスは片方のノード(pgrex02)で継続しています。
+
+==== 復旧
+
+データベースサービス状況の確認とpgrex01のPacemakerを停止し、保守者による復旧を依頼します。 +
+保守者による故障復旧後、pgrex01のPacemakerを再起動します。 +
+復旧後のHAクラスタ状態は、pgrex01(Standby) - pgrex02(Primary)となります。
+
+復旧手順を以下に説明します。
+
+【STEP1：リソース状態確認 [pgrex02]】 ::
++
+リソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Promoted pgrex02*
+    * pgsql     (ocf:linuxhajp:pgsql):   Stopped
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+：（略）
+....
+
+【STEP2：Pacemaker停止 [pgrex01]】 ::
++
+保守者の作業中に、PostgreSQLリソースが再起動しないようpgrex01のPacemakerを停止します。停止する手順は『 <<_postgresql停止中のノードの停止,PostgreSQL停止中のノードの停止>> 』を参照してください。
+
+【STEP3：ノード状態確認 [pgrex02]】 ::
++
+ノード状態が以下のとおりとなっていることを確認します。
++
+[source, subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex02
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): OFFLINE*
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+....  
+
+【STEP4：保守者へ報告】 ::
++
+以下の内容を報告します。
++
+* 報告時点でのデータベースサービス稼働状況(pgrex02でデータベースサービス継続中)
+* 報告時点でのHAクラスタ状態(pgrex01でPacemaker停止中)
+* 故障箇所(S-LAN故障が発生)
+
+【STEP5：保守者による故障復旧】 ::
++
+保守者が故障復旧を実施します。
+
+【STEP6：Pacemaker起動 [pgrex01]】 ::
++
+pgrex01のPacemakerを起動します。 +
+pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01をStandbyとして起動します。 +
+起動する手順は『 <<_standbyの起動,Standbyの起動>> 』を参照してください。
+
+【STEP7：ノード状態・リソース状態確認 [pgrex01]】 ::
++
+ノード状態とリソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): online, feature set 3.20.1*
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Unpromoted pgrex01*
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex02
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex02
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex02
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex01*
+    * ping      (ocf:pacemaker:ping):    Started pgrex02
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex01*
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex02
+：（略）
+  * fence2-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex01*
+：（略）
+....  
+
+=== D-LAN故障
+
+この節では、D-LAN故障時の対処について説明します。
+
+==== 故障時のHAクラスタ状態
+
+D-LAN故障を検知し、pgrex02を切り離した状態となっています。 +
+その結果、pgrex02のIPaddr2リソース(ipaddr-standby)がpgrex01へ移動します。
+
+データベースサービスは片方のノード(pgrex01)で継続しています。
+
+==== 復旧
+
+データベースサービス状況の確認とpgrex02のPacemakerを停止し、保守者による復旧を依頼します。 +
+保守者による故障復旧後、pgrex02のPacemakerを再起動し、復旧します。
+
+復旧手順を以下に説明します。
+
+【STEP1：リソース状態確認 [pgrex01]】 ::
++
+リソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Promoted pgrex01*
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Unpromoted pgrex02*
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+：（略）
+....  
+
+【STEP2：Pacemaker停止 [pgrex02]】 ::
++
+pgrex02のPacemakerを停止します。停止する手順は『 <<_standbyの停止,Standbyの停止>> 』を参照してください。
+
+【STEP3：ノード状態確認 [pgrex01]】 ::
++
+ノード状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * [red]*Node pgrex02 (2): OFFLINE*
+：（略）
+....
+
+【STEP4：保守者へ報告】 ::
++
+以下の内容を報告します。
++
+* 報告時点でのデータベースサービス稼働状況(pgrex01でデータベースサービス継続中)
+* 報告時点でのHAクラスタ状態(pgrex02でPacemaker停止中)
+* 故障箇所(D-LAN故障が発生)
+
+【STEP5：保守者による故障復旧】 ::
++
+保守者が故障復旧を実施します。
+
+【STEP6：Pacemaker起動 [pgrex02]】 ::
++
+pgrex02のPacemakerを起動します。起動する手順は『 <<_standbyの起動,Standbyの起動>> 』を参照してください。
+
+【STEP7：ノード状態・リソース状態確認 [pgrex02]】 ::
++
+ノード状態とリソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * [red]*Node pgrex02 (2): online, feature set 3.20.1*
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex01
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Unpromoted pgrex02*
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    Started pgrex01
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex02*
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex01
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex02*
+  * fence1-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex02*
+：（略）
+....
+
+=== リソース故障(monitor)
+
+この節では、リソース故障(monitor)時の対処について説明します。
+
+==== 故障時のHAクラスタ状態
+
+リソース故障(monitor)を検知し、pgrex01でPostgreSQLリソース(pgsql)が停止した状態となっています。 +
+その結果フェイルオーバが発生し、pgrex02のPostgreSQLリソースがPrimaryへ昇格し、pgrex01のIPaddr2リソース(ipaddr-primary、ipaddr-replication)がpgrex02へ移動します。
+
+データベースサービスは片方のノード(pgrex02)で継続しています。
+
+==== 復旧
+
+データベースサービス状況の確認とpgrex01のPacemakerを停止し、保守者による復旧を依頼します。 +
+保守者による故障復旧後、pgrex01のPacemakerを再起動し、復旧します。 +
+復旧後のHAクラスタ状態は、pgrex01(Standby) - pgrex02(Primary)となります。
+
+復旧手順を以下に説明します。
+
+【STEP1：リソース状態確認 [pgrex02]】 ::
++
+リソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Promoted pgrex02*
+    * pgsql     (ocf:linuxhajp:pgsql):   Stopped
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         [red]*Started pgrex02*
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         Started pgrex02
+：（略）
+....
+
+【STEP2：Pacemaker停止 [pgrex01]】 ::
++
+pgrex01のPacemakerを停止します。停止する手順は『 <<_postgresql停止中のノードの停止,PostgreSQL停止中のノードの停止>> 』を参照してください。
+
+【STEP3：ノード状態確認 [pgrex02]】 ::
++
+ノード状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex02
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): OFFLINE*
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+....
+
+【STEP4：保守者へ報告】 ::
++
+以下の内容を報告します。
++
+* 報告時点でのデータベースサービス稼働状況(pgrex02でデータベースサービス継続中)
+* 報告時点でのHAクラスタ状態(pgrex01でPacemaker停止中)
+* 故障箇所(pgrex01のリソース故障(monitor)が発生)
+
+【STEP5：保守者による故障復旧】 ::
++
+保守者が故障復旧を実施します。
+
+【STEP6：Pacemaker起動 [pgrex01]】 ::
++
+pgrex01のPacemakerを起動します。 +
+pgrex02でPostgreSQLリソースがPrimaryとして稼働中のため、pgrex01をStandbyとして起動します。 +
+起動する手順は『 <<_standbyの起動,Standbyの起動>> 』を参照してください。
+
+【STEP7：ノード状態・リソース状態確認 [pgrex01]】 ::
++
+ノード状態とリソース状態が以下のとおりとなっていることを確認します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+：（略）
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * [red]*Node pgrex01 (1): online, feature set 3.20.1*
+  * Node pgrex02 (2): online, feature set 3.20.1
+：（略）
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   [red]*Unpromoted pgrex01*
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex02
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex02
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex02
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         [red]*Started pgrex01*
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    [red]*Started pgrex01*
+    * ping      (ocf:pacemaker:ping):    Started pgrex02
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     [red]*Started pgrex01*
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex02
+：（略）
+  * fence2-ipmilan      (stonith:fence_ipmilan):         [red]*Started pgrex01*
+：（略）
+....
+
+<<<
+

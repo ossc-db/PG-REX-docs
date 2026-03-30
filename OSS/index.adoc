@@ -1,0 +1,23 @@
+// Copyright (C) 2026, NTT, Inc.
+
+include::adoc/pg-rex_man.adoc[]
+include::adoc/pg-rex_man01.adoc[]
+include::adoc/pg-rex_man02.adoc[]
+include::adoc/pg-rex_man03_1_2.adoc[]
+include::adoc/pg-rex_man03_3.adoc[]
+include::adoc/pg-rex_man03_4.adoc[]
+include::adoc/pg-rex_man03_5.adoc[]
+include::adoc/pg-rex_man03_6.adoc[]
+include::adoc/pg-rex_man03_7.adoc[]
+include::adoc/pg-rex_man04.adoc[]
+include::adoc/pg-rex_man05.adoc[]
+include::adoc/pg-rex_man06_01-03.adoc[]
+include::adoc/pg-rex_man06_04-07.adoc[]
+include::adoc/pg-rex_man06_08-11.adoc[]
+include::adoc/pg-rex_man06_12-13.adoc[]
+include::adoc/pg-rex_man07_1.adoc[]
+include::adoc/pg-rex_man07_2.adoc[]
+include::adoc/pg-rex_man07_3.adoc[]
+include::adoc/pg-rex_man08.adoc[]
+
+

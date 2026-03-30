@@ -1,0 +1,678 @@
+// Copyright (C) 2026, NTT, Inc.
+
+== 故障対応
+
+本章では、HAクラスタに故障が発生した場合の監視者が行う作業について説明します。
+
+監視者による作業にはHAクラスタ状態確認と復旧があります。
+
+* HAクラスタ状態確認では、HAクラスタに発生した故障箇所を特定し、保守者への報告と修復作業の依頼を実施します。
+* 復旧では、データベースサービス継続に必要となる処置及び、保守者の修復作業終了後にHAクラスタを故障発生前の状態に戻す作業を実施します。
+
+保守者は、監視者からの修復作業依頼により、故障したアプリケーションの詳細解析、原因調査、修復作業を実施します。故障の種類によっては、復旧の際に保守者に作業を委ねている箇所があります(保守者介在処理と呼びます)。
+
+なお、本作業にはスーパーユーザ権限が必要となります。
+
+STONITHが発生した場合は、復旧手順の最後に以下のコマンドで両ノードに対してSTONITH履歴のクリアを実施してください。
+
+....
+# stonith_admin -c -H <ノード名>
+....
+
+
+=== 前提条件
+
+この章の前提条件を以下に示します。
+
+* 両ノードが稼働している状態でpgrex01の故障が起きたと仮定しています。一般的に多重故障はPG-REXの適用範囲外となりますが、STONITHの失敗については対応しており本章の説明にも含まれています。
+
+
+=== 監視コマンド表示確認方法
+
+HAクラスタに発生した故障を特定するために、pcs status --fullコマンド実行時に表示されるノード情報、リソース情報、属性情報、故障回数、制御エラー情報、及びcorosync-cfgtool -sコマンド実行時に表示されるIC-LANの通信状態を確認する必要があります。
+
+以下にpcs statusコマンドの実行時の表示例を示します。
+
+[source,subs="quotes"]
+....
+# pcs status --full
+Cluster name: _HAクラスタ名_
+Cluster Summary:
+  * Stack: corosync (Pacemaker is running)
+  * Current DC: pgrex01 (1) (_バージョン_) - partition with quorum
+  * Last updated: _日時表示_ on pgrex01
+：（略）
+Node List:
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+
+Full List of Resources:
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex01
+    * pgsql     (ocf:linuxhajp:pgsql):   Unpromoted pgrex02
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         Started pgrex02
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    Started pgrex01
+    * ping      (ocf:pacemaker:ping):    Started pgrex02
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex01
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex02
+  * fence1-ipmilan      (stonith:fence_ipmilan):         Started pgrex02
+  * fence2-ipmilan      (stonith:fence_ipmilan):         Started pgrex01
+
+Node Attributes:
+  * Node: pgrex01 (1):
+    * master-pgsql                      : 1000
+    * pgsql-data-status                 : LATEST
+    * pgsql-master-baseline             : 0000000005000060
+    * pgsql-status                      : PRI
+    * ping-status                       : 1
+  * Node: pgrex02 (2):
+    * master-pgsql                      : 100
+    * pgsql-data-status                 : STREAMING|SYNC
+    * pgsql-status                      : HS:sync
+    * ping-status                       : 1
+
+Migration Summary:
+
+Tickets:
+
+PCSD Status:
+  pgrex01: Online
+  pgrex02: Online
+
+Daemon Status:
+  corosync: active/disabled
+  pacemaker: active/disabled
+  pcsd: active/enabled
+....
+
+なお、pcs status --fullコマンドを実行し、以下のように表示された場合、pcs status --fullコマンドを実行したノードのPacemakerは停止しています。
+
+....
+# pcs status --full
+Error: error running crm_mon, is pacemaker running?
+  crm_mon: Connection to cluster failed: Connection refused
+....
+
+以下にcorosync-cfgtoolコマンドの実行時の表示例を示します。
+
+....
+# corosync-cfgtool -s
+Local node ID 1, transport knet
+LINK ID 0 udp
+        addr    = 192.168.1.1
+        status:
+                nodeid:          1:     localhost
+                nodeid:          2:     connected
+LINK ID 1 udp
+        addr    = 192.168.3.1
+        status:
+                nodeid:          1:     localhost
+                nodeid:          2:     connected
+....
+
+==== 表示部説明
+
+pcs statusコマンド実行時の各表示部について説明します。
+
+
+[[ノード情報表示部]]【ノード情報表示部】 ::
++
+....
+  * Node pgrex01 (1): online, feature set 3.20.1
+  * Node pgrex02 (2): online, feature set 3.20.1
+....
++
+それぞれの行には、ノード名、ノードID、Pacemakerの稼働状態が表示されます。 +
+上記の例では、1行目がノード名:pgrex01、ノードID:1、稼働状態:オンラインを、 +
+2行目がノード名:pgrex02、ノードID:2、稼働状態:オンラインを示します。
+
+
+【リソース情報表示部】 ::
++
+....
+Full List of Resources:
+  * Clone Set: pgsql-clone [pgsql] (promotable):
+    * pgsql     (ocf:linuxhajp:pgsql):   Promoted pgrex01
+    * pgsql     (ocf:linuxhajp:pgsql):   Unpromoted pgrex02
+  * Resource Group: primary-group:
+    * ipaddr-primary    (ocf:heartbeat:IPaddr2):         Started pgrex01
+    * ipaddr-replication        (ocf:heartbeat:IPaddr2):         Started pgrex01
+  * ipaddr-standby      (ocf:heartbeat:IPaddr2):         Started pgrex02
+  * Clone Set: ping-clone [ping]:
+    * ping      (ocf:pacemaker:ping):    Started pgrex01
+    * ping      (ocf:pacemaker:ping):    Started pgrex02
+  * Clone Set: storage-mon-clone [storage-mon]:
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex01
+    * storage-mon       (ocf:heartbeat:storage-mon):     Started pgrex02
+  * fence1-ipmilan      (stonith:fence_ipmilan):         Started pgrex02
+  * fence2-ipmilan      (stonith:fence_ipmilan):         Started pgrex01
+....
++
+リソースID、リソースの稼働状態や稼働ノードの名前が表示されます。
++
+各リソースが示す稼働状況を、以下に示します。
++
+■ pgsql-clone(PG-REXリソース) :::
++
+.PG-REXリソースの稼働状況表示一覧
+[%autowidth]
+|===
+|pcs status実行結果の表示 |稼働状況の説明
+
+|Promoted pgrex01 +             
+Unpromoted pgrex02
+|両ノードでリソースが稼働中
+
+|Promoted pgrex01 +
+Stopped
+|片方のノード(pgrex01)でリソースが稼働中
+
+|Stopped +
+Stopped
+|両ノードでリソースが停止中
+|===
++
+■ ipaddr-primary, ipaddr-replication, ipaddr-standby(IPaddr2リソース), fence1-ipmilan, fence2-ipmilan(STONITHリソース) :::
++
+.IPaddr2リソースおよびSTONITHリソースの稼働状況表示一覧
+[%autowidth]
+|===
+|pcs status実行結果の表示 |稼働状況の説明
+
+|Started pgrex01
+|pgrex01でリソースが稼働中
+
+|Stopped
+|リソースが停止中
+|===
++
+■ ping-clone(PINGリソース), storage-mon-clone(STORAGE-MONリソース) :::
++
+.PINGリソースおよびSTORAGE-MONリソースの稼働状況表示一覧
+[%autowidth]
+|===
+|pcs status実行結果の表示 |稼働状況の説明
+
+|Started pgrex01 +
+Started pgrex02
+|両ノードでリソースが稼働中
+
+|Started pgrex01 +
+Stopped
+|片方のノード(pgrex01)でリソースが稼働中
+
+|Stopped +
+Stopped
+|両ノードでリソースが停止中
+|===
+
+
+【属性情報表示部】 ::
++
+....
+Node Attributes:
+  * Node: pgrex01 (1):
+    * master-pgsql                      : 1000
+    * pgsql-data-status                 : LATEST
+    * pgsql-master-baseline             : 0000000005000060
+    * pgsql-status                      : PRI
+    * ping-status                       : 1
+  * Node: pgrex02 (2):
+    * master-pgsql                      : 100
+    * pgsql-data-status                 : STREAMING|SYNC
+    * pgsql-status                      : HS:sync
+    * ping-status                       : 1
+....
++
+各ノードにおけるネットワーク経路の監視状態、およびPG-REXリソース状態を表示します。 +
+pgrex01の各監視先の属性の正常値の例を以下に示します。
++
+.監視先の属性の正常値
+[%autowidth]
+|===
+|属性 |正常値 |説明
+
+|master-pgsql
+|1000(pgrex01), +
+100(pgrex02)
+|PG-REXリソースの属性で、PacemakerがPrimaryおよびStandbyのリソースの状態を管理する
+
+|pgsql-data-status
+|LATEST(pgrex01), +
+STREAMING\|SYNC(pgrex02)
+|PG-REXリソースの属性で、PostgreSQLのデータの状態を示す
+
+|pgsql-master-baseline
+|LSN(pgrex01), +
+表示なし(pgrex02)
+|PG-REXリソースの属性で、PostgreSQLがpromote(Primaryになる)直前のLSNの値を示す
+
+|pgsql-status
+|PRI(pgrex01), +
+HS:sync(pgrex02)
+|PG-REXリソースの属性で、PostgreSQLの現在の遷移状態を示す
+
+|pgsql-xlog-loc
+|正常時は属性そのものが表示されない
+|PG-REXリソースの属性で、起動時にPrimaryが存在しない場合に、Primaryになれるかどうかを決定するために設定される
+
+|ping-status
+|1
+|ネットワーク経路の状況を示す
+|===
+
+【故障回数表示部】 ::
++
+....
+Migration Summary:
+....
++
+ノード毎に故障したリソースIDと故障許容回数(migration-threshold)、故障した回数が表示されます。 +
+以下に故障回数表示部の出力フォーマットを示します。
++
+[source,subs="quotes"]
+....
+Migration Summary:
+  * Node pgrex01:
+    * [.underline]#pgsql#: [.underline]#migration-threshold=1# [.underline]#fail-count=1# last-failure='_日時表示_'
+       (1)          (2)                (3)
+
+(1) 故障リソースID (2) 故障許容回数 (3) 故障回数
+....
+
+【制御エラー情報表示部(※ リソース故障時のみ表示)】 ::
++
+....
+Failed Resource Actions:
+....
++
+制御エラー情報表示部は制御エラーが発生した場合のみ表示されます。 +
+制御エラーが発生したリソースIDと検知オペレーション(start/stop/monitor/promote/demote)、故障発生ノード、リターンコード、エラー内容("error"、"TimedOut"等)が表示されます。 +
+以下に制御エラー情報表示部の出力フォーマットを示します。
++
+[source,subs="normal"]
+....
+Failed Resource Actions:
+  * [.underline]#pgsql_monitor#+_9000+ on [.underline]#pgrex01'not running'# [.underline]#(7)#: call=79,
+     (1)    (2)             (3)        (4)     (5)
+status='complete', exitreason='', last-rc-change='_日時表示_', queued=0ms, exec=0ms
+
+(1) 故障リソースID  (2) 検知オペレーション  (3) 故障発生ノード名
+(4) エラー内容  (5) リターンコード
+....
+
+【Fencing History情報表示部(※履歴がある場合のみ表示)】 ::
++
+[source,subs="quotes"]
+....
+Fencing History:
+  * reboot of [.underline]#pgrex02# successful: delegate=[.underline]#pgrex01#,
+                (1)                          (2)
+client=pacemaker-controld.21654, origin=pgrex01,
+ completed='_日時表示_'
+
+(1) STONITH対象ノード  (2) STONITH実行ノード
+....
+
+
+corosync-cfgtool -sコマンド実行時の表示部について説明します。
+
+このコマンドでは、IC-LANのIPアドレス毎にPrimaryノードおよびStandbyノードの通信状態が表示されます。
+
+以下に出力フォーマットを示します。
+
+[source,subs="quotes"]
+....
+# corosync-cfgtool -s
+Local node ID 1, transport knet
+LINK ID 0 udp
+        [.underline]#addr = 192.168.1.1#
+               (1)
+        status:
+                [.underline]#nodeid:          1:     localhost#
+                          (2)
+                [.underline]#nodeid:          2:     connected#
+                          (3)
+LINK ID 1 udp
+        [.underline]#addr = 192.168.3.1#
+               (4)
+        status:
+                [.underline]#nodeid:          1:     localhost#
+                          (2)
+                [.underline]#nodeid:          2:     connected#
+                          (3)
+
+(1) IC-LAN(eno1)のIPアドレス
+(2) ノードIDが1のノードとのIC-LANの通信状態
+(3) ノードIDが2のノードとのIC-LANの通信状態
+(4) IC-LAN(eno3)のIPアドレス
+....
+
+NOTE: ノードIDは、pcs statusでノード名との対応が表示されます。詳細は【 <<ノード情報表示部,ノード情報表示部>> 】を参照してください。
+
+IC-LANの通信状態を、以下に示します。
+
+.IC-LANの通信状態
+[%autowidth]
+|===
+|corosync-cfgtool実行結果の表示 |通信状態の説明
+
+|connected
+|接続状態
+
+|disconnected
+|未接続状態
+|===
+
+
+==== 正常状態確認方法
+
+pcs status --fullコマンド実行及びcorosync-cfgtool -sコマンド実行結果の全ての表示部において正常状態の確認ができた場合、HAクラスタは正常状態です。
+
+* pcs status --fullコマンド確認項目
++
+【ノード情報表示部】 :::
+pgrex01とpgrex02のノード状態が"online"状態になっていることを確認する
++
+【『リソース情報表示部』の『PG-REXリソース、IPaddr2リソース』】 :::
+それぞれのノードで、PG-REXリソース(pgsql-clone)、IPaddr2リソース(ipaddr-primary、ipaddr-standby、ipaddr-replication)が、以下のとおりに稼働していることを確認する。
++
+** pgrex01側 ： pgsql-clone(Primary), ipaddr-primary, ipaddr-replication
+** pgrex02側 ： pgsql-clone(Standby), ipaddr-standby
++
+【『リソース情報表示部』の『STONITHリソース』】 :::
+STONITHリソース(fence1-ipmilan、fence2-ipmilan)が、それぞれのノードで稼働していることを確認する。
++
+【『リソース情報表示部』の『PINGリソース』】 :::
+ネットワーク経路監視用PINGリソース(ping-clone)が、それぞれのノードで稼働していることを確認する。
++
+【『リソース情報表示部』の『STORAGE-MONリソース』】 :::
+ディスク監視用STORAGE-MONリソース(storage-mon-clone)が、それぞれのノードで稼働していることを確認する。
++
+【属性情報表示部】 :::
+PG-REXリソース、ネットワーク経路の監視状態の各属性が正常値であることを確認する。
++
+【制御エラー情報表示部】 :::
+制御エラー情報が表示されていないことを確認する。
++
+【Fencing History情報表示部】 :::
+Fencing History情報が表示されていないことを確認する。
+
+* corosync-cfgtool -sコマンド確認項目 +
+corosync-cfgtool -sコマンドでは、出力が「localhost」、「connected」であることを確認します。
+
+
+=== 故障箇所特定手順
+
+本節では、HAクラスタに発生した故障を特定する手順について説明します。
+
+故障箇所特定を以下の手順で行います。
+
+. ノード情報・リソース情報・故障回数表示部の確認 +
+pcs statusコマンドの実行結果から、ノードの起動状態の確認、D-LAN故障の特定、ハードウェア故障・リソース故障の切り分けを行います。
++
+. 属性情報表示部の確認 +
+ネットワーク経路故障のハードウェア故障を特定します。
++
+. corosync-cfgtool -sによるIC-LAN状態の確認 +
+IC-LAN故障を特定します。
++
+. 制御エラー情報表示部の確認 +
+故障リソース、故障ノード、故障オペレーションを特定します。
++
+. /var/log/messagesの確認 +
+Pacemaker停止ノードに発生した故障を特定します。
+
+==== ノード情報・リソース情報・故障回数表示部の確認
+
+ノード情報・リソース情報・故障回数表示部の確認では、ノードの起動状態を確認し、その状態に応じた確認を行います。pgrex01、pgrex02それぞれでpcs status --fullを実行し、以下の順に確認します。
+
+. ノードの起動状態の確認
+. D-LAN故障の特定
+. ハードウェア故障・リソース故障の特定
+
+// 以降がリストの3番目の続きになってしまうため、コメントを入れて回避
+
+【ノードの起動状態の確認】 ::
+pgrex02のpcs status --fullの実行結果のノード表示部が以下に該当する場合、『 <<_varlogmessagesの確認,/var/log/messagesの確認>> 』へ進みます。
++
+....
+  * Node pgrex01 (1): OFFLINE
+  * Node pgrex02 (2): online, feature set 3.20.1
+
+※ pgrex01がOFFLINEになっている
+....
+
+【D-LAN故障の特定】 ::
+pgrex01でpcs status --fullコマンドを実行し、リソース情報、属性情報を確認します。
++
+[source,subs="quotes"]
+....
+：（略）
+  * Node: pgrex02:
+    * master-pgsql                      : -INFINITY
+    * pgsql-data-status                 : [red]*DISCONNECT*
+    * pgsql-status                      : [red]*HS:alone*
+    * ping-status                       : 1
+....
++
+属性情報表示部で、pgrex02のpgsql-data-statusがDISCONNECT、pgsql-statusがHS:aloneにそれぞれ変更されていることを確認します。
++
+次に、pgrex01のPostgreSQLのサーバログファイルからwalsenderプロセスの停止を示すログ(terminating walsender)を検索します。
++
+NOTE: PostgreSQLのサーバログファイルの場所は設定により異なります。詳細は『PostgreSQLドキュメント』を参照してください。
++
+該当のログが出力されていた場合、D-LAN故障と特定できます。 +
+D-LAN故障と特定された場合は、『 <<_d_lan故障,D-LAN故障>> 』へ進みます。
++
+[source,subs="quotes"]
+....
+# grep 'terminating walsender' /var/log/pg_log/postgresql-_yyyy-mm-dd_.log
+_日時表示_ 13673 5ea65b91.3569-2 0 (repuser, [unknown], 192.168.2.2(50338), [red]*pgrex01*) LOG:  00000: [red]*terminating walsender process due to replication timeout*
+
+※ PostgreSQLのサーバログファイルのファイル名は適宜読み替えてください。
+....
+
+【ハードウェア故障・リソース故障の特定】 ::
+pgrex02のpcs statusの実行結果の故障回数表示部から、故障回数(fail-count)の表示の有無によりハードウェア故障(ネットワーク等)またはリソース故障を判断します。
++
+故障回数表示部に故障回数が表示されている場合、リソース故障と判断して『 <<_制御エラー情報表示部の確認,制御エラー情報表示部の確認>> 』の項へ進みます。
++
+故障回数が表示されていない場合、ハードウェア故障と判断して『 <<_属性情報表示部の確認,属性情報表示部の確認>> 』の項へ進みます。
+
+
+==== 属性情報表示部の確認
+
+属性情報表示部の確認では、pgrex02でpcs statusコマンドを実行し、異常値を示している属性名を調べ、故障を特定します。 +
+属性情報表示部の出力と対応する故障内容を以下の表に示します。故障が特定できた場合は、特定された故障内容の節へ進みます。
+
+.属性情報別故障箇所対応表
+[%autowidth]
+|===
+|属性名 |属性値(pgrex01) |属性値(pgrex02) |故障発生ノードまたは故障箇所
+
+|ping-status
+|0
+|1
+|S-LAN故障(pgrex01)
+
+|ping-status
+|1
+|0
+|S-LAN故障(pgrex02)
+
+|ping-status
+|0
+|0
+|ルータ故障(pgrex01, pgrex02)
+
+|pgsql-data-status
+|LATEST
+|DISCONNECT
+|D-LAN故障
+
+|pgsql-status
+|PRI
+|HS:alone
+|D-LAN故障
+|===
+
+以下にpcs statusコマンド実行時の表示例を示します。この例では、pgrex01のNode Attributesに表示されているping-statusの属性値が異常を示していることから、pgrex01にてS-LANの故障を検知したことを示しています。
+
+[source,subs="quotes"]
+....
+： (略)
+Node Attributes:
+  * Node: pgrex01:
+    * master-pgsql                      : -INFINITY
+    * pgsql-data-status                 : DISCONNECT
+    * pgsql-status                      : STOP
+    * [red]*ping-status*                       [red]*: 0    : Connectivity is lost*
+  * Node: pgrex02:
+    * master-pgsql                      : 1000
+    * pgsql-data-status                 : LATEST
+    * pgsql-master-baseline             : 00000139210029D8
+    * pgsql-status                      : PRI
+    * [red]*ping-status*                       [red]*: 1*
+：（略）
+....
+
+==== corosync-cfgtool -sによるIC-LAN状態の確認
+
+corosync-cfgtool -sによるIC-LAN状態の確認では、Pacemakerが起動しているノードでcorosync-cfgtoolコマンドを実行してIC-LAN通信状態を確認し、「 <<_varlogmessagesの確認,var_log_messagesの確認>> 」へ進みます。
+
+以下にIC-LAN故障発生時のcorosync-cfgtoolコマンド実行時の表示例を示します。この例では、nodeid 1がdisconnectedを示していることから、pgrex01にてIC-LANの故障を検知したことを示しています。
+
+[source,subs="quotes"]
+....
+： (略)
+LINK ID 0 udp
+        addr    = 192.168.1.1
+        status:
+                nodeid:          1:     [red]*disconnected*
+                nodeid:          2:     localhost
+LINK ID 1 udp
+        addr    = 192.168.3.1
+        status:
+                nodeid:          1:     [red]*disconnected*
+                nodeid:          2:     localhost
+....
+
+==== 制御エラー情報表示部の確認
+
+制御エラー情報表示部の確認では、pgrex02でpcs statusコマンドを実行し、リソースに発生した故障を特定します。故障を特定できた場合は、特定された故障の節へ進みます。
+
+【monitor故障の特定】 ::
+以下にmonitor故障発生時のpcs statusコマンド実行時の表示例を示します。
++
+[source,subs="normal"]
+....
+# pcs status --full
+:（略）
+Failed Resource Actions:
+  * [red]*pgsql_monitor*+_9000+ on [red]*pgrex01* 'not running' (7): call=79, status='complete', exitreason='', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+【demote故障の特定】 ::
+以下にdemote故障発生時のpcs statusコマンド実行時の表示例を示します。
++
+[source,subs="normal"]
+....
+# pcs status --full
+:（略）
+Failed Resource Actions:
+  * [red]*pgsql_demote_0* on [red]*pgrex01* 'error' (1): call=88, status='Timed Out', exitreason='Resource agent did not complete within 60s', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+【stop故障の特定】 ::
+以下にstop故障発生時のpcs statusコマンド実行時の表示例を示します。
++
+[source,subs="quotes"]
+....
+# pcs status --full
+:（略）
+Failed Resource Actions:
+  * [red]*pgsql_stop_0* on [red]*pgrex01* 'error' (1): call=87, status='Timed Out', exitreason='Resource agent did not complete within 60s', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+【ipaddr-primary故障の特定】 ::
+以下にipaddr-primary故障発生時のpcs statusコマンド実行時の表示例を示します。
++
+[source,subs="normal"]
+....
+# pcs status --full
+:（略）
+Failed Resource Actions:
+  * [red]*ipaddr-primary_monitor*+_10000+ on [red]*pgrex01 'not running' (1): call=22, status='complete', exitreason='', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+【ipaddr-standby故障の特定】 ::
+以下にipaddr-standby故障発生時のpcs statusコマンド実行時の表示例を示します。
++
+[source,subs="normal"]
+....
+# pcs status --full
+:（略）
+Failed Resource Actions:
+  * [red]*ipaddr-standby_monitor*+_10000+ on [red]*pgrex02* 'unknown error' (1): call=16, status='complete', exitreason='', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+【ipaddr-replication故障の特定】 ::
+以下にipaddr-replication故障発生時のpcs statusコマンド実行時の表示例を示します。 +
+ipaddr-replicationの故障(monitor)の場合、リソースを再起動することで故障からの自動回復をする設定になっています。この時、故障回数表示部に故障回数だけが表示されます。 +
+以下の例では、"ipaddr-replication"が1回故障したことを示しています。
++
+[source,subs="normal"]
+....
+# pcs status --full
+:（略）
+Migration Summary:
+  * [red]*Node pgrex01*:
+    * [red]*ipaddr-replication*: migration-threshold=0 [red]*fail-count=1* last-failure='_日時表示_'
+  * Node pgrex02:
+
+Failed Resource Actions:
+  * [red]*ipaddr-replication_monitor*+_10000+ on [red]*pgrex01* 'unknown error' (1): call=77, status='complete', exitreason='', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
++
+以下の表示例のようにリソース故障(monitor)とリソース故障(stop)が発生している場合、特定される故障内容はリソース故障(stop)になります。
++
+[source,subs="normal"]
+....
+：（略）
+Failed Resource Actions:
+  * [red]*ipaddr-primary_monitor*+_10000+ on [red]*pgrex01* 'not running' (1): call=22, status='complete', exitreason='', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+  * [red]*pgsql_stop*+_0+ on [red]*pgrex01* 'error' (1): call=87, status='Timed Out', exitreason='Resource agent did not complete within 60s', last-rc-change='_日時表示_', queued=XXms, exec=XXms
+....
+
+==== /var/log/messagesの確認
+
+両方のノードでPacemakerが稼働している場合は両ノードのログファイル(/var/log/messages)から、Pacemakerが停止しているノードがある場合はPacemakerが停止しているノードのログファイルから、以下に示す2つのエラーメッセージを検索し、3種の故障を特定します。故障特定後は、特定された故障の節へ進みます。
+
+【リソース故障(stop)の確認】 ::
+以下のコマンドを実行します。コマンドを実行した結果、エラーメッセージが出力された場合、PostgreSQLリソース(pgsql)のstop故障が発生したことを示しています。
++
+[source,subs="normal"]
+....
+# grep -e +'.*pacemaker-controld.*notice:.*Result of stop operation for.*: error.*' -e '.*pacemaker-controld.*error:.*Result of stop operation for.*: Timed Out.*'+ /var/log/messages
+_日時表示_ pgrex01 <daemon.err> pacemaker-controld[11207]: [red]*error: Result of stop operation for pgsql* on pgrex01: Timed Out
+....
+
+【IC-LAN故障の確認】 ::
+以下のコマンドを実行します。コマンドを実行した結果、エラーメッセージが出力された場合、IC-LAN故障が発生したことを示しています。
++
+[source,subs="normal"]
+....
+# grep +'.*pacemaker-controld.*notice:.*is now lost.*'+ /var/log/messages
+  _日時表示_ pgrex01 <daemon.notice> pacemaker-controld[20520]: notice: Node pgrex02 state [red]*is now lost*
+....
+
+【ノード故障の確認】 ::
+リソース故障(stop)およびIC-LAN故障の確認でエラーメッセージが検索されなかった場合、ノード故障 (Pacemaker故障またはOS故障) が発生したと判断します。
+
+<<<

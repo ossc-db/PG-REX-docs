@@ -1,0 +1,88 @@
+// Copyright (C) 2026, NTT, Inc.
+
+=== PG-REX運用補助ツール
+
+本節では、 https://github.com/ossc-db/PG-REX-tools/releases[PG-REX運用補助ツール] のインストールおよび基本設定について説明します。 +
+本節の作業はrootユーザで行います。 +
+この節を単独で実施する場合は、その準備として『 <<_インストール,インストール>> 』の1.を参照して、RHELのインストールDVDをマウントしてリポジトリに登録してください。 +
+PG-REX運用補助ツールのインストール完了後は、『 <<_インストール完了後作業,インストール完了後作業>> 』を参照して、準備前の状態に戻してください。
+
+==== インストール
+
+pgrex01とpgrex02へPG-REX運用補助ツールをインストールします。
+
+PG-REX運用補助ツールのインストール必須のRPMパッケージを以下に示します。 +
+バージョンにあわせてファイル名は適宜読み替えてください。
+
+. pg-rex_operation_tools_script-18.0-1.el10.noarch.rpm
+. Net_OpenSSH-0.62-1.el10.x86_64.rpm
+. perl-IO-Tty-1.20-7.el10.x86_64.rpm
+
+NOTE: perl-IO-Ttyは、RHELの場合は「Red Hat CodeReady Linux Builder for RHEL 10 x86_64」リポジトリ、Rocky Linuxの場合は「Rocky Linux 10 - CRB」リポジトリより入手してください
+
+PG-REX運用補助ツールをRPMパッケージからインストールします。
+
+....
+# dnf install pg-rex_operation_tools_script-18.0-1.el10.noarch.rpm Net_OpenSSH-0.62-1.el10.x86_64.rpm perl-IO-Tty-1.20-7.el10.x86_64.rpm
+....
+
+==== pg-rex_tools.confの編集
+
+pgrex01とpgrex02で/etc/pg-rex_tools.confの設定を行います。PG-REX運用補助ツールを使用するために必要な設定、および注意すべき設定は以下のとおりです。
+
+* *D_LAN_IPAddress*
++
+両ノードのD-LAN IPアドレスをカンマ区切りで設定する。
+* *IC_LAN_IPAddress*
++
+IC-LAN系統ごとに括弧で括ったIPアドレスの組を2系統分記述する。
+* *Archive_dir*
++
+アーカイブディレクトリの絶対パスを設定する。
+* *IPADDR_STANDBY*
++
+Standby側接続用の仮想IPアドレスを使用する環境の場合はenable、それ以外の場合はdisableを設定する。
+* *HACLUSTER_NAME*
++
+Pacemakerで管理するHAクラスタ名を指定します。HAクラスタ名には英数字とアンダースコア、およびハイフンのみ使用可です。ただし先頭にはハイフンは使用できません。これ以外のPacemakerで許されている文字をHAクラスタ名に使用したい場合は、PG-REX運用補助ツールを使用せず、『 <<_コマンド直接実行の運用, コマンド直接実行の運用>> 』の手順で構築してください。
+
+設定例を以下に示します。
+
+....
+D_LAN_IPAddress = 192.168.2.1, 192.168.2.2
+IC_LAN_IPAddress = (192.168.1.1, 192.168.1.2) , (192.168.3.1, 192.168.3.2)
+Archive_dir = /dbfp/pgarch/arc1
+IPADDR_STANDBY = disable
+HACLUSTER_NAME = pgrex_cluster
+....
+
+==== ネットワーク接続登録
+
+PG-REX運用補助ツールが相手ノードの操作や確認をD-LANを使用して行うため、事前に両ノードのrootユーザの.ssh/known_hostsに相手先のD-LANのIPアドレスに対する接続登録をする必要があります。
+
+. pgrex01からD-LAN経由でpgrex02へ接続します。
++
+[source,subs="normal"]
+....
+# ssh 192.168.2.2
+The authenticity of host '192.168.2.2 (192.168.2.2)' can't be established.
+ECDSA key fingerprint is +*******+
+Are you sure you want to continue connecting (yes/no/[fingerprint])? [red]*yes*
+Warning: Permanently added '192.168.2.2' (ECDSA) to the list of known hosts.
+root@192.168.2.2's password:
+....
+. pgrex02からD-LAN経由でpgrex01へ接続します。
++
+[source,subs="normal"]
+....
+# ssh 192.168.2.1
+The authenticity of host '192.168.2.1 (192.168.2.1)' can't be established.
+ECDSA key fingerprint is +********+
+Are you sure you want to continue connecting (yes/no/[fingerprint])? [red]*yes*
+Warning: Permanently added '192.168.2.1' (ECDSA) to the list of known hosts.
+root@192.168.2.1's password:
+....
+
+<<<
+
+
